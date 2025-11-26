@@ -87,10 +87,12 @@ best_indobert_sentiment_model.pt
 training_history.png
 confusion_matrix.png
 confusion_matrix_normalized.png
+resource_usage.png
 
 # Huggingface cache
 .cache/
 transformers_cache/
+huggingface/
 
 # Large files
 *.zip

@@ -1,0 +1,32 @@
+# Requirements untuk Project Scraping & Sentiment Analysis
+# Aplikasi Ojek Online - Google Play Store Reviews
+
+# Core Libraries untuk Scraping
+google-play-scraper==1.2.7
+
+# Data Processing
+pandas==2.1.4
+numpy==1.26.2
+
+# Export ke Excel
+openpyxl==3.1.2
+
+# Jupyter Notebook
+jupyter==1.0.0
+ipykernel==6.27.1
+
+# Optional: Untuk preprocessing & analisis lanjutan
+# Uncomment jika diperlukan untuk tahap berikutnya
+# scikit-learn==1.3.2
+# nltk==3.8.1
+# matplotlib==3.8.2
+# seaborn==0.13.0
+# wordcloud==1.9.3
+
+# Deep Learning & Transformers untuk Sentiment Analysis
+torch>=2.0.0
+transformers>=4.30.0
+scikit-learn>=1.3.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
+tqdm>=4.65.0

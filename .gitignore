@@ -1,0 +1,102 @@
+# Python Virtual Environment
+venv/
+env/
+ENV/
+.venv/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Data Files (hasil scraping - optional, uncomment jika tidak ingin push data)
+# data/
+# *.csv
+# *.xlsx
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+
+# Distribution / packaging
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Unit test / coverage
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+
+# Model files (terlalu besar untuk GitHub)
+*.pt
+*.pth
+*.bin
+*.onnx
+models/
+best_indobert_sentiment_model.pt
+
+# Output files
+*.out
+*.err
+
+# Training outputs
+training_history.png
+confusion_matrix.png
+confusion_matrix_normalized.png
+
+# Huggingface cache
+.cache/
+transformers_cache/
+
+# Large files
+*.zip
+*.tar.gz
+*.rar
+
+# Kaggle/Colab specific
+*.kaggle/
+.kaggle/

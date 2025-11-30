@@ -17,11 +17,11 @@ jupyter>=1.0.0
 ipykernel>=6.20.0
 
 # Deep Learning & Transformers untuk Sentiment Analysis
-# PyTorch 2.1+ untuk Python 3.11
---index-url https://download.pytorch.org/whl/cu118
-torch==2.1.2+cu118
---index-url https://pypi.org/simple
-transformers==4.30.0
+# PyTorch - install terpisah sesuai GPU/CPU
+# GPU (CUDA 11.8): pip install torch==2.1.2 --index-url https://download.pytorch.org/whl/cu118
+# CPU only: pip install torch==2.1.2
+torch>=2.1.0
+transformers>=4.30.0
 scikit-learn>=1.3.0
 matplotlib>=3.8.0
 seaborn>=0.13.0

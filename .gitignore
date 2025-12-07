@@ -17,8 +17,11 @@ __pycache__/
 
 # Data Files (hasil scraping - optional, uncomment jika tidak ingin push data)
 # data/
-# *.csv
+*.csv
 # *.xlsx
+# Exclude large CSV files from git
+data/gojek.csv
+data/*_kaggle_*.csv
 
 # IDE
 .vscode/

@@ -13,7 +13,7 @@ plt.rcParams['font.family'] = 'sans-serif'
 plt.rcParams['font.size'] = 11
 
 # Load data
-df_3class = pd.read_csv('data/gojek_reviews_3class_fixed.csv')
+df_3class = pd.read_csv('data/gojek_reviews_3class_clean.csv')
 df_5class = pd.read_csv('data/gojek_reviews_5class_clean.csv')
 
 # ============================================

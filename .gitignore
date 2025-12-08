@@ -15,13 +15,15 @@ __pycache__/
 *.so
 .Python
 
-# Data Files (hasil scraping - optional, uncomment jika tidak ingin push data)
-# data/
-*.csv
-# *.xlsx
-# Exclude large CSV files from git
+# Data Files - Exclude temporary/large CSV
+# Keep important small CSV files but ignore large ones
 data/gojek.csv
 data/*_kaggle_*.csv
+data/gojek_scraped_*.csv
+data/*_FINAL_READY.csv
+data/RAW_*.csv
+*.tmp.csv
+*_backup.csv
 
 # IDE
 .vscode/
@@ -86,11 +88,14 @@ best_indobert_sentiment_model.pt
 *.out
 *.err
 
-# Training outputs
-training_history.png
-confusion_matrix.png
-confusion_matrix_normalized.png
-resource_usage.png
+# Training outputs & results
+results_*/
+logs/
+saved_model_*/
+training_history*.png
+confusion_matrix*.png
+resource_usage*.png
+*_report.txt
 
 # Huggingface cache
 .cache/

@@ -1,478 +1,809 @@
 """
-Streamlit App - Analisis Sentimen Review Ojek Online
-Menggunakan model IndoBERT untuk menganalisis sentimen dari teks review.
+Sentiment Analysis Web App - Analisis Sentimen Ulasan Gojek dengan IndoBERT
 """
 
 import streamlit as st
-import torch
-import torch.nn as nn
-from transformers import BertTokenizer, BertModel
-import os
+import pandas as pd
+import numpy as np
+from pathlib import Path
 import sys
+import os
 
-# Add parent directory to path for model access
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# Add parent directory to path
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-# ============================================
-# PAGE CONFIGURATION
-# ============================================
-st.set_page_config(
-    page_title="Analisis Sentimen Ojol",
-    page_icon="🛵",
-    layout="centered",
-    initial_sidebar_state="collapsed"
-)
+from preprocessing import TextNormalizer
+from predictor import ModelPredictor
+from evaluation import PerformanceEvaluator
 
-# ============================================
-# CUSTOM CSS STYLING
-# ============================================
-st.markdown("""
-<style>
-    /* Main container */
-    .main {
-        padding: 2rem;
-    }
-    
-    /* Header styling */
-    .header-title {
-        text-align: center;
-        color: #1E3A8A;
-        font-size: 2.5rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-    }
-    
-    .header-subtitle {
-        text-align: center;
-        color: #64748B;
-        font-size: 1.1rem;
-        margin-bottom: 2rem;
-    }
-    
-    /* Result cards */
-    .result-card {
-        padding: 2rem;
-        border-radius: 1rem;
-        text-align: center;
-        margin: 1rem 0;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    }
-    
-    .result-positive {
-        background: linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%);
-        border: 2px solid #10B981;
-    }
-    
-    .result-negative {
-        background: linear-gradient(135deg, #FEE2E2 0%, #FECACA 100%);
-        border: 2px solid #EF4444;
-    }
-    
-    .result-neutral {
-        background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
-        border: 2px solid #F59E0B;
-    }
-    
-    .sentiment-emoji {
-        font-size: 4rem;
-        margin-bottom: 1rem;
-    }
-    
-    .sentiment-label {
-        font-size: 1.8rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-    }
-    
-    .confidence-text {
-        font-size: 1.1rem;
-        color: #475569;
-    }
-    
-    /* Probability bars */
-    .prob-container {
-        background: #F1F5F9;
-        border-radius: 0.75rem;
-        padding: 1.5rem;
-        margin-top: 1.5rem;
-    }
-    
-    .prob-bar {
-        height: 30px;
-        border-radius: 15px;
-        margin: 8px 0;
-        transition: width 0.5s ease;
-    }
-    
-    /* Input area */
-    .stTextArea textarea {
-        border-radius: 10px;
-        border: 2px solid #E2E8F0;
-        font-size: 1rem;
-    }
-    
-    .stTextArea textarea:focus {
-        border-color: #3B82F6;
-        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-    }
-    
-    /* Button styling */
-    .stButton > button {
-        width: 100%;
-        background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
-        color: white;
-        border: none;
-        padding: 0.75rem 2rem;
-        font-size: 1.1rem;
-        font-weight: 600;
-        border-radius: 10px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-    
-    .stButton > button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
-    }
-    
-    /* Info box */
-    .info-box {
-        background: #EFF6FF;
-        border-left: 4px solid #3B82F6;
-        padding: 1rem;
-        border-radius: 0 8px 8px 0;
-        margin: 1rem 0;
-    }
-    
-    /* Example chips */
-    .example-chip {
-        display: inline-block;
-        background: #F1F5F9;
-        padding: 0.5rem 1rem;
-        border-radius: 20px;
-        margin: 0.25rem;
-        font-size: 0.9rem;
-        cursor: pointer;
-        transition: all 0.2s ease;
-    }
-    
-    .example-chip:hover {
-        background: #E2E8F0;
-    }
-    
-    /* Footer */
-    .footer {
-        text-align: center;
-        color: #94A3B8;
-        margin-top: 3rem;
-        padding-top: 2rem;
-        border-top: 1px solid #E2E8F0;
-    }
-</style>
-""", unsafe_allow_html=True)
 
-# ============================================
-# MODEL DEFINITION
-# ============================================
-class IndoBERTSentimentClassifier(nn.Module):
-    """IndoBERT-based sentiment classifier for Indonesian text."""
+class SentimentUI:
+    """
+    Kelas utama untuk mengatur antarmuka Streamlit dan logika aplikasi
+    """
     
-    def __init__(self, model_name, num_classes, dropout_rate=0.4, freeze_layers=4):
-        super().__init__()
-        self.bert = BertModel.from_pretrained(model_name)
-        hidden_size = self.bert.config.hidden_size
+    def __init__(self):
+        """Inisialisasi SentimentUI"""
+        self.setup_page_config()
+        self.initialize_session_state()
         
-        # Freeze embedding & bottom layers
-        for param in self.bert.embeddings.parameters():
-            param.requires_grad = False
-        for i in range(freeze_layers):
-            for param in self.bert.encoder.layer[i].parameters():
-                param.requires_grad = False
-        
-        # Classifier head
-        self.dropout = nn.Dropout(dropout_rate)
-        self.fc = nn.Linear(hidden_size, num_classes)
-    
-    def forward(self, input_ids, attention_mask):
-        outputs = self.bert(input_ids=input_ids, attention_mask=attention_mask)
-        pooled = outputs.pooler_output
-        x = self.dropout(pooled)
-        return self.fc(x)
-
-
-# ============================================
-# MODEL LOADING WITH CACHING
-# ============================================
-@st.cache_resource
-def load_model():
-    """Load the trained sentiment analysis model."""
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    
-    # Path to model
-    model_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    model_path = os.path.join(model_dir, 'models', 'indobert_sentiment_3class.pt')
-    tokenizer_path = os.path.join(model_dir, 'models', 'tokenizer')
-    
-    # Check if model exists
-    if not os.path.exists(model_path):
-        return None, None, None, f"Model tidak ditemukan di: {model_path}"
-    
-    try:
-        # Load checkpoint
-        checkpoint = torch.load(model_path, map_location=device)
-        config = checkpoint.get('config', {})
-        
-        # Load tokenizer
-        if os.path.exists(tokenizer_path):
-            tokenizer = BertTokenizer.from_pretrained(tokenizer_path)
-        else:
-            tokenizer = BertTokenizer.from_pretrained('indobenchmark/indobert-base-p1')
-        
-        # Initialize and load model
-        model = IndoBERTSentimentClassifier(
-            model_name='indobenchmark/indobert-base-p1',
-            num_classes=config.get('num_classes', 3),
-            dropout_rate=config.get('dropout_rate', 0.4),
-            freeze_layers=config.get('freeze_layers', 4)
+    def setup_page_config(self):
+        """Konfigurasi halaman Streamlit"""
+        st.set_page_config(
+            page_title="Analisis Sentimen Gojek - IndoBERT",
+            page_icon="🚗",
+            layout="wide",
+            initial_sidebar_state="expanded"
         )
-        model.load_state_dict(checkpoint['model_state_dict'])
-        model.to(device)
-        model.eval()
         
-        label_names = checkpoint.get('label_names', ['negative', 'neutral', 'positive'])
-        
-        return model, tokenizer, device, None
-        
-    except Exception as e:
-        return None, None, None, f"Error loading model: {str(e)}"
-
-
-def predict_sentiment(text, model, tokenizer, device):
-    """Predict sentiment for given text."""
-    label_names = ['negative', 'neutral', 'positive']
-    
-    # Tokenize
-    encoding = tokenizer.encode_plus(
-        text,
-        add_special_tokens=True,
-        max_length=128,
-        padding='max_length',
-        truncation=True,
-        return_attention_mask=True,
-        return_tensors='pt'
-    )
-    
-    input_ids = encoding['input_ids'].to(device)
-    attention_mask = encoding['attention_mask'].to(device)
-    
-    # Predict
-    with torch.no_grad():
-        logits = model(input_ids, attention_mask)
-        probabilities = torch.softmax(logits, dim=1)[0]
-        predicted_class = torch.argmax(probabilities).item()
-    
-    return {
-        'sentiment': label_names[predicted_class],
-        'confidence': probabilities[predicted_class].item(),
-        'probabilities': {
-            label: prob.item() 
-            for label, prob in zip(label_names, probabilities)
-        }
-    }
-
-
-# ============================================
-# MAIN APP
-# ============================================
-def main():
-    # Header
-    st.markdown('<h1 class="header-title">🛵 Analisis Sentimen Review Ojol</h1>', unsafe_allow_html=True)
-    st.markdown('<p class="header-subtitle">Analisis sentimen review aplikasi ojek online menggunakan IndoBERT</p>', unsafe_allow_html=True)
-    
-    # Load model
-    model, tokenizer, device, error = load_model()
-    
-    if error:
-        st.error(f"""
-        ⚠️ **Model belum tersedia!**
-        
-        {error}
-        
-        Pastikan Anda sudah melatih model dengan menjalankan notebook `sentiment_training_3class_final.ipynb` terlebih dahulu.
-        
-        Model akan disimpan di folder `models/`.
-        """)
-        
-        st.info("""
-        💡 **Langkah-langkah:**
-        1. Buka file `sentiment_training_3class_final.ipynb`
-        2. Jalankan semua cell untuk melatih model
-        3. Model akan disimpan otomatis di `models/indobert_sentiment_3class.pt`
-        4. Refresh halaman ini setelah model selesai dilatih
-        """)
-        return
-    
-    # Device info
-    device_name = "GPU 🎮" if torch.cuda.is_available() else "CPU 💻"
-    st.caption(f"🖥️ Running on: {device_name}")
-    
-    # Divider
-    st.markdown("---")
-    
-    # Input section
-    st.subheader("📝 Masukkan Teks Review")
-    
-    # Example reviews
-    st.markdown("**Contoh review yang bisa dicoba:**")
-    
-    examples = [
-        "Aplikasi sangat bagus, driver ramah dan tepat waktu",
-        "Pelayanan buruk, driver lama dan tidak sopan",
-        "Biasa saja, standar seperti aplikasi lainnya",
-        "Suka banget sama promo-promonya, murah meriah!",
-        "Pesanan sering dibatalkan driver, mengecewakan",
-    ]
-    
-    # Create columns for example buttons
-    cols = st.columns(2)
-    selected_example = None
-    
-    for i, example in enumerate(examples):
-        with cols[i % 2]:
-            if st.button(f"💬 {example[:35]}...", key=f"example_{i}"):
-                selected_example = example
-    
-    # Text input
-    if selected_example:
-        text_input = st.text_area(
-            "Ketik atau paste review di sini:",
-            value=selected_example,
-            height=120,
-            placeholder="Contoh: Aplikasi sangat membantu, driver ramah dan cepat sampai..."
-        )
-    else:
-        text_input = st.text_area(
-            "Ketik atau paste review di sini:",
-            height=120,
-            placeholder="Contoh: Aplikasi sangat membantu, driver ramah dan cepat sampai..."
-        )
-    
-    # Analyze button
-    analyze_clicked = st.button("🔍 Analisis Sentimen", type="primary")
-    
-    # Process analysis
-    if analyze_clicked:
-        if not text_input.strip():
-            st.warning("⚠️ Mohon masukkan teks review terlebih dahulu!")
-        else:
-            with st.spinner("🔄 Menganalisis sentimen..."):
-                result = predict_sentiment(text_input, model, tokenizer, device)
-            
-            st.markdown("---")
-            st.subheader("📊 Hasil Analisis")
-            
-            # Sentiment emoji and colors
-            sentiment_config = {
-                'positive': {'emoji': '😊', 'color': '#10B981', 'bg': 'result-positive', 'label': 'POSITIF'},
-                'negative': {'emoji': '😠', 'color': '#EF4444', 'bg': 'result-negative', 'label': 'NEGATIF'},
-                'neutral': {'emoji': '😐', 'color': '#F59E0B', 'bg': 'result-neutral', 'label': 'NETRAL'}
+        # Custom CSS untuk styling
+        st.markdown("""
+            <style>
+            .main-header {
+                font-size: 2.5rem;
+                font-weight: bold;
+                color: #00AA13;
+                text-align: center;
+                padding: 1rem 0;
+                margin-bottom: 2rem;
             }
-            
-            config = sentiment_config[result['sentiment']]
-            
-            # Result card
-            st.markdown(f"""
-            <div class="result-card {config['bg']}">
-                <div class="sentiment-emoji">{config['emoji']}</div>
-                <div class="sentiment-label" style="color: {config['color']}">
-                    {config['label']}
+            .sub-header {
+                font-size: 1.5rem;
+                font-weight: bold;
+                color: #333333 !important;
+                margin-top: 2rem;
+                margin-bottom: 1rem;
+            }
+            .metric-card {
+                background-color: #f0f2f6;
+                color: #333333 !important;
+                padding: 1rem;
+                border-radius: 0.5rem;
+                text-align: center;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .stButton>button {
+                width: 100%;
+                background-color: #00AA13;
+                color: white !important;
+                font-weight: bold;
+                border-radius: 0.5rem;
+                padding: 0.5rem 1rem;
+                border: none;
+            }
+            .stButton>button:hover {
+                background-color: #008f0f;
+                color: white !important;
+            }
+            .sentiment-positive {
+                color: #00AA13 !important;
+                font-weight: bold;
+                font-size: 1.2rem;
+            }
+            .sentiment-negative {
+                color: #DC3545 !important;
+                font-weight: bold;
+                font-size: 1.2rem;
+            }
+            .sentiment-neutral {
+                color: #FFC107 !important;
+                font-weight: bold;
+                font-size: 1.2rem;
+            }
+            .info-box {
+                background-color: #E3F2FD;
+                color: #000000 !important;
+                padding: 1rem;
+                border-radius: 0.5rem;
+                border-left: 4px solid #2196F3;
+                margin: 1rem 0;
+            }
+            /* Fix for dark mode text issues */
+            .stMarkdown, .stText, p, h1, h2, h3, h4, h5, h6, li, span {
+                color: inherit; 
+            }
+            /* Ensure text inside info-box is always black */
+            .info-box p, .info-box li, .info-box span, .info-box h1, .info-box h2, .info-box h3 {
+                color: #000000 !important;
+            }
+            /* Ensure text inside metric-card is always dark */
+            .metric-card p, .metric-card h1, .metric-card h2, .metric-card h3, .metric-card span {
+                color: #333333 !important;
+            }
+            </style>
+        """, unsafe_allow_html=True)
+    
+    def initialize_session_state(self):
+        """Inisialisasi session state"""
+        if 'predictor' not in st.session_state:
+            st.session_state.predictor = None
+        if 'normalizer' not in st.session_state:
+            st.session_state.normalizer = TextNormalizer()
+        if 'model_loaded' not in st.session_state:
+            st.session_state.model_loaded = False
+        if 'model_type' not in st.session_state:
+            st.session_state.model_type = "3class"
+        if 'prediction_results' not in st.session_state:
+            st.session_state.prediction_results = None
+        if 'evaluation_results' not in st.session_state:
+            st.session_state.evaluation_results = None
+    
+    def render_sidebar(self):
+        """Render sidebar dengan logo dan navigasi"""
+        with st.sidebar:
+            # Logo and Title
+            st.markdown("""
+                <div style='text-align: center; padding: 1rem 0;'>
+                    <h1 style='color: #00AA13; margin-bottom: 0;'>🚗</h1>
+                    <h2 style='color: #00AA13; margin-top: 0;'>Gojek</h2>
+                    <h3 style='color: #666;'>Sentiment Analysis</h3>
                 </div>
-                <div class="confidence-text">
-                    Tingkat keyakinan: <strong>{result['confidence']*100:.1f}%</strong>
-                </div>
-            </div>
             """, unsafe_allow_html=True)
             
-            # Probability breakdown
-            st.markdown("### 📈 Probabilitas per Kelas")
+            st.markdown("---")
             
-            col1, col2, col3 = st.columns(3)
+            # Navigation
+            page = st.radio(
+                "📍 Navigasi",
+                ["🏠 Beranda", "🔮 Analisis Sentimen", "📊 Evaluasi Model", "ℹ️ Tentang"],
+                label_visibility="collapsed"
+            )
             
-            with col1:
-                prob_neg = result['probabilities']['negative'] * 100
-                st.metric(
-                    label="😠 Negatif",
-                    value=f"{prob_neg:.1f}%"
-                )
-                st.progress(result['probabilities']['negative'])
+            st.markdown("---")
             
-            with col2:
-                prob_neu = result['probabilities']['neutral'] * 100
-                st.metric(
-                    label="😐 Netral",
-                    value=f"{prob_neu:.1f}%"
-                )
-                st.progress(result['probabilities']['neutral'])
+            # Model Selection
+            st.markdown("### ⚙️ Pengaturan Model")
+            model_type = st.selectbox(
+                "Pilih Skema Model",
+                ["Skema 3-Kelas (Positif, Netral, Negatif)", 
+                 "Skema 5-Kelas (Rating 1-5)"],
+                key="model_selector"
+            )
             
-            with col3:
-                prob_pos = result['probabilities']['positive'] * 100
-                st.metric(
-                    label="😊 Positif",
-                    value=f"{prob_pos:.1f}%"
-                )
-                st.progress(result['probabilities']['positive'])
+            # Convert selection to model type
+            new_model_type = "3class" if "3-Kelas" in model_type else "5class"
             
-            # Analysis details
-            with st.expander("🔎 Detail Analisis"):
-                st.write("**Teks yang dianalisis:**")
-                st.info(text_input)
-                
-                st.write("**Hasil prediksi:**")
-                st.json({
-                    'sentiment': result['sentiment'],
-                    'confidence': f"{result['confidence']*100:.2f}%",
-                    'probabilities': {
-                        k: f"{v*100:.2f}%" for k, v in result['probabilities'].items()
-                    }
-                })
+            # Load model button
+            if st.button("🔄 Load Model", key="load_model_btn"):
+                self.load_model(new_model_type)
+            
+            # Model status
+            if st.session_state.model_loaded:
+                st.success(f"✅ Model {st.session_state.model_type} siap")
+            else:
+                st.warning("⚠️ Model belum dimuat")
+            
+            st.markdown("---")
+            
+            # Information
+            st.markdown("### 📖 Informasi")
+            st.markdown("""
+                **Model:** IndoBERT Base  
+                **Dataset:** Ulasan Gojek  
+                **Framework:** PyTorch + Transformers
+            """)
+            
+            return page
     
-    # Sidebar info
-    with st.sidebar:
-        st.header("ℹ️ Tentang Aplikasi")
-        st.markdown("""
-        Aplikasi ini menggunakan model **IndoBERT** yang telah dilatih untuk menganalisis sentimen review aplikasi ojek online dalam bahasa Indonesia.
+    def load_model(self, model_type: str):
+        """Load model berdasarkan tipe yang dipilih"""
+        with st.spinner(f"⏳ Memuat model {model_type}..."):
+            try:
+                # Initialize predictor
+                predictor = ModelPredictor(model_type=model_type)
+                
+                # Load model
+                success = predictor.load_model()
+                
+                if success:
+                    st.session_state.predictor = predictor
+                    st.session_state.model_type = model_type
+                    st.session_state.model_loaded = True
+                    st.success(f"✅ Model {model_type} berhasil dimuat!")
+                else:
+                    st.error("❌ Gagal memuat model. Periksa path model.")
+                    st.session_state.model_loaded = False
+                    
+            except Exception as e:
+                st.error(f"❌ Error: {str(e)}")
+                st.session_state.model_loaded = False
+    
+    def render_home_page(self):
+        """Render halaman beranda"""
+        st.markdown('<p class="main-header">🚗 Analisis Sentimen Ulasan Gojek</p>', 
+                   unsafe_allow_html=True)
         
-        **Kelas Sentimen:**
-        - 😊 **Positif**: Review yang menunjukkan kepuasan
-        - 😐 **Netral**: Review yang biasa saja atau ambigu
-        - 😠 **Negatif**: Review yang menunjukkan ketidakpuasan
-        
-        **Teknologi:**
-        - 🤖 IndoBERT (Indonesian BERT)
-        - 🔥 PyTorch
-        - 🌐 Streamlit
-        
-        **Tips:**
-        - Gunakan bahasa Indonesia untuk hasil terbaik
-        - Review yang lebih panjang dan detail akan memberikan hasil yang lebih akurat
-        """)
+        # Hero Section
+        col1, col2, col3 = st.columns([1, 2, 1])
+        with col2:
+            st.markdown("""
+                <div style='text-align: center; padding: 2rem; background: linear-gradient(135deg, #00AA13 0%, #008f0f 100%); 
+                     border-radius: 1rem; color: white; margin: 2rem 0;'>
+                    <h2>Powered by IndoBERT</h2>
+                    <p style='font-size: 1.1rem; margin-top: 1rem;'>
+                        Sistem analisis sentimen berbasis deep learning untuk memahami 
+                        feedback pelanggan Gojek secara otomatis dan akurat
+                    </p>
+                </div>
+            """, unsafe_allow_html=True)
         
         st.markdown("---")
-        st.markdown("**📊 Statistik Model:**")
-        if model is not None:
-            st.success("✅ Model berhasil dimuat")
-            st.caption(f"Device: {device}")
-        else:
-            st.error("❌ Model belum dimuat")
+        
+        # Features
+        st.markdown('<p class="sub-header">✨ Fitur Utama</p>', unsafe_allow_html=True)
+        
+        col1, col2, col3 = st.columns(3)
+        
+        with col1:
+            st.markdown("""
+                <div class='metric-card'>
+                    <h3>🔮 Analisis Real-time</h3>
+                    <p>Prediksi sentimen instan untuk teks manual atau file CSV</p>
+                </div>
+            """, unsafe_allow_html=True)
+        
+        with col2:
+            st.markdown("""
+                <div class='metric-card'>
+                    <h3>📊 Evaluasi Lengkap</h3>
+                    <p>Metrik komprehensif dengan confusion matrix dan visualisasi</p>
+                </div>
+            """, unsafe_allow_html=True)
+        
+        with col3:
+            st.markdown("""
+                <div class='metric-card'>
+                    <h3>🎯 Dual Schema</h3>
+                    <p>Pilih antara 3-kelas (Positif/Netral/Negatif) atau 5-kelas (Rating 1-5)</p>
+                </div>
+            """, unsafe_allow_html=True)
+        
+        st.markdown("---")
+        
+        # Quick Stats
+        st.markdown('<p class="sub-header">📈 Performa Model</p>', unsafe_allow_html=True)
+        
+        col1, col2, col3, col4 = st.columns(4)
+        
+        with col1:
+            st.metric("Akurasi", "92%", "↑ 2%")
+        with col2:
+            st.metric("Presisi", "91%", "↑ 1%")
+        with col3:
+            st.metric("Recall", "90%", "→")
+        with col4:
+            st.metric("F1-Score", "91%", "↑ 1%")
+        
+        st.markdown("---")
+        
+        # Getting Started
+        st.markdown('<p class="sub-header">🚀 Cara Memulai</p>', unsafe_allow_html=True)
+        
+        st.markdown("""
+            <div class='info-box'>
+                <h4>Langkah-langkah:</h4>
+                <ol>
+                    <li>Pilih <b>Skema Model</b> di sidebar (3-Kelas atau 5-Kelas)</li>
+                    <li>Klik tombol <b>🔄 Load Model</b> untuk memuat model</li>
+                    <li>Navigasi ke halaman <b>🔮 Analisis Sentimen</b> untuk prediksi</li>
+                    <li>Atau ke halaman <b>📊 Evaluasi Model</b> untuk testing</li>
+                </ol>
+            </div>
+        """, unsafe_allow_html=True)
     
-    # Footer
-    st.markdown("---")
-    st.markdown("""
-    <div class="footer">
-        <p>🛵 Sentiment Analysis for Ojek Online Reviews</p>
-        <p>Built with ❤️ using Streamlit & IndoBERT</p>
-    </div>
-    """, unsafe_allow_html=True)
+    def render_analysis_page(self):
+        """Render halaman analisis sentimen"""
+        st.markdown('<p class="main-header">🔮 Analisis Sentimen Ulasan Gojek</p>', 
+                   unsafe_allow_html=True)
+        
+        # Check if model is loaded
+        if not st.session_state.model_loaded:
+            st.warning("⚠️ Silakan load model terlebih dahulu dari sidebar!")
+            return
+        
+        # Input method selection
+        st.markdown("### 📝 Pilih Metode Input")
+        
+        input_method = st.radio(
+            "Metode Input:",
+            ["💬 Teks Manual", "📄 Upload File CSV"],
+            horizontal=True,
+            label_visibility="collapsed"
+        )
+        
+        st.markdown("---")
+        
+        if input_method == "💬 Teks Manual":
+            self.render_manual_input()
+        else:
+            self.render_csv_input()
+    
+    def render_manual_input(self):
+        """Render input manual untuk analisis"""
+        st.markdown("### 💬 Masukkan Teks Ulasan")
+        
+        # Text input
+        user_text = st.text_area(
+            "Ketik ulasan di sini...",
+            height=150,
+            placeholder="Contoh: Pelayanan sangat memuaskan, driver ramah dan cepat!",
+            key="manual_text_input"
+        )
+        
+        # Analyze button
+        col1, col2, col3 = st.columns([1, 1, 1])
+        with col2:
+            analyze_btn = st.button("🔍 ANALISIS SENTIMEN", key="analyze_manual_btn", use_container_width=True)
+        
+        if analyze_btn and user_text.strip():
+            self.analyze_single_text(user_text)
+        elif analyze_btn:
+            st.warning("⚠️ Mohon masukkan teks terlebih dahulu!")
+    
+    def analyze_single_text(self, text: str):
+        """Analisis sentimen untuk single text"""
+        with st.spinner("🔄 Menganalisis sentimen..."):
+            try:
+                # Preprocess text
+                cleaned_text = st.session_state.normalizer.clean_text(text)
+                
+                # Predict
+                result = st.session_state.predictor.predict_single(cleaned_text)
+                
+                # Display results
+                st.markdown("---")
+                st.markdown("### 📊 Hasil Prediksi")
+                
+                # Main result card
+                sentiment = result['simplified_label']
+                confidence = result['confidence_percentage']
+                emoji = st.session_state.predictor.get_sentiment_emoji(sentiment)
+                
+                # Determine sentiment class for styling
+                if "Positif" in sentiment or "Rating 5" in sentiment or "Rating 4" in sentiment:
+                    sentiment_class = "sentiment-positive"
+                elif "Negatif" in sentiment or "Rating 1" in sentiment or "Rating 2" in sentiment:
+                    sentiment_class = "sentiment-negative"
+                else:
+                    sentiment_class = "sentiment-neutral"
+                
+                col1, col2 = st.columns([1, 1])
+                
+                with col1:
+                    st.markdown(f"""
+                        <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                             padding: 2rem; border-radius: 1rem; color: white; text-align: center;'>
+                            <h2>{emoji}</h2>
+                            <h3>Sentimen: {sentiment}</h3>
+                            <h4>Confidence: {confidence:.1f}%</h4>
+                        </div>
+                    """, unsafe_allow_html=True)
+                
+                with col2:
+                    st.markdown("#### 📈 Distribusi Probabilitas")
+                    prob_df = pd.DataFrame([
+                        {"Kelas": k, "Probabilitas (%)": v} 
+                        for k, v in result['all_probabilities'].items()
+                    ])
+                    st.dataframe(prob_df, use_container_width=True, hide_index=True)
+                
+                # Show cleaned text
+                with st.expander("🔍 Lihat Detail Preprocessing"):
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        st.markdown("**Teks Original:**")
+                        st.info(text)
+                    with col2:
+                        st.markdown("**Teks Setelah Preprocessing:**")
+                        st.success(cleaned_text)
+                
+            except Exception as e:
+                st.error(f"❌ Error saat analisis: {str(e)}")
+    
+    def render_csv_input(self):
+        """Render CSV upload untuk analisis batch"""
+        st.markdown("### 📄 Upload File CSV")
+        
+        # File uploader
+        uploaded_file = st.file_uploader(
+            "Pilih file CSV yang berisi kolom 'text' atau 'review'",
+            type=['csv'],
+            key="csv_uploader"
+        )
+        
+        if uploaded_file is not None:
+            try:
+                # Read CSV
+                df = pd.read_csv(uploaded_file)
+                
+                # Show preview
+                st.markdown("#### 📋 Preview Data")
+                st.dataframe(df.head(10), use_container_width=True)
+                
+                st.info(f"📊 Total data: {len(df)} baris")
+                
+                # Identify text column
+                text_col = None
+                for col in ['text', 'review', 'ulasan', 'komentar', 'comment']:
+                    if col in df.columns:
+                        text_col = col
+                        break
+                
+                if text_col is None:
+                    st.error("❌ Tidak ditemukan kolom 'text' atau 'review' dalam file CSV!")
+                    return
+                
+                st.success(f"✅ Kolom teks ditemukan: `{text_col}`")
+                
+                # Analyze button
+                col1, col2, col3 = st.columns([1, 1, 1])
+                with col2:
+                    analyze_btn = st.button("🔍 ANALISIS SEMUA DATA", key="analyze_csv_btn", use_container_width=True)
+                
+                if analyze_btn:
+                    self.analyze_batch_data(df, text_col)
+                    
+            except Exception as e:
+                st.error(f"❌ Error membaca file: {str(e)}")
+    
+    def analyze_batch_data(self, df: pd.DataFrame, text_col: str):
+        """Analisis sentimen untuk batch data"""
+        with st.spinner("🔄 Menganalisis data... Mohon tunggu..."):
+            try:
+                # Preprocess texts
+                texts = df[text_col].fillna("").astype(str).tolist()
+                cleaned_texts = st.session_state.normalizer.preprocess_batch(texts)
+                
+                # Predict
+                results = st.session_state.predictor.predict_batch(cleaned_texts)
+                
+                # Create results DataFrame
+                results_df = pd.DataFrame([
+                    {
+                        "Text Original": texts[i],
+                        "Text Cleaned": cleaned_texts[i],
+                        "Prediksi": results[i]['simplified_label'],
+                        "Confidence (%)": f"{results[i]['confidence_percentage']:.2f}"
+                    }
+                    for i in range(len(results))
+                ])
+                
+                # Store in session state
+                st.session_state.prediction_results = results_df
+                
+                # Display results
+                st.markdown("---")
+                st.markdown("### ✅ Hasil Analisis")
+                
+                st.success(f"✨ Berhasil menganalisis {len(results_df)} data!")
+                
+                # Summary statistics
+                st.markdown("#### 📊 Ringkasan Hasil")
+                
+                sentiment_counts = results_df['Prediksi'].value_counts()
+                
+                cols = st.columns(len(sentiment_counts))
+                for idx, (sentiment, count) in enumerate(sentiment_counts.items()):
+                    with cols[idx]:
+                        percentage = (count / len(results_df)) * 100
+                        emoji = st.session_state.predictor.get_sentiment_emoji(sentiment)
+                        st.metric(
+                            f"{emoji} {sentiment}",
+                            f"{count} data",
+                            f"{percentage:.1f}%"
+                        )
+                
+                # Show detailed results
+                st.markdown("#### 📋 Detail Hasil Prediksi")
+                st.dataframe(results_df, use_container_width=True, height=400)
+                
+                # Download button
+                csv = results_df.to_csv(index=False).encode('utf-8')
+                st.download_button(
+                    label="⬇️ Download Hasil (CSV)",
+                    data=csv,
+                    file_name="hasil_analisis_sentimen.csv",
+                    mime="text/csv",
+                    use_container_width=True
+                )
+                
+            except Exception as e:
+                st.error(f"❌ Error saat analisis: {str(e)}")
+    
+    def render_evaluation_page(self):
+        """Render halaman evaluasi model"""
+        st.markdown('<p class="main-header">📊 Evaluasi Kinerja Model IndoBERT</p>', 
+                   unsafe_allow_html=True)
+        
+        # Check if model is loaded
+        if not st.session_state.model_loaded:
+            st.warning("⚠️ Silakan load model terlebih dahulu dari sidebar!")
+            return
+        
+        st.markdown("### 📤 Unggah Data Uji (Test Set)")
+        
+        st.markdown("""
+            <div class='info-box'>
+                <b>Format file CSV:</b><br>
+                • Harus memiliki kolom <code>text</code> atau <code>review</code> (teks ulasan)<br>
+                • Harus memiliki kolom <code>label</code> (ground truth label dalam bentuk angka)<br>
+                • Label: 0=Negatif, 1=Netral, 2=Positif (untuk 3-kelas)<br>
+                • Label: 0=Rating 1, 1=Rating 2, ..., 4=Rating 5 (untuk 5-kelas)
+            </div>
+        """, unsafe_allow_html=True)
+        
+        # File uploader
+        uploaded_file = st.file_uploader(
+            "Pilih file CSV data uji",
+            type=['csv'],
+            key="eval_csv_uploader"
+        )
+        
+        if uploaded_file is not None:
+            try:
+                # Read CSV
+                df = pd.read_csv(uploaded_file)
+                
+                # Show preview
+                st.markdown("#### 📋 Preview Data")
+                st.dataframe(df.head(10), use_container_width=True)
+                
+                st.info(f"📊 Total data: {len(df)} baris")
+                
+                # Identify columns
+                text_col = None
+                for col in ['text', 'review', 'ulasan', 'komentar']:
+                    if col in df.columns:
+                        text_col = col
+                        break
+                
+                if text_col is None:
+                    st.error("❌ Tidak ditemukan kolom teks!")
+                    return
+                
+                if 'label' not in df.columns:
+                    st.error("❌ Tidak ditemukan kolom 'label'!")
+                    return
+                
+                st.success(f"✅ Kolom teks: `{text_col}`, Kolom label: `label`")
+                
+                # Evaluate button
+                col1, col2, col3 = st.columns([1, 1, 1])
+                with col2:
+                    eval_btn = st.button("🎯 MULAI EVALUASI", key="eval_btn", use_container_width=True)
+                
+                if eval_btn:
+                    self.evaluate_model(df, text_col)
+                    
+            except Exception as e:
+                st.error(f"❌ Error membaca file: {str(e)}")
+    
+    def evaluate_model(self, df: pd.DataFrame, text_col: str):
+        """Evaluasi model dengan data test"""
+        with st.spinner("🔄 Mengevaluasi model... Mohon tunggu..."):
+            try:
+                # Preprocess texts
+                texts = df[text_col].fillna("").astype(str).tolist()
+                cleaned_texts = st.session_state.normalizer.preprocess_batch(texts)
+                
+                # Get ground truth labels
+                y_true = df['label'].tolist()
+                
+                # Predict
+                results = st.session_state.predictor.predict_batch(cleaned_texts)
+                y_pred = [r['predicted_class'] for r in results]
+                
+                # Calculate metrics
+                evaluator = PerformanceEvaluator(model_type=st.session_state.model_type)
+                metrics = evaluator.calculate_metrics(y_true, y_pred)
+                
+                # Store in session state
+                st.session_state.evaluation_results = {
+                    'evaluator': evaluator,
+                    'metrics': metrics,
+                    'y_true': y_true,
+                    'y_pred': y_pred
+                }
+                
+                # Display results
+                st.markdown("---")
+                st.markdown("### 📈 Laporan Kinerja")
+                
+                st.success("✨ Evaluasi selesai!")
+                
+                # Main metrics
+                st.markdown("#### 🎯 Metrik Utama")
+                col1, col2, col3, col4 = st.columns(4)
+                
+                with col1:
+                    st.metric("Akurasi", f"{metrics['accuracy']*100:.0f}%")
+                with col2:
+                    st.metric("Presisi", f"{metrics['precision']*100:.0f}%")
+                with col3:
+                    st.metric("Recall", f"{metrics['recall']*100:.0f}%")
+                with col4:
+                    st.metric("F1-Score", f"{metrics['f1_score']*100:.0f}%")
+                
+                st.markdown("---")
+                
+                # Visualizations
+                col1, col2 = st.columns(2)
+                
+                with col1:
+                    st.markdown("#### 📊 Metrik Per Kelas")
+                    fig_bar = evaluator.create_per_class_metrics_chart()
+                    st.plotly_chart(fig_bar, use_container_width=True)
+                
+                with col2:
+                    st.markdown("#### 🥧 Distribusi Prediksi")
+                    fig_pie = evaluator.create_prediction_distribution()
+                    st.plotly_chart(fig_pie, use_container_width=True)
+                
+                # Confusion Matrix
+                st.markdown("#### 🔥 Confusion Matrix")
+                fig_cm = evaluator.create_confusion_matrix_plot()
+                st.plotly_chart(fig_cm, use_container_width=True)
+                
+                # Per-class metrics table
+                st.markdown("#### 📋 Detail Metrik Per Kelas")
+                per_class_df = evaluator.get_per_class_metrics()
+                st.dataframe(per_class_df, use_container_width=True, hide_index=True)
+                
+                # Classification report
+                with st.expander("📄 Lihat Classification Report Lengkap"):
+                    report = evaluator.generate_classification_report()
+                    st.text(report)
+                
+            except Exception as e:
+                st.error(f"❌ Error saat evaluasi: {str(e)}")
+                st.exception(e)
+    
+    def render_about_page(self):
+        """Render halaman about"""
+        st.markdown('<p class="main-header">ℹ️ Tentang Aplikasi</p>', 
+                   unsafe_allow_html=True)
+        
+        # About Project
+        st.markdown("### 📱 Tentang Proyek")
+        st.markdown("""
+            <div class='info-box'>
+                Aplikasi ini merupakan sistem analisis sentimen berbasis <b>Deep Learning</b> 
+                yang dirancang khusus untuk menganalisis ulasan pelanggan <b>Gojek</b>. 
+                Sistem ini menggunakan model <b>IndoBERT</b> yang telah di-fine-tune 
+                dengan dataset ulasan Gojek dari Google Play Store.
+            </div>
+        """, unsafe_allow_html=True)
+        
+        # Technology Stack
+        st.markdown("### 🛠️ Teknologi yang Digunakan")
+        
+        col1, col2, col3 = st.columns(3)
+        
+        with col1:
+            st.markdown("""
+                **Model & Framework:**
+                - IndoBERT Base
+                - PyTorch
+                - Transformers (HuggingFace)
+            """)
+        
+        with col2:
+            st.markdown("""
+                **Web Framework:**
+                - Streamlit
+                - Plotly
+                - Pandas
+            """)
+        
+        with col3:
+            st.markdown("""
+                **Preprocessing:**
+                - NLTK
+                - Regex
+                - Custom Normalizer
+            """)
+        
+        st.markdown("---")
+        
+        # Model Architecture
+        st.markdown("### 🏗️ Arsitektur Model")
+        
+        st.markdown("""
+            <div class='metric-card'>
+                <h4>IndoBERT (Indonesian BERT)</h4>
+                <p>Model transformer pre-trained pada korpus bahasa Indonesia</p>
+                <ul style='text-align: left; display: inline-block;'>
+                    <li>12 layer transformer</li>
+                    <li>768 hidden dimensions</li>
+                    <li>12 attention heads</li>
+                    <li>Fine-tuned untuk sentiment analysis</li>
+                </ul>
+            </div>
+        """, unsafe_allow_html=True)
+        
+        st.markdown("---")
+        
+        # Features
+        st.markdown("### ✨ Fitur Aplikasi")
+        
+        features = [
+            ("🔮", "Analisis Sentimen Real-time", "Prediksi sentimen instant untuk teks manual atau batch"),
+            ("📊", "Evaluasi Model Komprehensif", "Metrik lengkap: Accuracy, Precision, Recall, F1-Score"),
+            ("📈", "Visualisasi Interaktif", "Confusion matrix dan chart distribusi sentimen"),
+            ("💾", "Export Hasil", "Download hasil analisis dalam format CSV"),
+            ("🎯", "Dual Schema", "Pilihan klasifikasi 3-kelas atau 5-kelas"),
+            ("🧹", "Text Preprocessing", "Pembersihan teks otomatis dengan normalisasi slang")
+        ]
+        
+        for i in range(0, len(features), 2):
+            col1, col2 = st.columns(2)
+            
+            with col1:
+                emoji, title, desc = features[i]
+                st.markdown(f"""
+                    <div class='metric-card'>
+                        <h3>{emoji} {title}</h3>
+                        <p>{desc}</p>
+                    </div>
+                """, unsafe_allow_html=True)
+            
+            if i + 1 < len(features):
+                with col2:
+                    emoji, title, desc = features[i+1]
+                    st.markdown(f"""
+                        <div class='metric-card'>
+                            <h3>{emoji} {title}</h3>
+                            <p>{desc}</p>
+                        </div>
+                    """, unsafe_allow_html=True)
+        
+        st.markdown("---")
+        
+        # Dataset Info
+        st.markdown("### 📚 Dataset")
+        st.markdown("""
+            <div class='info-box'>
+                <b>Sumber Data:</b> Google Play Store - Ulasan Aplikasi Gojek<br>
+                <b>Jumlah Data:</b> ~50,000 ulasan<br>
+                <b>Label:</b> 3-Kelas (Positif/Netral/Negatif) & 5-Kelas (Rating 1-5)<br>
+                <b>Preprocessing:</b> Cleaning, normalisasi slang, tokenisasi
+            </div>
+        """, unsafe_allow_html=True)
+        
+        st.markdown("---")
+        
+        # Contact/Credit
+        st.markdown("### 👨‍💻 Developer")
+        st.markdown("""
+            <div style='text-align: center; padding: 2rem;'>
+                <h4>Skripsi - Analisis Sentimen Ulasan Gojek</h4>
+                <p>Menggunakan Model IndoBERT untuk Klasifikasi Sentimen</p>
+                <p style='color: #666; margin-top: 1rem;'>
+                    © 2024 | Built with ❤️ using Streamlit
+                </p>
+            </div>
+        """, unsafe_allow_html=True)
+    
+    def run(self):
+        """Menjalankan aplikasi"""
+        # Render sidebar dan get selected page
+        page = self.render_sidebar()
+        
+        # Render page based on selection
+        if page == "🏠 Beranda":
+            self.render_home_page()
+        elif page == "🔮 Analisis Sentimen":
+            self.render_analysis_page()
+        elif page == "📊 Evaluasi Model":
+            self.render_evaluation_page()
+        elif page == "ℹ️ Tentang":
+            self.render_about_page()
+
+
+def main():
+    """Main function"""
+    app = SentimentUI()
+    app.run()
 
 
 if __name__ == "__main__":

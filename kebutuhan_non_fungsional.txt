@@ -1,0 +1,39 @@
+KEBUTUHAN NON-FUNGSIONAL SISTEM ANALISIS SENTIMEN
+================================================================================
+
+A. USABILITY (Kemudahan Penggunaan)
+----------------------------------------
+1. Interaksi Minimal:
+   - Input manual: 3 klik hingga hasil muncul
+   - Upload file: 5-6 klik hingga hasil muncul
+   - Antarmuka intuitif tanpa memerlukan panduan
+
+2. Kemudahan Navigasi:
+   - Menu utama maksimal 5 item
+   - Tidak ada sub-menu lebih dari 2 level
+   - Tombol dengan label yang jelas dan deskriptif
+
+B. PERFORMANCE (Kinerja)
+----------------------------------------
+1. Waktu Respon:
+   - Prediksi single review: 0.156 detik (target: ≤0.5 detik)
+   - Loading aplikasi: 1.04 detik (target: ≤10 detik)
+   - Throughput batch: 71.2 review/detik (target: ≥5 review/detik)
+
+C. ACCURACY (Akurasi)
+----------------------------------------
+1. Target Akurasi Model:
+   - Akurasi klasifikasi: ≥85%
+   - F1-Score: ≥0.83
+   - Precision & Recall seimbang untuk semua kelas
+
+D. COMPATIBILITY (Kompatibilitas)
+----------------------------------------
+1. Browser: Chrome ≥v90, Firefox ≥v88, Safari ≥v14
+2. Device: Desktop (Windows/Mac/Linux), Mobile (Android 8+/iOS 13+)
+
+E. RELIABILITY (Keandalan)
+----------------------------------------
+1. Availability: ≥95% uptime
+2. Error handling dengan pesan informatif
+

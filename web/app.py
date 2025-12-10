@@ -145,7 +145,7 @@ class SentimentUI:
             # Navigation
             page = st.radio(
                 "📍 Navigasi",
-                ["🏠 Beranda", "🔮 Analisis Sentimen", "📊 Evaluasi Model", "ℹ️ Tentang"],
+                ["🔮 Analisis Sentimen", "📊 Evaluasi Model"],
                 label_visibility="collapsed"
             )
             
@@ -371,7 +371,7 @@ class SentimentUI:
                 
                 with col1:
                     st.markdown(f"""
-                        <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                        <div style='background: #00AA13; 
                              padding: 2rem; border-radius: 1rem; color: white; text-align: center;'>
                             <h2>{emoji}</h2>
                             <h3>Sentimen: {sentiment}</h3>

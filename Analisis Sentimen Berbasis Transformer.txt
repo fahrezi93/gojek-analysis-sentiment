@@ -1,0 +1,3018 @@
+Analisis Sentimen Berbasis Transformer (IndoBERT) pada
+Ulasan Pengguna Aplikasi Gojek di Google Play Store dengan
+Skema 3-Kelas dan 5-Kelas
+
+Diajukan Untuk Menyusun Skripsi
+di Jurusan Teknik Informatika Fakultas Ilmu Komputer UNSRI
+
+Oleh :
+MOHAMMAD FAHREZI
+NIM : 09021182227013
+
+JURUSAN TEKNIK INFORMATIKA
+FAKULTAS ILMU KOMPUTER UNIVERSITAS SRIWIJAYA
+2025
+
+LEMBAR PENGESAHAN SKRIPSI
+
+Judul
+
+Oleh :
+
+MOHAMMAD FAHREZI
+NIM : 09021182227013
+
+Indralaya, 20 November 2025
+Mengetahui,
+Ketua Jurusan Teknik Informatika
+
+Pembimbing,
+
+Hadipurnawan Satria, M.Sc., Ph.D
+
+Dr. Abdiansah, S.Kom., M.Cs.
+
+NIP. 198004182020121001
+
+NIP. 198410012009121005
+
+ii
+
+DAFTAR ISI
+Halaman
+LEMBAR PENGESAHAN SKRIPSI .................................................................................ii
+DAFTAR ISI...................................................................................................................... iii
+DAFTAR GAMBAR ..........................................................................................................v
+DAFTAR TABEL .............................................................................................................. vi
+BAB I.................................................................................................................................. 1
+PENDAHULUAN ............................................................................................................. 1
+1.1
+
+Pendahuluan .................................................................................................... 1
+
+1.2
+
+Latar Belakang Masalah ................................................................................. 1
+
+1.3
+
+Rumusan Masalah ........................................................................................... 3
+
+1.4
+
+Tujuan Penelitian ............................................................................................. 3
+
+1.5
+
+Manfaat Penelitian .......................................................................................... 3
+
+1.6
+
+Batasan Masalah .............................................................................................. 4
+
+1.7
+
+Sistematika Penulisan...................................................................................... 4
+
+1.8
+
+Kesimpulan ...................................................................................................... 5
+
+BAB II ................................................................................................................................ 6
+KAJIAN LITERATUR..................................................................................................... 6
+2.1
+
+Pendahuluan .................................................................................................... 6
+
+2.2
+
+Landasan Teori ................................................................................................ 6
+
+2.2.1
+
+Analisis Sentimen ........................................................................................ 6
+
+2.2.2
+
+Gojek dan Playstore .................................................................................... 7
+
+2.2.3
+
+Pra-pengolahan Teks ................................................................................... 8
+
+2.2.4
+
+IndoBERT .................................................................................................. 12
+
+2.2.5
+
+Tokenisasi Berbasis Subword .................................................................... 12
+
+2.2.6
+
+Confusion Matrix & Metrik Evaluasi ........................................................ 13
+
+2.2.7
+
+Rational Unified Process (RUP) ................................................................ 15
+
+2.3
+
+Penelitian Lain yang Relevan ....................................................................... 17
+
+2.3.1 Understanding User Perception of Ride-Hailing Services: Sentiment
+Analysis and Topic Modelling using IndoBERT and BERTopic ............................ 17
+2.3.2 Analisis Sentimen Kepuasan Konsumen Pengguna Transportasi Online
+pada Ulasan Google Playstore Menggunakan IndoBERT dan Topic Modeling
+(Studi Kasus: Gojek dan Grab) ................................................................................. 18
+
+iii
+
+2.3.3 Unveiling User Sentiment: Aspect-Based Analysis and Topic Modeling of
+Ride-Hailing and Google Play App Reviews............................................................. 18
+2.4
+
+Kesimpulan .................................................................................................... 19
+
+BAB III ............................................................................................................................ 20
+METODOLOGI PENELITIAN .................................................................................... 20
+3.1
+
+Pendahuluan .................................................................................................. 20
+
+3.2
+
+Pengumpulan Data ........................................................................................ 20
+
+3.2.1
+
+Jenis dan Sumber Data ............................................................................. 20
+
+3.2.2
+
+Metode Pengumpulan Data ...................................................................... 21
+
+3.3
+
+Tahapan Penelitian ........................................................................................ 22
+
+3.3.1
+
+Mengumpulkan Data ................................................................................ 23
+
+3.3.2
+
+Menentukan Kerangka Kerja Penelitian ................................................ 24
+
+3.3.2.1
+
+Kriteria Pengujian ................................................................................ 25
+
+3.3.2.2
+
+Pelatihan Model (Fine-Tuning IndoBERT) ........................................ 25
+
+3.3.2.3
+
+Pengujian ............................................................................................... 26
+
+3.3.3
+
+Kriteria Pengujian .................................................................................... 27
+
+3.3.4
+
+Format Data Pengujian ............................................................................ 27
+
+3.3.5
+
+Alat yang Digunakan dalam Pelaksanaan Penelitian ............................ 29
+
+3.3.6
+
+Pengujian Perangkat Lunak .................................................................... 30
+
+3.3.7
+
+Hasil dan Analisis ...................................................................................... 31
+
+3.4
+
+Metode Pengembangan Perangkat Lunak .................................................. 32
+
+3.4.1
+
+Tahap Insepsi ............................................................................................. 32
+
+3.4.2
+
+Tahap Elaborasi......................................................................................... 32
+
+3.4.3
+
+Tahap Konstruksi ...................................................................................... 33
+
+3.4.4
+
+Tahap Transisi ........................................................................................... 33
+
+3.5
+
+Manajemen Proyek Penelitian...................................................................... 33
+
+3.6
+
+Kesimpulan .................................................................................................... 34
+
+BAB IV ............................................................................................................................. 35
+PENGEMBANGAN PERANGKAT LUNAK .............................................................. 35
+4.1
+
+Pendahuluan .................................................................................................. 35
+
+4.2
+
+Fase Insepsi .................................................................................................... 35
+
+4.2.1
+
+Pemodelan Bisnis ........................................................................................... 35
+
+4.2.2
+
+Kebutuhan Sistem ......................................................................................... 36
+
+iv
+
+4.2.3
+
+Analisis dan Perancangan ............................................................................. 38
+
+4.2.3.1
+
+Analisis Kebutuhan Perangkat Lunak .................................................... 38
+
+4.2.3.2
+
+Analisis Data .............................................................................................. 38
+
+4.2.3.3
+
+Analisis Pra-Pengolahan Teks .................................................................. 39
+
+4.2.3.4
+
+Analisis Pelatihan IndoBERT .................................................................. 43
+
+4.2.3.5
+
+Analisis Hasil Klasifikasi .......................................................................... 43
+
+4.2.3.6
+
+Perancangan Use Case Diagram ..................Error! Bookmark not defined.
+
+DAFTAR PUSTAKA ...................................................................................................... 73
+
+DAFTAR GAMBAR
+
+v
+
+DAFTAR TABEL
+
+vi
+
+vii
+
+BAB I
+PENDAHULUAN
+1.1
+
+Pendahuluan
+Pada bab ini akan menjelaskan tentang latar belakang, rumusan masalah,
+
+tujuan dan manfaat penelitian, batasan masalah, sistematika penulisan draft
+proposal skripsi serta kesimpulan dari penelitian yang akan menjadi landasan
+dalam penelitian ini.
+1.2
+
+Latar Belakang Masalah
+Adopsi teknologi digital di Indonesia mengalami peningkatan signifikan
+
+dengan penetrasi internet mencapai 79,5% pada tahun 2024, menempatkan layanan
+ride-hailing seperti Gojek sebagai bagian integral dari kehidupan masyarakat
+(APJII, 2024). Ulasan pengguna di Google Play Store menjadi sumber data yang
+krusial untuk memahami tingkat kepuasan pelanggan secara transparan. Volume
+ulasan yang masif membuat pendekatan analisis manual tidak lagi efisien, sehingga
+penerapan analisis sentimen otomatis berbasis kecerdasan buatan menjadi solusi
+yang sangat dibutuhkan untuk mengolah opini publik secara akurat dan efisien
+(Wankhade et al., 2022).
+Data ulasan memiliki tantangan berupa inkonsistensi antara rating bintang
+dan konten teks komentar, di mana sekitar 20% pengguna memberikan rating yang
+tidak selaras dengan sentimen yang diungkapkan dalam teks (Mabrouk et al., 2020).
+Kondisi ini menciptakan noise yang dapat mengganggu akurasi model klasifikasi
+sentimen. Selain itu, distribusi data yang tidak seimbang mendorong banyak
+peneliti untuk menyederhanakan label menjadi tiga kelas (Positif, Netral, Negatif).
+Namun, skema 5-kelas memiliki keunggulan dalam menangkap gradasi sentimen
+
+1
+
+yang lebih detail dan mampu memberikan pemahaman yang lebih mendalam
+tentang tingkat kepuasan pengguna (Alaparthi & Mishra, 2021).
+Karakteristik linguistik ulasan dalam bahasa Indonesia yang informal,
+mengandung singkatan, slang, dan code-mixing menjadi tantangan tersendiri bagi
+algoritma klasik. IndoBERT sebagai model berbasis Transformer yang telah dilatih
+dengan korpus besar bahasa Indonesia menunjukkan kemampuan superior dalam
+memahami konteks kalimat yang kompleks dibandingkan metode pembelajaran
+mesin tradisional (Wilie et al., 2020). Model ini terbukti efektif untuk berbagai
+tugas NLP berbahasa Indonesia termasuk klasifikasi teks dan Named Entity
+Recognition.
+Kualitas data input menjadi faktor penting dalam performa model deep
+learning. Beberapa penelitian menunjukkan bahwa model IndoBERT yang tidak
+melalui tahapan remove stopwords dan stemming justru menghasilkan akurasi lebih
+tinggi karena mempertahankan konteks penting dalam kalimat (Koto et al., 2020).
+Hal ini mengindikasikan bahwa arsitektur Transformer memiliki kemampuan untuk
+menangani teks mentah dengan baik tanpa preprocessing yang ekstensif.
+Penelitian terdahulu tentang analisis sentimen ulasan Gojek sebagian besar
+menggunakan metode klasik atau hanya fokus pada skema 3-kelas (Nurbaiti et al.,
+2021). Kesenjangan ini membuka peluang untuk membandingkan efektivitas
+IndoBERT pada skema 3-kelas versus 5-kelas guna menentukan pendekatan yang
+memberikan evaluasi layanan paling presisi dalam menangkap nuansa sentimen
+pengguna.
+
+2
+
+1.3
+
+Rumusan Masalah
+Berdasarkan latar belakang yang telah dijelaskan, rumusan masalah
+
+dalampenelitian ini adalah sebagai berikut:
+1. Bagaimana mengolah dan melabeli ulasan Gojek ke dalam skema sentimen
+3-kelas dan 5-kelas?
+2. Bagaimana membangun model IndoBERT untuk klasifikasi sentimen
+multi-kelas pada ulasan pengguna Gojek?
+3. Bagaimana kinerja dan perbandingan hasil model IndoBERT pada skema
+3-kelas dan 5-kelas berdasarkan metrik evaluasi?
+1.4
+
+Tujuan Penelitian
+Berdasarkan rumusan masalah, terdapat tujuan penelitian sebagai berikut:
+1. Memproses ulasan pengguna Gojek dan memberikan label sentimen dalam
+skema 3-kelas maupun 5-kelas.
+2. Mengimplementasikan model IndoBERT untuk klasifikasi sentimen multikelas pada ulasan aplikasi Gojek.
+3. Membandingkan
+
+performa
+
+model
+
+pada
+
+kedua
+
+skema
+
+klasifikasi
+
+menggunakan metrik evaluasi standar.
+1.5
+
+Manfaat Penelitian
+1. Panduan praktis dalam mengolah ulasan aplikasi menjadi dataset sentimen
+yang terstruktur dan siap digunakan.
+
+3
+
+2. Referensi implementasi IndoBERT untuk analisis sentimen berbahasa
+Indonesia yang dapat direplikasi peneliti lain.
+3. Perbandingan objektif antara skema 3-kelas dan 5-kelas yang membantu
+menentukan pendekatan terbaik sesuai kebutuhan analisis.
+4. Insight bagi platform digital seperti Gojek dalam memanfaatkan feedback
+pengguna untuk memahami pola kepuasan pelanggan secara lebih
+sistematis.
+1.6
+
+Batasan Masalah
+Berikut ini batasan masalah penelitian:
+1. Data berupa ulasan teks aplikasi Gojek dari Google Play Store.
+2. Ulasan dalam bahasa Indonesia saja.
+3. Dua skema klasifikasi: 3-kelas (negatif, netral, positif) dan 5-kelas (rating
+1-5).
+4. Model yang digunakan adalah IndoBERT.
+5. Metrik evaluasi meliputi akurasi, precision, recall, dan F1-score.
+6. Perbandingan dilakukan pada data dengan dan tanpa preprocessing.
+
+1.7
+
+Sistematika Penulisan
+Berikut adalah sistematika dari penyusunan draft proposal skripsi :
+
+BAB I. PENDAHULUAN
+Bab ini membahas mengenai pokok pikiran yang menjadi landasan
+penelitian, seperti latar belakang, rumusan masalah, tujuan dan manfaat penelitian,
+batasan masalah serta sistematika penulisan.
+4
+
+BAB II. KAJIAN LITERATUR
+Bab ini membahas dasar-dasar teori yang digunakan dalam penelitian,
+meliputi konsep Natural Language Processing (NLP) dan analisis sentimen, ulasan
+aplikasi di Google Play Store, proses pra-pengolahan teks, arsitektur Transformer,
+BERT dan IndoBERT, tokenisasi berbasis subword, confusion matrix dan metrik
+evaluasi klasifikasi multi-kelas, serta kajian penelitian terdahulu yang relevan
+dengan topik analisis sentimen ulasan pengguna Gojek.
+BAB III. METODE PENELITIAN
+Bab ini membahas tahapan yang akan dilakukan pada penelitian, seperti
+pengumpulan data, analisis data, mekanisme pengujian serta perancangan sistem
+yang akan dibangun. Setiap tahapan penelitian dijelaskan secara rinci dan mengacu
+pada kerangka kerja.
+1.8
+
+Kesimpulan
+Pada bab ini telah diuraikan latar belakang, rumusan masalah, tujuan, manfaat
+
+penelitian, batasan masalah, serta sistematika penulisan yang menjadi landasan
+dalam penelitian “Analisis Sentimen Berbasis IndoBERT pada Ulasan Pengguna
+Gojek di Google Play Store dengan Skema 3-Kelas dan 5-Kelas.
+
+5
+
+BAB II
+KAJIAN LITERATUR
+2.1
+
+Pendahuluan
+Bab kajian literatur akan membahas tentang konsep-konsep teoritis dan
+
+mengulas hasil penelitian terdahulu yang relevan terkait dengan metode, teknik, dan
+permasalahan dalam penelitian ini.
+2.2
+
+Landasan Teori
+
+2.2.1
+
+Analisis Sentimen
+Analisis sentimen merupakan bidang dalam Pemrosesan Bahasa Alami yang
+
+bertujuan mengidentifikasi opini, sentimen, dan emosi dalam teks terhadap entitas
+tertentu seperti produk, layanan, atau topik diskusi (Cortis & Davis, 2021).
+Perkembangan metode analisis sentimen telah mengalami evolusi signifikan dari
+pendekatan berbasis kamus dan machine learning tradisional menuju arsitektur
+deep learning yang lebih canggih. Metode konvensional seperti Naive Bayes dan
+Support Vector Machine seringkali mengalami keterbatasan dalam menangkap
+konteks semantik yang kompleks karena hanya bergantung pada fitur yang
+dirancang secara manual. Sebaliknya, model berbasis deep learning seperti
+Recurrent Neural Network dan Transformer mampu mempelajari representasi fitur
+secara otomatis dari data teks, sehingga menghasilkan pemahaman konteks yang
+lebih baik terutama dalam menangani ambiguitas dan nuansa bahasa (Zhu et al.,
+2022).
+Dalam konteks bahasa Indonesia, tantangan analisis sentimen menjadi lebih
+kompleks karena karakteristik linguistik yang unik seperti penggunaan bahasa
+6
+
+informal, code-mixing antara bahasa Indonesia dan Inggris, serta variasi dialek
+regional. Model bahasa pra-latih berbasis Transformer seperti IndoBERT telah
+terbukti efektif mengatasi kompleksitas tersebut dengan kemampuan memahami
+konteks kalimat yang lebih mendalam dibandingkan pendekatan tradisional
+(NusaBERT, 2025). Selain itu, penerapan skema klasifikasi multi-class seperti 3kelas (Positif, Netral, Negatif) dan 5-kelas (rating bintang 1-5) memungkinkan
+analisis yang lebih detail terhadap gradasi sentimen pengguna, dimana skema 5kelas dapat menangkap nuansa kepuasan yang lebih halus meskipun memiliki
+tantangan pada distribusi data yang tidak seimbang (Mamani-Coaquira et al., 2024).
+2.2.2
+
+Gojek dan Playstore
+Gojek telah bertransformasi menjadi Super-App berstatus Decacorn yang
+
+mengintegrasikan layanan transportasi, pesan-antar makanan, hingga pembayaran
+digital dalam satu ekosistem terpadu. Model ini berhasil mengubah pola mobilitas
+dan konsumsi masyarakat, menciptakan ketergantungan fungsional yang tinggi
+dalam aktivitas harian (Lundam, 2024). Dalam ekosistem ini, Google Play Store
+memegang peran vital sebagai saluran komunikasi dua arah. Platform ini
+memungkinkan pengguna memberikan umpan balik secara real-time melalui
+kombinasi rating bintang dan komentar tekstual, menjadikannya indikator
+transparan mengenai performa aplikasi di mata publik.
+Meskipun kaya informasi, data ulasan ini menghadirkan tantangan analisis
+karena karakteristik bahasanya yang sangat informal, penuh singkatan, dan sering
+bercampur dengan bahasa asing (code-mixing). Selain itu, sering ditemukan
+inkonsistensi antara rating bintang dan isi komentar yang memicu munculnya noise
+7
+
+dalam dataset (Repository ITPLN, 2024). Terlepas dari kendala tersebut, ulasan
+pengguna tetap menjadi aset strategis; keluhan terkait kendala teknis atau pelayanan
+merupakan cerminan nyata kualitas layanan. Jika diolah dengan tepat, data ini dapat
+mengungkap aspek krusial yang perlu diperbaiki demi menjaga kepuasan dan
+loyalitas pelanggan secara berkelanjutan (Widiastuti et al., 2025).
+2.2.3
+
+Pra-pengolahan Teks
+Pra-pengolahan teks merupakan tahapan krusial untuk mentransformasi
+
+data ulasan mentah yang tidak terstruktur menjadi format bersih yang dapat
+diproses model IndoBERT secara optimal (Habibi et al., 2022). Ulasan aplikasi
+Gojek di Google Play Store banyak mengandung bahasa informal, singkatan, slang,
+emoji, dan code-mixing, sehingga perlu dibersihkan untuk mengurangi noise dan
+menstandarisasi input agar akurasi klasifikasi sentimen meningkat (Khairani et al.,
+2024). Meskipun model berbasis Transformer seperti IndoBERT memiliki
+kemampuan contextual embedding yang kuat, tahapan preprocessing tetap
+diperlukan agar tokenizer dapat bekerja lebih stabil dan makna sentimen dapat
+tertangkap dengan lebih baik (Muflikhah et al., 2025). Adapun tahapan yang
+digunakan dalam penelitian ini adalah sebagai berikut:
+1. Case Folding dan Data Cleaning
+Tahap ini bertujuan menyeragamkan seluruh huruf menjadi huruf kecil
+(lowercase) dan membersihkan elemen yang tidak relevan dengan sentimen, seperti
+URL, username, hashtag, tanda baca berlebihan, angka yang tidak bermakna, serta
+karakter khusus (Habibi et al., 2022). Case folding membantu agar kata yang sama
+dengan penulisan berbeda, seperti "Gojek", "GOJEK", dan "gojek", tidak
+8
+
+diperlakukan sebagai entitas yang berbeda oleh model. Data cleaning juga penting
+karena ulasan pengguna sering memuat emoji berlebihan, simbol aneh, dan spasi
+ganda yang dapat mengganggu proses tokenisasi dan memperbesar jumlah variasi
+token yang tidak perlu (Khairani et al., 2024).
+Tabel II-1. Contoh Hasil Case Folding & Cleaning
+Sebelum Proses
+
+Setelah Proses
+
+Drivernya RAMAH BGT!! Pelayanan drivernya ramah bgt pelayanan top
+TOP
+Aplikasi ERROR terus nih
+
+pdhal aplikasi error terus nih pdhal lgi butuh
+bgt
+
+lgi butuh bgt!!
+
+GoFood nya LAMA bgt ga sih?? Males gofood nya lama bgt ga sih males deh
+deh
+
+2. Normalisasi Kata
+Berbeda dengan teks formal, ulasan pengguna Gojek di Indonesia sangat
+dipenuhi singkatan dan bahasa gaul yang tidak baku. Normalisasi dilakukan untuk
+mengubah kata-kata tidak baku menjadi bentuk baku atau semi baku yang lebih
+mudah dipahami model, misalnya "gk/ga" menjadi "tidak", "bgt" menjadi "banget",
+"pdhal" menjadi "padahal", dan "lgi" menjadi "lagi" (Habibi et al., 2022).
+Pendekatan ini umumnya menggunakan kamus kustom berbasis dictionary
+mapping. Tanpa normalisasi, banyak kata slang tidak akan dikenali oleh vocabulary
+
+9
+
+IndoBERT dan cenderung dipetakan menjadi token [UNK], sehingga informasi
+makna berpotensi hilang dan menurunkan kualitas representasi konteks (Khairani
+et al., 2024).
+Tabel II-2. Contoh Hasil Normalisasi Kata
+Sebelum Normalisasi
+drivernya ramah bgt pelayanan top
+
+Setelah Normalisasi
+drivernya ramah banget pelayanan top
+
+aplikasi error terus nih pdhal lgi butuh aplikasi error terus ini padahal lagi
+bgt
+
+butuh banget
+
+gofood nya lama bgt ga sih males deh
+
+gofood nya lama banget tidak sih males
+deh
+
+3. Tokenisasi WordPiece untuk IndoBERT
+Tokenisasi pada IndoBERT dilakukan menggunakan metode WordPiece,
+bukan sekadar pemisahan kata berdasarkan spasi. Teknik ini memecah kata
+kompleks atau jarang muncul menjadi subword yang lebih kecil, namun tetap
+mempertahankan makna utama, sehingga cocok untuk bahasa Indonesia yang kaya
+prefiks, sufiks, dan konfiks seperti "me-", "ber-", "-kan", dan "-an" (Wilie et al.,
+2020; Khairani et al., 2024). Pada tahap ini juga ditambahkan token khusus seperti
+[CLS] di awal kalimat untuk keperluan klasifikasi dan [SEP] sebagai pemisah,
+sementara simbol “##” menandai bagian kata yang merupakan lanjutan dari token
+sebelumnya. Hasil tokenisasi kemudian dikonversi menjadi Token ID beserta
+
+10
+
+Attention Mask, sehingga siap digunakan sebagai input model IndoBERT pada
+proses fine-tuning dan klasifikasi sentimen multi-kelas (Muflikhah et al., 2025).
+Tabel II-3. Contoh Tokenisasi WordPiece IndoBERT
+Kalimat Input
+aplikasi gojek
+
+Tokenisasi (Subwords)
+['aplikasi', 'gojek']
+
+Penjelasan
+Kata umum dikenali utuh
+dalam vocabulary
+
+Mengantar
+
+['meng', '##antar']
+
+Dipecah karena imbuhan
+"meng-"
+
+Menyebalkan
+
+['menye', '##bal', '##kan'] Dipecah menjadi prefix
+dan root + suffix
+
+pengiriman lambat
+
+['peng',
+
+'##iriman', "pengiriman"
+
+'lambat']
+
+"lambat" utuh
+
+dipecah,
+
+Proses tokenisasi ini menghasilkan sequence token yang kemudian
+dikonversi menjadi Token ID (representasi numerik) dan dilengkapi dengan
+Attention Mask untuk membedakan token asli dengan padding. Setelah melalui
+ketiga tahapan preprocessing ini, data ulasan Gojek siap untuk diinputkan ke dalam
+model IndoBERT untuk proses fine-tuning dan klasifikasi sentimen multikelas.2021).
+
+11
+
+2.2.4
+
+IndoBERT
+IndoBERT adalah model bahasa berbasis arsitektur Transformer yang
+
+dikembangkan dari BERT dan disesuaikan secara khusus untuk bahasa Indonesia.
+Model ini mengikuti konfigurasi BERT-Base dengan 12 layer encoder dan
+mekanisme self-attention, sehingga mampu memproses seluruh kata dalam kalimat
+secara paralel dan memahami konteks secara dua arah (bidirectional) (Apriansyah,
+2025; Kunaefi, 2025). IndoBERT dilatih menggunakan korpus besar bahasa
+Indonesia yang mencakup beragam domain seperti berita, media sosial, dan
+dokumen publik, sehingga menghasilkan representasi kata yang peka terhadap
+struktur kalimat dan pola penulisan khas bahasa Indonesia (Mulia et al., 2023).
+Keunggulan utama IndoBERT terletak pada kemampuannya menangani
+variasi bahasa yang kompleks melalui subword tokenization dan contextual
+embedding yang kuat. Pendekatan ini membuat IndoBERT lebih andal dalam
+memproses teks informal yang penuh singkatan, slang, dan code-mixing
+dibandingkan model multibahasa seperti mBERT (Apriansyah, 2025; Kunaefi,
+2025). Berbagai penelitian menunjukkan bahwa IndoBERT mampu memberikan
+performa yang lebih tinggi pada tugas klasifikasi teks berbahasa Indonesia,
+termasuk analisis sentimen, dibandingkan metode tradisional berbasis fitur seperti
+TF-IDF dan algoritma machine learning klasik (Mulia et al., 2023).
+2.2.5
+
+Tokenisasi Berbasis Subword
+Dalam arsitektur model Transformer seperti IndoBERT, mekanisme
+
+pemecahan teks tidak lagi mengandalkan pemisahan spasi konvensional, melainkan
+
+12
+
+menggunakan
+
+pendekatan
+
+berbasis
+
+subword
+
+(seperti
+
+WordPiece
+
+atau
+
+SentencePiece). Teknik ini bekerja dengan memecah kata menjadi unit-unit
+karakter yang lebih kecil dan bermakna, alih-alih memperlakukannya sebagai satu
+kata utuh yang kaku. Pendekatan ini memungkinkan model untuk mengatasi
+masalah kata yang tidak dikenali (Out-of-Vocabulary), karena kata asing atau baru
+dapat direkonstruksi dari potongan-potongan subword yang sudah dipelajari
+sebelumnya (Kalyan et al., 2021).
+Fleksibilitas ini menjadi keunggulan utama dalam memproses Bahasa
+Indonesia yang kaya akan afiksasi (imbuhan). Kata kompleks seperti
+"menghubungkan" dapat diurai menjadi token dasar yang memuat makna inti,
+seperti "hubung", sehingga model tetap memahami konteksnya. Lebih jauh lagi,
+untuk ulasan aplikasi Gojek yang sering memuat istilah tidak baku atau salah ketik
+(misalnya "gknyambung"), tokenisasi ini mampu memecah variasi tulisan tersebut
+menjadi komponen-komponen yang dapat dikenali. Hal ini mencegah hilangnya
+informasi penting hanya karena kesalahan penulisan, menjadikan IndoBERT jauh
+lebih tangguh dibanding metode tradisional (Koto et al., 2020).
+2.2.6
+
+Confusion Matrix & Metrik Evaluasi
+Untuk mengukur keandalan model klasifikasi sentimen, digunakan
+
+instrumen evaluasi bernama Confusion Matrix. Alat ini merepresentasikan
+perbandingan antara hasil prediksi model terhadap label sebenarnya (ground truth)
+dari data uji dalam bentuk tabel matriks. Confusion Matrix tidak hanya
+menunjukkan akurasi global, tetapi juga mengungkap pola kesalahan spesifik
+model, misalnya kecenderungan model salah mengklasifikasikan ulasan negatif
+
+13
+
+menjadi positif (False Positive) atau sebaliknya. Informasi ini krusial untuk
+mendiagnosis kelemahan model secara mendalam (Grandini et al., 2020).
+Struktur dasar matriks ini terdiri dari empat komponen utama:
+1. True Positive (TP): Data positif yang diprediksi benar.
+2. True Negative (TN): Data negatif yang diprediksi benar.
+3. False Positive (FP): Data negatif yang salah diprediksi sebagai positif (Type
+I Error).
+4. False Negative (FN): Data positif yang salah diprediksi sebagai negatif
+(Type II Error).
+Berdasarkan komponen tersebut, kinerja model diukur menggunakan empat metrik
+utama:
+1. Akurasi
+Mengukur persentase total prediksi yang benar dari keseluruhan data.
+Namun, pada dataset yang tidak seimbang (imbalanced), akurasi bisa menjadi
+bias karena didominasi oleh kelas mayoritas.
+𝐴𝑐𝑐𝑢𝑟𝑎𝑐𝑦 =
+
+𝑇𝑃 + 𝑇𝑁
+𝑋100%
+𝑇𝑃 + 𝑇𝑁 + 𝐹𝑃 + 𝐹𝑁
+
+2. Presisi
+Mengukur tingkat ketepatan prediksi positif. Presisi tinggi penting ketika
+kita ingin meminimalkan kesalahan deteksi positif palsu (False Positive).
+𝑃𝑟𝑒𝑐𝑖𝑠𝑖𝑜𝑛 =
+
+𝑇𝑃
+𝑋100%
+𝑇𝑃 + 𝐹𝑃
+
+14
+
+3. Recall
+Mengukur kemampuan model dalam menemukan kembali informasi positif
+yang ada. Recall tinggi diperlukan agar tidak ada informasi penting yang
+terlewat (False Negative).
+𝑅𝑒𝑐𝑎𝑙𝑙 =
+
+𝑇𝑃
+𝑋 100%
+𝑇𝑃 + 𝐹𝑁
+
+4. F1-Score
+Merupakan rata-rata harmonis antara Presisi dan Recall. Metrik ini
+memberikan gambaran performa yang lebih objektif dibandingkan akurasi,
+terutama pada distribusi data yang timpang
+𝐹1 − 𝑆𝑐𝑜𝑟𝑒 = 2 𝑋
+
+2.2.7
+
+𝑃𝑟𝑒𝑐𝑖𝑠𝑖𝑜𝑛 𝑋 𝑅𝑒𝑐𝑎𝑙𝑙
+𝑋100%
+𝑃𝑟𝑒𝑐𝑖𝑠𝑖𝑜𝑛 + 𝑅𝑒𝑐𝑎𝑙𝑙
+
+Rational Unified Process (RUP)
+Rational Unified Process (RUP) adalah kerangka kerja pengembangan
+
+perangkat lunak berorientasi objek dan iteratif, yang dirancang agar pengembangan
+lebih adaptif dan dapat menyesuaikan diri dengan perubahan kebutuhan selama
+proyek berlangsung. Berbeda dari metode linier seperti Waterfall, RUP
+memungkinkan pengembang melakukan evaluasi berulang, sehingga mengurangi
+risiko kegagalan dan meningkatkan kualitas hasil akhir perangkat lunak (Chandra
+et al., 2024).
+Siklus hidup pengembangan dalam RUP dibagi menjadi empat fase utama
+yang dijalankan secara berurutan dan kadang berulang:
+
+15
+
+1. Insepsi (Inception): Fase awal ini berfokus pada pemodelan kebutuhan
+bisnis dan pengenalan ruang lingkup sistem. Tim pengembang dan
+pemangku kepentingan berdiskusi untuk menyelaraskan visi, mengecek
+kelayakan teknis dan bisnis, serta memastikan pemahaman yang sama
+sebelum proyek lanjut ke tahap berikutnya (Chandra et al., 2024).
+2. Elaborasi (Elaboration): Setelah ruang lingkup proyek jelas, fase elaborasi
+mematangkan desain dan arsitektur sistem, mengidentifikasi serta
+memitigasi risiko teknis, dan menyiapkan baseline arsitektur. Di sini,
+kebutuhan teknis dan fungsional diperdetail agar tahapan selanjutnya
+berjalan mulus (Chandra et al., 2024; Hidayat et al., 2021).
+3. Konstruksi (Construction): Pada fase ini, pengembangan perangkat lunak
+dilakukan sesuai desain, mulai dari penulisan kode, pembuatan komponen,
+pengujian unit, hingga integrasi sistem. Iterasi pengembangan dipadukan
+dengan validasi fitur secara berkala agar hasil akhir benar-benar sesuai
+rancangan (Hidayat et al., 2021).
+4. Transisi (Transition): Fase terakhir adalah penyerahan produk ke pengguna
+atau pelanggan. Kegiatan utamanya mencakup pengujian beta di lingkungan
+nyata, pelatihan pengguna, serta perbaikan bug yang muncul selama tahap
+peluncuran. Pada fase ini, perangkat lunak dipastikan benar-benar berfungsi
+sesuai harapan pengguna (Chandra et al., 2024).
+RUP sendiri digambarkan dalam dua dimensi: horizontal
+(menunjukkan urutan fase pengembangan dari insepsi hingga transisi) dan
+vertikal (mengelompokkan tugas disiplin seperti analisis, desain,
+
+16
+
+implementasi, hingga pengujian) (Hidayat et al., 2021). Kombinasi dimensi
+ini membuat proyek berjalan terstruktur namun tetap detail dalam penerapan
+teknis.
+
+Gambar II-1. Ilustrasi arsitektur RUP
+2.3
+
+Penelitian Lain yang Relevan
+
+2.3.1
+
+Understanding User Perception of Ride-Hailing Services: Sentiment
+Analysis and Topic Modelling using IndoBERT and BERTopic
+Penelitian yang dilakukan oleh Mahfudiyah dan Alamsyah (2023) ini
+
+menganalisis persepsi pengguna terhadap layanan ride-hailing Gojek melalui
+ulasan di Google Play Store menggunakan model IndoBERT untuk analisis
+sentimen dan BERTopic untuk pemodelan topik. Data dikategorikan menjadi tiga
+kelas sentimen (positif, netral, negatif). Hasil penelitian menunjukkan bahwa
+IndoBERT mampu mencapai akurasi hingga 96%, dengan temuan utama bahwa
+keluhan pengguna banyak berkaitan dengan aspek pelayanan dan pengalaman
+aplikasi. Studi ini membuktikan efektivitas model transformer dalam menangkap
+konteks bahasa Indonesia pada ulasan aplikasi digital (Mahfudiyah & Alamsyah,
+2023).
+
+17
+
+2.3.2
+
+Analisis Sentimen Kepuasan Konsumen Pengguna Transportasi Online
+pada Ulasan Google Playstore Menggunakan IndoBERT dan Topic
+Modeling (Studi Kasus: Gojek dan Grab)
+Penelitian oleh Alfarobby dan Irawan (2024) berfokus pada analisis
+
+sentimen pengguna Gojek dan Grab melalui ulasan Google Play Store dengan
+memanfaatkan model IndoBERT untuk klasifikasi sentimen dan BERTopic untuk
+pemodelan topik. Dari total 6.298 ulasan, diperoleh hasil bahwa 60,8% ulasan
+Gojek bersentimen positif, sementara Grab mencapai 79,5%. Analisis topik
+menunjukkan bahwa ketidakpuasan pengguna Gojek dominan pada aspek
+pelayanan dan kualitas sistem aplikasi. Penelitian ini menegaskan bahwa kombinasi
+IndoBERT dan BERTopic efektif dalam mengidentifikasi isu layanan dan persepsi
+pengguna terhadap aplikasi transportasi daring (Alfarobby & Irawan, 2024).
+2.3.3
+
+Unveiling User Sentiment: Aspect-Based Analysis and Topic Modeling of
+Ride-Hailing and Google Play App Reviews
+Penelitian oleh Pranatawijaya dan Kamala Sari (2024) menerapkan Aspect-
+
+Based Sentiment Analysis (ABSA) berbasis model BERT pada ulasan aplikasi ridehailing dari Google Play Store. Pendekatan ini menggabungkan topic modeling
+dengan Latent Dirichlet Allocation (LDA) dan Generative AI (Gemini) untuk
+menentukan aspek-aspek utama seperti layanan, fitur aplikasi, dan pembayaran.
+Model BERT yang digunakan berhasil mencapai akurasi hingga 97% dalam
+klasifikasi sentimen. Hasil penelitian menunjukkan efektivitas integrasi BERT
+dengan ABSA dalam memahami sentimen multi-aspek pengguna aplikasi digital
+(Pranatawijaya & Kamala Sari, 2024).
+18
+
+2.4
+
+Kesimpulan
+Pada bab ini telah dijelaskan teori-teori yang berkaitan dengan penelitian,
+
+mulai dari NLP, analisis sentimen, PlayStore dan Gojek, hingga IndoBERT, serta
+tahapan preprocessing dan metrik evaluasi untuk klasifikasi multi-kelas. Bab ini
+juga mengulas beberapa penelitian terdahulu yang relevan dengan analisis sentimen
+ulasan aplikasi digital, dan menegaskan adanya celah riset pada ulasan pengguna
+Gojek dengan IndoBERT dan skema 3-kelas serta 5-kelas yang akan ditindaklanjuti
+pada bab berikutnya.
+
+19
+
+BAB III
+METODOLOGI PENELITIAN
+3.1
+
+Pendahuluan
+Pada bab ini akan dijelaskan mengenai proses pengumpulan data, tahapan
+
+penelitian, metode pengembangan perangkat lunak, serta manajemen proyek
+penelitian. Tahapan penelitian dijadikan sebagai acuan dalam setiap fase
+pengembangan perangkat lunak agar dapat memberikan solusi untuk rumusan
+masalah dan tercapainya tujuan penelitian.
+3.2
+
+Pengumpulan Data
+Pada bagian ini akan menjelaskan bagaimana tahapan pengumpulan data
+
+yang digunakan dalam penelitian ini.
+3.2.1
+
+Jenis dan Sumber Data
+Data yang digunakan untuk penelitian ini berasal dari teks ulasan (teks tidak
+
+terstruktur) yang ditulis secara langsung oleh pengguna aplikasi Gojek pada
+halaman Google Play Store. Komentar tersebut sangat emosional, organik, tidak
+terkontrol, dan masih mentah (raw). Tidak seperti dataset publik yang telah diproses
+sebelumnya, data dikumpulkan secara langsung melalui proses web scraping.
+Setiap ulasan memiliki pasangan nilai bintang dari 1 hingga 5 yang
+digunakan untuk melabelkan sentimen dalam dua skema klasifikasi:
+Skema 3 Kelas:
+•
+
+Negatif (negative): rating 1–2
+
+•
+
+Netral (neutral): rating 3
+
+20
+
+•
+
+Positif (positive): rating 4–5
+
+Skema 5 Kelas:
+
+3.2.2
+
+•
+
+Sangat Negatif (sangat_negatif): rating 1
+
+•
+
+Negatif (negatif): rating 2
+
+•
+
+Netral (netral): rating 3
+
+•
+
+Positif (positif): rating 4
+
+•
+
+Sangat Positif (sangat_positif): rating 5
+
+Metode Pengumpulan Data
+Pengumpulan data dilakukan dengan teknik web scraping pada halaman
+
+aplikasi Gojek di Google Play Store menggunakan bahasa pemrograman Python
+dan pustaka google-play-scraper. Data yang diambil meliputi teks ulasan, rating
+bintang (1–5), dan tanggal ulasan, sementara metadata yang tidak relevan
+diabaikan.
+Hasil scraping kemudian melalui tahap pembersihan awal untuk menghapus
+duplikasi, ulasan kosong, serta konten yang tidak bermakna. Data bersih disimpan
+dalam format CSV dengan total sekitar 15.000 ulasan valid yang selanjutnya
+digunakan untuk membentuk dua skema pelabelan sentimen, yaitu skema 3 kelas
+dan skema 5 kelas.
+Pemilihan metode scraping dibandingkan penggunaan dataset publik
+bertujuan untuk memastikan data yang diperoleh bersifat terkini, organik, dan
+sesuai dengan kebutuhan spesifik penelitian ini...
+
+21
+
+3.3
+
+Tahapan Penelitian
+Tahapan penelitian yang akan dilakukan dapat dilihat pada Gambar II-1
+
+sebagai berikut :
+
+Gambar III-1. Tahapan Penelitian
+Penelitian ini dimulai dengan mengumpulkan data ulasan pengguna aplikasi
+Gojek di Google Play Store dengan scraping web. Setelah proses preprocessing,
+data dibersihkan dan dinormalisasi. Kemudian, untuk skema 3- dan 5-kelas,
+sentimen dilabelkan dan dibagi menjadi data latihan, validasi, dan uji. Selanjutnya,
+fine-tuning model IndoBERT dilakukan untuk masing-masing skema, dan metrik
+multi-kelas (akurasi, ketepatan, recall, F1, macro F1, dan berat F1) digunakan untuk
+
+22
+
+pengujian dan evaluasi model. Selanjutnya, hasil evaluasi dibandingkan dan
+digunakan sebagai dasar untuk kesimpulan penelitian.
+3.3.1
+
+Mengumpulkan Data
+Data pada penelitian ini diperoleh langsung dari halaman aplikasi Gojek
+
+di Google Play Store dengan bantuan bahasa pemrograman Python dan pustaka
+google-play-scraper. Proses web scraping dilakukan secara bertahap hingga
+terkumpul sekitar 15.000 ulasan mentah. Selanjutnya, data tersebut dibersihkan
+dengan cara menghapus ulasan yang duplikat, kosong, hanya berisi simbol atau
+emoji, serta ulasan yang tidak menggunakan bahasa Indonesia.
+Berdasarkan data yang sudah melalui tahap pembersihan, disusun dua
+skema pelabelan sentimen berdasarkan rating bintang 1–5. Pada skema 3-kelas,
+rating 1–2 dikategorikan sebagai sentimen negatif, rating 3 sebagai netral, dan
+rating 4–5 sebagai positif, dengan total 12.081 ulasan yang telah diseimbangkan
+(masing-masing 4.027 ulasan per kelas). Sementara itu, skema 5-kelas
+mempertahankan rating asli dengan label sangat negatif (1), negatif (2), netral
+(3), positif (4), dan sangat positif (5), dengan total 14.985 ulasan (masing-masing
+2.997 ulasan per kelas). Rincian distribusi masing-masing kelas ditampilkan pada
+Gambar III-2.
+
+23
+
+Gambar III-2. Distribusi Label Dataset
+3.3.2
+
+Menentukan Kerangka Kerja Penelitian
+Kerangka kerja penelitian akan dijelaskan pada gambar III-3.
+
+Gambar III-3. Kerangka Kerja Penelitian
+
+24
+
+3.3.2.1 Kriteria Pengujian
+Tahap preprocessing diawali dengan case folding untuk menyeragamkan
+seluruh teks ulasan menjadi huruf kecil. Kemudian dilakukan cleaning dengan
+menghapus karakter yang tidak diperlukan seperti tanda baca berlebihan, emoji,
+URL, mention (@user), hashtag, dan simbol lain yang tidak relevan untuk
+analisis sentimen.
+Setelah teks dibersihkan, ulasan diproses oleh tokenizer IndoBERT yang
+menggunakan skema subword WordPiece. Tokenizer ini secara otomatis
+memecah kata-kata yang tidak dikenal menjadi sub-unit yang lebih kecil,
+sehingga dapat menangani kata-kata informal atau typo tanpa memerlukan
+normalisasi manual yang ekstensif. Setiap kalimat diubah menjadi deretan
+token dengan panjang maksimum 128 token, menggunakan padding untuk
+kalimat pendek dan truncation untuk kalimat panjang.
+Dataset yang sudah ditokenisasi kemudian dibagi menjadi tiga bagian
+dengan proporsi 80% data latih, 10% data validasi, dan 10% data uji
+menggunakan stratified sampling untuk menjaga distribusi kelas yang
+seimbang.
+3.3.2.2 Pelatihan Model (Fine-Tuning IndoBERT)
+Pada tahap ini digunakan IndoBERT Base (indobenchmark/indobert-basep1) sebagai backbone yang dimodifikasi dengan penambahan satu hidden layer
+(dari 768 menjadi 256 unit), Layer Normalization, aktivasi GELU, serta
+
+25
+
+dropout. Proses pelatihan dijalankan dengan learning rate sekitar 1×10⁻⁵ untuk
+skema 3-kelas dan 1,5×10⁻⁵ untuk skema 5-kelas, batch size 16–32, maksimum
+25 epoch dengan early stopping (patience 3–6). Optimizer yang digunakan
+adalah AdamW dengan weight decay dan linear warmup scheduler, sedangkan
+fungsi kerugian menggunakan Cross-Entropy Loss dengan label smoothing
+sekitar 0,1–0,15.
+Untuk menekan risiko overfitting, beberapa teknik regularisasi diterapkan,
+antara lain membekukan 4–6 lapisan awal encoder (layer freezing),
+menggunakan R-Drop (dua forward pass dengan tambahan KL-Divergence
+loss, α ≈ 0,5–1,0), menerapkan dropout 0,35–0,5, serta data augmentation
+sederhana berupa word dropout dan word swap pada data latih. Skema pelatihan
+dijalankan terpisah untuk klasifikasi sentimen 3-kelas (negatif, netral, positif)
+dan 5-kelas (sangat negatif, negatif, netral, positif, sangat positif), sehingga
+dihasilkan dua model IndoBERT yang masing-masing dioptimalkan untuk
+konfigurasi kelas yang berbeda.
+3.3.2.3 Pengujian
+Setelah proses pelatihan selesai, model IndoBERT yang dioptimalkan diuji
+menggunakan data uji yang sejak awal dipisahkan dan tidak pernah digunakan
+selama tahap pelatihan atau validasi. Tokenizer IndoBERT digunakan untuk
+memproses setiap teks ulasan pada data uji sebelum diubah menjadi token
+subword dan attention mask yang sesuai dengan format masukan model.
+Berdasarkan representasi tersebut, model menghasilkan prediksi label sentimen
+
+26
+
+untuk dua skenario klasifikasi: skema tiga kelas, yang menunjukkan hasil
+negatif, netral, atau positif, dan skema lima kelas, yang menunjukkan hasil
+sangat negatif hingga sangat positif. Untuk menentukan kemampuan model
+untuk mengklasifikasikan ulasan baru, hasil prediksi ini dibandingkan dengan
+label asli. Untuk mengidentifikasi pola kesalahan pada masing-masing kelas,
+evaluasi dilakukan secara objektif menggunakan metrik multi-kelas, termasuk
+ketepatan, ketepatan, recall, skor F1, dan skor F1 makro, serta analisis matrix
+confusion.
+3.3.3
+
+Kriteria Pengujian
+Evaluasi performa model IndoBERT menggunakan beberapa metrik
+
+klasifikasi multi-kelas, yaitu accuracy, precision, recall, dan F1-score. Accuracy
+mengukur proporsi prediksi benar secara keseluruhan. Precision mengukur
+ketepatan prediksi untuk setiap kelas (berapa banyak prediksi positif yang benarbenar positif). Recall mengukur kemampuan model mendeteksi semua sampel dari
+setiap kelas. F1-score menyeimbangkan precision dan recall. Macro F1-score
+dipilih sebagai metrik utama karena memberikan bobot sama pada setiap kelas,
+sehingga lebih representatif untuk evaluasi yang adil antar kelas. Confusion matrix
+juga digunakan untuk menganalisis pola kesalahan klasifikasi antar kelas.
+3.3.4
+
+Format Data Pengujian
+Format data pengujian disusun untuk menentukan parameter eksperimen
+
+yang akan digunakan selama proses evaluasi model IndoBERT. Penentuan
+
+27
+
+parameter yang tepat sangat penting karena dapat mempengaruhi performa model
+dalam mengklasifikasikan sentimen ulasan pengguna.
+Beberapa skenario pengujian disiapkan dengan variasi parameter untuk
+mengamati pengaruhnya terhadap performa model. Parameter yang divariasikan
+meliputi jumlah epoch dan learning rate, yang merupakan dua hyperparameter
+kunci dalam proses fine-tuning model berbasis Transformer. Jumlah epoch
+menentukan berapa kali model mempelajari keseluruhan data training, sedangkan
+learning rate mengontrol seberapa besar pembaruan bobot model pada setiap iterasi.
+Setiap skenario pengujian diaplikasikan pada kedua skema klasifikasi, yaitu
+skema 3-kelas (negatif, netral, positif) dan skema 5-kelas (sangat negatif, negatif,
+netral, positif, sangat positif). Hal ini bertujuan untuk membandingkan performa
+model pada tingkat granularitas sentimen yang berbeda.
+Tabel III.1 Skenario Pengujian Model IndoBERT
+Skenario
+
+Skema
+
+Epoch
+
+Learning Rate
+
+S1
+
+3-Kelas
+
+15
+
+1e-5
+
+S2
+
+3-Kelas
+
+15
+
+2e-5
+
+S3
+
+3-Kelas
+
+20
+
+2e-5
+
+S4
+
+5-Kelas
+
+15
+
+1e-5
+
+S5
+
+5-Kelas
+
+15
+
+2e-5
+
+S6
+
+5-Kelas
+
+20
+
+2e-5
+
+28
+
+Pemilihan rentang epoch (10-20) dan learning rate (1e-5 hingga 2e-5)
+didasarkan pada rekomendasi penelitian sebelumnya untuk fine-tuning model
+BERT pada task klasifikasi teks. Dengan kombinasi parameter tersebut, diperoleh
+enam skenario pengujian yang masing-masing akan dievaluasi pada skema 3kelas dan 5-kelas, sehingga total terdapat 12 eksperimen yang dilakukan.
+3.3.5
+
+Alat yang Digunakan dalam Pelaksanaan Penelitian
+Penelitian ini menggunakan kombinasi perangkat keras dan perangkat lunak
+
+untuk mendukung seluruh tahapan penelitian. Tabel 3.2 menyajikan rincian
+perangkat yang digunakan.
+Tabel III.3. Alat Bantu Penelitian
+Jenis
+Perangkat Keras
+
+Nama
+
+Varian
+
+Prosesor
+
+AMD Ryzen 7 7435HS
+
+Memori
+
+16 GB
+
+Penyimpanan
+
+SSD 512 GB
+
+GPU
+
+NVIDIA GeForce RTX
+2050
+
+GPU Cloud
+
+NVIDIA Tesla P100
+(Kaggle)
+
+Perangkat Lunak
+
+Sistem Operasi
+
+Windows 11
+
+Text Editor
+
+Visual Studio Code
+
+IDE
+
+Kaggle Notebook
+
+29
+
+Browser
+
+Microsoft
+
+Edge,
+
+Chrome
+Bahasa Pemrograman
+Framework
+
+Python 3.10
+
+Deep PyTorch 2.0
+
+Learning
+Library NLP
+
+HuggingFace
+Transformers
+
+3.3.6
+
+Library Data
+
+Pandas, NumPy
+
+Library Evaluasi
+
+Scikit-learn
+
+Library Scraping
+
+google-play-scraper
+
+Library Visualisasi
+
+Matplotlib, Seaborn
+
+Pengujian Perangkat Lunak
+Pengujian dalam penelitian ini bertujuan untuk memastikan kinerja model
+
+yang telah dikembangkan. Model diuji menggunakan data uji yang belum pernah
+dilihat selama proses pelatihan. Hasil pengujian berupa prediksi sentimen untuk
+setiap ulasan, yang diklasifikasikan ke dalam tiga kategori yaitu negatif, netral, atau
+positif. Evaluasi model dilakukan menggunakan confusion matrix serta empat
+metrik utama: akurasi, presisi, recall, dan F1-score. Akurasi dipilih sebagai metrik
+utama karena memberikan gambaran langsung mengenai proporsi prediksi yang
+benar terhadap keseluruhan data uji.
+
+30
+
+3.3.7
+
+Hasil dan Analisis
+Pada tahap ini, seluruh hasil evaluasi dari berbagai skenario pengujian model
+
+IndoBERT dirangkum ke dalam sebuah tabel yang memuat nilai accuracy,
+precision, recall, dan F1-score untuk setiap skenario. Analisis dilakukan dengan
+mengamati performa masing-masing skenario, memeriksa pola kesalahan
+klasifikasi melalui confusion matrix, serta membandingkan hasil pada dua skema
+klasifikasi, yaitu 3-kelas dan 5-kelas. Dari analisis tersebut, dapat dinilai bagaimana
+kemampuan model dalam membedakan sentimen negatif, netral, dan positif, serta
+dalam mengenali tingkat sentimen yang lebih rinci pada skema 5-kelas. Tahap ini
+bertujuan untuk menentukan konfigurasi model yang paling optimal dan paling
+stabil dalam mengklasifikasikan sentimen ulasan pengguna Gojek, sehingga dapat
+dijadikan dasar penarikan kesimpulan akhir penelitian.
+Tabel III.4. Hasil Pengujian Model
+Skenario ID
+
+Accuracy
+
+Precision
+
+Skenario 1
+Skenario 2
+Skenario 3
+Skenario 4
+Skenario 5
+Skenario 6
+
+31
+
+Recall
+
+F1-Score
+
+3.4
+
+Metode Pengembangan Perangkat Lunak
+Penelitian ini menerapkan metode pengembangan Rational Unified Process
+
+(RUP). Pendekatan ini dipilih karena sifatnya yang iteratif (berulang) dan
+inkremental (bertahap), yang sangat relevan dengan karakteristik proyek berbasis
+Machine Learning. Dalam pengembangan model IndoBERT, sering kali diperlukan
+eksperimen berulang—baik dalam pembersihan data maupun penyesuaian
+parameter model—untuk mendapatkan akurasi terbaik. Struktur RUP memfasilitasi
+proses perbaikan berkelanjutan tersebut secara terorganisir melalui empat tahapan
+utama berikut:
+3.4.1
+
+Tahap Insepsi
+Tahap ini merupakan fase permulaan untuk mendefinisikan ruang lingkup
+
+dan tujuan penelitian. Kegiatan utamanya meliputi identifikasi masalah terkait
+analisis sentimen pada ulasan aplikasi Gojek, serta penentuan sumber data yang
+akan diambil (crawling) dari Google Play Store. Fokus utama fase ini adalah
+memastikan bahwa dataset yang akan dikumpulkan relevan dengan skema
+klasifikasi target, yaitu skema 3-kelas dan 5-kelas, serta memahami kebutuhan
+sistem untuk analisis tersebut.
+3.4.2
+
+Tahap Elaborasi
+Pada tahap ini, fokus beralih pada analisis risiko teknis dan perancangan
+
+arsitektur sistem. Peneliti merancang alur pra-pengolahan data (preprocessing)
+yang efektif untuk menangani karakteristik bahasa informal pada ulasan, seperti
+normalisasi singkatan (slang). Selain itu, skenario pengujian model IndoBERT serta
+
+32
+
+strategi pembagian data latih dan data uji dirancang secara matang pada tahap ini
+untuk memastikan model dapat memproses variasi kelas sentimen dengan baik.
+3.4.3
+
+Tahap Konstruksi
+Tahap konstruksi adalah fase eksekusi teknis atau implementasi kode
+
+program. Di sini, seluruh rancangan direalisasikan, dimulai dari proses pelabelan
+data, pembersihan teks (preprocessing), hingga pelatihan (training) model
+IndoBERT menggunakan dataset yang telah disiapkan. Model dilatih secara intensif
+untuk mengenali pola sentimen pada kedua skema kelas. Proses ini juga mencakup
+pengujian awal untuk memastikan tidak ada kesalahan teknis (bug) dalam alur kerja
+model sebelum dilakukan evaluasi akhir.
+3.4.4
+
+Tahap Transisi
+Tahap akhir ini berfokus pada evaluasi performa model secara menyeluruh
+
+dan penarikan kesimpulan. Model yang telah dilatih diuji menggunakan data baru
+(testing data) yang belum pernah dilihat sebelumnya. Hasil prediksi kemudian
+dianalisis menggunakan Confusion Matrix dan metrik evaluasi seperti F1-Score
+untuk membandingkan secara objektif mana yang lebih unggul antara skema 3kelas dan 5-kelas dalam merepresentasikan kepuasan pengguna Gojek. Hasil
+analisis ini kemudian didokumentasikan sebagai temuan akhir penelitian.
+3.5
+
+Manajemen Proyek Penelitian
+Identifikasi masalah dan perumusan tujuan penelitian terkait analisis
+
+sentimen ulasan pengguna Gojek dengan IndoBERT pada skema 3-kelas dan 5kelas dilakukan secara terstruktur. Penyusunan rencana metode adalah langkah
+selanjutnya. Rencana ini mencakup proses scraping data, pembersihan dan
+
+33
+
+pengolahan awal teks, desain tahapan preprocessing, skema pelabelan, dan
+desain pelatihan dan pengujian model. Pelaksanaan penelitian meliputi proses
+scraping data, penghalusan IndoBERT, evaluasi kinerja model menggunakan
+metrik multi-kelas, dan analisis hasil. Selanjutnya, semua kegiatan tersebut
+dicatat dan disusun secara sistematis menjadi laporan akhir skripsi sesuai dengan
+struktur bab yang telah ditetapkan.
+3.6
+
+Kesimpulan
+Pada bab Metodologi Penelitian telah dibahas terkait detail tahapan-tahapan
+
+penelitian yang akan dilakukan serta metode pengembangan perangkan lunak yang
+akan digunakan. Pada bab ini juga telah dijelaskan teknik dalam pengumpulan dan
+pengolahan data sebagai bahan uji dalam penelitian.
+
+34
+
+BAB IV
+PENGEMBANGAN PERANGKAT LUNAK
+4.1
+
+Pendahuluan
+Bab ini membahas proses pengembangan perangkat lunak sistem analisis
+
+sentimen ulasan aplikasi Gojek dengan metode Rational Unified Process (RUP),
+yang terdiri dari empat fase utama yaitu Insepsi, Elaborasi, Konstruksi, dan
+Transisi.
+4.2
+
+Fase Insepsi
+Fase insepsi merupakan tahap awal dalam pengembangan sistem yang
+
+berfokus pada penentuan tujuan, ruang lingkup, dan kebutuhan utama dari sudut
+pandang pengguna. Pada tahap ini dilakukan identifikasi masalah, pemetaan
+kebutuhan fungsional dan nonfungsional, serta penentuan aktor dan proses bisnis
+yang terlibat, yang kemudian dirangkum dalam bentuk use case awal sebagai
+dasar perancangan sistem pada fase berikutnya.
+4.2.1
+
+Pemodelan Bisnis
+Penelitian ini mengembangkan perangkat lunak analisis sentimen berupa
+
+aplikasi web berbasis Streamlit yang menjadi antarmuka bagi pengguna untuk
+memanfaatkan model IndoBERT yang telah dilatih. Pengguna memasukkan
+ulasan terkait layanan Gojek melalui halaman web, kemudian teks tersebut
+diproses oleh model IndoBERT untuk diklasifikasikan ke dalam kategori
+
+35
+
+sentimen, dan hasilnya langsung ditampilkan kembali sebagai bahan evaluasi
+persepsi pengguna terhadap layanan.
+4.2.2
+
+Kebutuhan Sistem
+Kebutuhan sistem pada penelitian ini mencakup kebutuhan fungsional
+
+dan non-fungsional dari perangkat lunak analisis sentimen berbasis web.
+Kebutuhan fungsional menjelaskan layanan utama yang harus disediakan
+aplikasi bagi pengguna, sedangkan kebutuhan non-fungsional berkaitan dengan
+kualitas penggunaan dan lingkungan eksekusinya.
+Tabel IV-1. Kebutuhan Fungsional Sistem
+No
+
+Kebutuhan Fungsional
+Perangkat lunak dapat menerima masukan teks ulasan melalui form
+
+1
+pada halaman web.
+Perangkat lunak dapat menerima masukan data ulasan dalam bentuk
+2
+file .csv.
+Perangkat lunak dapat menampilkan hasil klasifikasi sentimen (3
+3
+kelas atau 5 kelas) menggunakan model IndoBERT.
+
+Tabel IV-2. Kebutuhan Non-Fungsional Sistem
+No
+1
+
+Kebutuhan Non-Fungsional
+Sistem mudah digunakan, dengan antarmuka yang sederhana dan
+mudah dipahami.
+
+36
+
+2
+
+Perangkat lunak dapat digunakan di web browser seperti Google
+Chrome.
+
+3
+
+Waktu respon dalam menampilkan hasil klasifikasi sentimen relatif
+cepat.
+
+37
+
+4.2.3
+
+Analisis dan Perancangan
+Tahapan ini menjelaskan proses analisis dan perancangan sistem, yang
+
+dilakukan dengan mengidentifikasi alur utama, mulai dari pengguna
+memasukkan ulasan secara langsung maupun melalui file .csv, pemrosesan
+ulasan oleh model IndoBERT, hingga penampilan hasil klasifikasi sentimen pada
+antarmuka web. Hasil analisis kebutuhan tersebut kemudian dituangkan ke dalam
+rancangan sistem, yang divisualisasikan menggunakan use case diagram untuk
+menggambarkan peran dan interaksi pengguna dengan aplikasi, serta menjadi
+dasar bagi perancangan komponen antarmuka dan proses logika sistem pada
+tahap berikutnya.
+4.2.3.1 Analisis Kebutuhan Perangkat Lunak
+Berdasarkan pemodelan bisnis yang telah dilakukan, perangkat lunak
+yang dikembangkan harus mampu melakukan analisis sentimen terhadap ulasan
+pengguna aplikasi Gojek di Google Play Store berbahasa Indonesia
+menggunakan model IndoBERT yang telah di-fine-tune sebelumnya. Aplikasi
+web ini perlu menyediakan fasilitas input ulasan secara langsung maupun melalui
+file .csv, kemudian memproses teks untuk diklasifikasikan ke dalam skema
+sentimen 3-kelas dan 5-kelas. Setelah proses klasifikasi selesai, sistem harus
+menampilkan hasil prediksi sentimen beserta informasi pendukung yang
+diperlukan, seperti ringkasan distribusi kelas atau metrik evaluasi model.
+4.2.3.2 Analisis Data
+Data yang digunakan dalam pengembangan perangkat lunak ini berupa
+ulasan pengguna aplikasi Gojek di Google Play Store yang disimpan dalam
+
+38
+
+format .csv. Dataset disusun dalam dua skema, yaitu sentimen 3-kelas (negatif,
+netral, positif) dan 5-kelas (rating 1–5). Untuk setiap skema tersedia dua versi:
+data raw dan data clean. Pada skema 3-kelas, data raw berjumlah 15.000 ulasan
+dan setelah melalui proses pembersihan (penghapusan duplikasi, teks kosong,
+dan noise lain) tersisa 12.081 ulasan clean. Pada skema 5-kelas, data raw
+berjumlah 15.000 ulasan dan menghasilkan 14.985 ulasan clean.
+4.2.3.3 Analisis Pra-Pengolahan Teks
+Tahap praproses teks merupakan bagian krusial dalam menyiapkan data
+ulasan pengguna aplikasi Gojek sebelum memasuki proses pemrosesan lanjutan.
+Beberapa langkah utama yang dilakukan meliputi case folding, penghapusan
+elemen tidak relevan, normalisasi kata slang, serta tokenisasi. Contoh data ulasan
+pengguna Gojek dapat dilihat pada Tabel IV-3.
+Tabel IV-3. Contoh Data Ulasan Pengguna Gojek
+No
+
+Ulasan
+
+Label
+
+1
+
+Sangat membantu. Drivernya baik2, hati2 &
+
+positive
+
+sopan. Pertahankan yg sdh baik. Sehat selalu
+& sukses.
+2
+
+Kenapa tarif ongkir untuk pengantaran gofood
+lebih mahal dibandingkan harga makanannya
+sendiri, sudah harga makanan dinaikan dari
+harga aslinya. Tekor pembeli uy
+
+39
+
+negative
+
+3
+
+Min, minta metode pembayaran qris dong.
+
+neutral
+
+untuk mempermudah pembayaran ketika kita
+lupa membawa cash
+
+Selanjutnya teks ulasan masuk ke tahapan pra-pemrosesan yang
+dijabarkan sebagai berikut:
+1. Case Folding
+Tahap ini merupakan langkah awal dengan mengonversi seluruh karakter
+dalam teks menjadi huruf kecil guna memastikan konsistensi format. Dalam
+penelitian ini, proses tersebut dilakukan dengan memanfaatkan fungsi lower
+pada Python. Hasil dari tahap case folding disajikan dalam Tabel IV-4
+Tabel IV-4. Hasil Implementasi Case Folding
+Sebelum Case Folding
+
+Setelah Case Folding
+
+Sangat membantu. Drivernya baik2,
+
+sangat membantu. drivernya baik2,
+
+hati2 & sopan. Pertahankan yg sdh
+
+hati2 & sopan. pertahankan yg sdh
+
+baik. Sehat selalu & sukses.
+
+baik. sehat selalu & sukses.
+
+Kenapa
+
+tarif
+
+ongkir
+
+untuk
+
+kenapa
+
+tarif
+
+ongkir
+
+untuk
+
+pengantaran gofood lebih MAHAL
+
+pengantaran gofood lebih mahal
+
+dibandingkan
+
+dibandingkan harga makanannya
+
+MAKANANNYA sendiri
+
+harga
+
+sendiri
+
+40
+
+2. Penghapusan Elemen Tidak Relevan
+Tahap ini bertujuan untuk membersihkan data dari elemen yang dianggap
+sebagai noise. Proses ini meliputi penghapusan URL, email, nomor telepon,
+tag HTML, emoji, serta karakter khusus. Dalam penelitian ini, digunakan
+pustaka re (regular expression) untuk melakukan penghapusan tersebut.
+Hasil dari tahap ini dapat dilihat pada Tabel IV-5.
+Tabel IV-5. Hasil Penghapusan Elemen Tidak Relevan
+Sebelum Pembersihan
+
+Setelah Pembersihan
+
+sukaaa bangettt sama gojekkk
+
+sukaaa bangettt sama gojekkk
+
+banyakkk vocherrr
+
+banyakkk vocherrr promonyaaaa
+
+promonyaaaa
+waktu penjemputan tepat waktu
+
+waktu penjemputan tepat waktu
+
+tidak lama pelayanan baik
+
+tidak lama pelayanan baik
+
+3. Normalisasi Kata Slang
+Tahap normalisasi bertujuan untuk mengubah kata-kata slang, singkatan,
+atau bahasa informal yang umum digunakan dalam ulasan berbahasa
+Indonesia menjadi bentuk baku. Penelitian ini menggunakan kamus slang
+yang berisi lebih dari 80 pasangan kata untuk proses normalisasi. Hasil dari
+tahap ini dapat dilihat pada Tabel IV-6.
+Tabel IV-6. Hasil Normalisasi Kata Slang
+Sebelum Normalisasi
+
+Setelah Normalisasi
+
+41
+
+pertahankan yg sdh baik
+
+pertahankan yang sudah baik
+
+gk bisa pesen krn driver ga ada
+
+tidak bisa pesan karena driver tidak
+ada
+
+tp drivernya lelet bgt
+
+tapi driver lambat banget
+
+mantap bgt apps nya, thx gojek
+
+mantap banget aplikasi nya, terima
+kasih gojek
+
+4. Tokenisasi dengan IndoBERT
+Setelah melewati tahap pra-pemrosesan, data selanjutnya diproses
+menggunakan tokenizer dari model IndoBERT (indobenchmark/indobertbase-p1). Tokenizer ini menerapkan algoritma WordPiece, yang mampu
+menangani kata-kata yang belum pernah dikenali oleh model dengan
+memecahnya menjadi sub-kata. Proses ini mencakup penambahan token
+khusus ([CLS] dan [SEP]), konversi token menjadi ID numerik, serta
+penyesuaian panjang maksimum (MAX_LENGTH) menjadi 128 token agar
+seluruh input memiliki ukuran yang seragam. Hasil dari tahapan ini
+ditampilkan pada Tabel IV-7.
+Tabel IV-7. Hasil Tokenisasi IndoBERT
+Teks Bersih
+
+Token WordPiece
+
+Token ID
+
+sangat membantu
+
+['sangat', 'membantu',
+
+[1655, 3280, 4521,
+
+drivernya baik hati
+
+'driver', '##nya',
+
+2099, 342, 1527,
+
+sopan
+
+'baik', 'hati', 'sopan']
+
+6842]
+
+kenapa tarif ongkir
+
+['kenapa', 'tarif', 'ong',
+
+[2583, 15847, 429,
+
+42
+
+gofood mahal
+
+'##kir', 'go', '##food',
+
+5163, 261, 10284,
+
+'mahal']
+
+2890]
+
+4.2.3.4 Analisis Pelatihan IndoBERT
+Penelitian ini memanfaatkan layanan Kaggle yang dilengkapi dengan
+GPU untuk melaksanakan pelatihan model. Proses pelatihan atau fine-tuning
+dilakukan dengan enam skenario konfigurasi berdasarkan variasi epoch (15 dan
+20) dan learning rate (1e-5 dan 2e-5) pada skema klasifikasi 3-kelas dan 5-kelas.
+Parameter lain seperti batch size 16-32, max length 128, serta teknik regularisasi
+dropout, label smoothing, dan early stopping diterapkan secara konsisten untuk
+mencegah overfitting.
+4.2.3.5 Analisis Hasil Klasifikasi
+Analisis hasil klasifikasi dilakukan berdasarkan evaluasi terhadap enam
+skenario pengujian yang mencakup skema 3-kelas dan 5-kelas. Dari masingmasing skema, dipilih satu model terbaik berdasarkan nilai Macro F1-Score
+tertinggi. Pengujian dilakukan menggunakan platform Kaggle guna menilai
+performa masing-masing model dalam melakukan klasifikasi sentimen.
+4.2.3.6 Desain Perangkat Lunak
+Desain perangkat lunak disusun berdasarkan kebutuhan dan analisis yang
+telah dilakukan. Untuk menggambarkan interaksi pengguna dengan sistem,
+digunakan diagram use case. Terdapat dua diagram use case yang dikembangkan,
+yaitu untuk sistem pelatihan yang dilakukan pada platform Kaggle dan sistem
+pengujian yang dibangun menggunakan Streamlit. Diagram use case sistem
+
+43
+
+pengujian ditampilkan pada Gambar IV-1, sedangkan sistem pelatihan pada
+Gambar IV-2.
+
+Gambar IV-1. Use Case Perangkat Lunak Pengujian
+
+Gambar IV-2. Use Case Perangkat Lunak Pelatihan
+
+44
+
+Aktor berinteraksi langsung dengan sistem selama tahap pelatihan model
+dan pengujian hasil analisis sentimen. Proses identifikasi aktor dilakukan untuk
+mengidentifikasi peran dan bagaimana setiap entitas berinteraksi dengan sistem
+perangkat lunak yang dikembangkan.
+Tabel IV-8. Definisi Aktor Sistem Pengujian
+No
+
+Aktor
+
+Definisi
+
+1
+
+User
+
+Merupakan pengguna yang berinteraksi dengan perangkat lunak
+untuk melakukan analisis sentimen terhadap ulasan pengguna
+aplikasi Gojek di Google Play Store. Pengguna dapat mengunggah
+dataset uji, memilih skema klasifikasi (3-kelas atau 5-kelas), serta
+melihat hasil evaluasi performa model seperti akurasi, presisi,
+recall, dan F1-score.
+
+Tabel IV-9. Definisi Aktor Sistem Pelatihan
+No
+
+Aktor
+
+Definisi
+
+1
+
+User
+
+Merupakan pengguna yang dapat berinteraksi dengan perangkat
+lunak pelatihan untuk menjalankan proses fine-tuning pre-trained
+model IndoBERT menggunakan dataset ulasan Gojek. Pengguna
+dapat melakukan inisialisasi parameter, menentukan konfigurasi
+hyperparameter, serta memantau proses pelatihan hingga model
+mencapai performa optimal.
+
+45
+
+Definisi use case menjelaskan fungsi-fungsi utama dari perangkat lunak
+yang dikembangkan. Setiap use case menggambarkan bagaimana aktor
+berinteraksi dengan sistem untuk mencapai tujuan tertentu.
+Tabel IV-10. Definisi Use Case Sistem Pengujian
+No
+1
+
+Use Case
+Melakukan
+
+Definisi
+Pengguna dapat mengunggah data ulasan aplikasi
+
+Analisis Sentimen Gojek yang telah melalui tahap pra-pemrosesan,
+(3-Kelas / 5-Kelas) kemudian memilih skema klasifikasi (3-kelas atau 5kelas). Sistem akan memanfaatkan model IndoBERT
+yang telah dilatih untuk memprediksi kategori
+sentimen (positif, netral, negatif atau lima kelas
+dengan tingkat intensitas sentimen).
+2
+
+Mengevaluasi
+
+Sistem melakukan proses evaluasi terhadap hasil
+
+Kinerja Model
+
+prediksi sentimen menggunakan metrik evaluasi
+seperti akurasi, presisi, recall, dan F1-score macro,
+serta menampilkan Confusion Matrix. Hasil evaluasi
+digunakan untuk menilai sejauh mana model
+IndoBERT mampu mengklasifikasikan sentimen
+ulasan pengguna secara tepat.
+
+46
+
+Tabel IV-11. Definisi Use Case Sistem Pelatihan
+No
+1
+
+Use Case
+
+Definisi
+
+Melakukan
+
+Pengguna menjalankan proses pelatihan lanjutan (fine-
+
+Fine-Tuning
+
+tuning) terhadap model IndoBERT menggunakan
+
+Pre-Trained
+
+dataset ulasan pengguna Gojek dari Google Play Store.
+
+Model
+
+Proses ini mencakup pembagian dataset (training,
+
+IndoBERT
+
+validation, testing), tokenization, encoding, serta
+hyperparameter tuning untuk mendapatkan model
+analisis sentimen yang optimal dan siap digunakan pada
+tahap pengujian.
+
+Skenario use case menjelaskan urutan interaksi yang terjadi antara
+pengguna dan sistem perangkat lunak. Skenario pertama yaitu Menganalisis
+Sentimen, menggambarkan proses ketika pengguna berinteraksi dengan sistem
+untuk melakukan analisis sentimen terhadap data ulasan. Penjelasan lebih detail
+mengenai skenario tersebut disajikan pada Tabel IV-12.
+Tabel IV-12. Skenario Menganalisis Sentimen
+Identifikasi
+Nomor
+
+001
+
+Nama
+
+Menganalisis Sentimen
+
+Tujuan
+
+Menampilkan hasil klasifikasi sentimen (3-kelas
+atau 5-kelas) berdasarkan ulasan pengguna
+aplikasi Gojek menggunakan model IndoBERT.
+
+47
+
+Deskripsi
+
+Pengguna
+
+memasukkan
+
+mengunggah
+
+file
+
+.csv,
+
+teks
+
+ulasan
+
+kemudian
+
+atau
+sistem
+
+memprosesnya menggunakan model IndoBERT
+dan menampilkan hasil prediksi sentimen
+beserta tingkat kepercayaannya.
+Aktor
+
+User
+
+Kondisi Awal
+
+Sistem menampilkan halaman utama analisis
+sentimen.
+Skenario Utama
+
+Aksi Aktor
+
+Reaksi Sistem
+
+1. User memasukkan teks
+ulasan atau mengunggah
+file .csv.
+2. User
+
+memilih
+
+skema
+
+klasifikasi (3-kelas atau 5kelas).
+3. Sistem memvalidasi input, kemudian
+memproses teks menggunakan model
+IndoBERT sesuai skema yang dipilih.
+Kondisi Akhir
+
+Sistem menampilkan hasil analisis sentimen
+beserta tingkat kepercayaan model.
+Skenario Alternatif
+
+48
+
+1. Pengguna menekan tombol
+'Analisis Sentimen' tanpa
+mengisi kolom input atau
+mengunggah file terlebih
+dahulu.
+2. Sistem
+
+menampilkan
+
+pesan
+
+peringatan
+
+bahwa data ulasan tidak boleh kosong.
+Kondisi Akhir
+
+Sistem menampilkan notifikasi peringatan.
+
+Tabel IV-13. Skenario Mengevaluasi Kinerja Model
+Identifikasi
+Nomor
+
+002
+
+Nama
+
+Mengevaluasi Kinerja Model
+
+Tujuan
+
+Memuat
+
+dataset
+
+uji
+
+(test
+
+set)
+
+untuk
+
+mengevaluasi kinerja model IndoBERT pada
+skema 3-kelas atau 5-kelas. Proses ini mencakup
+perhitungan metrik evaluasi seperti akurasi,
+presisi, recall, dan F1-score.
+Deskripsi
+
+Pengguna memilih skema model yang ingin
+diuji, mengunggah file .csv ulasan Gojek yang
+memiliki label asli, lalu sistem memvalidasi
+data.
+
+Setelah
+
+49
+
+evaluasi
+
+selesai,
+
+sistem
+
+menampilkan laporan kinerja model termasuk
+confusion matrix.
+Aktor
+
+User
+
+Kondisi Awal
+
+Sistem menampilkan halaman utama
+Skenario Utama
+
+Aksi Aktor
+
+Reaksi Sistem
+
+1. Menekan menu "Halaman
+Evaluasi".
+2.
+3. Memilih
+
+skema
+
+Menampilkan Halaman Evaluasi Model.
+
+model
+
+yang akan dievaluasi (3Kelas atau 5-Kelas).
+4. Sistem
+
+memuat
+
+konfigurasi
+
+model
+
+IndoBERT sesuai skema yang dipilih.
+5. Menekan tombol "Browse
+File" untuk input data uji.
+6. Sistem menampilkan file explorer.
+7. Memilih file dataset ulasan
+Gojek (format .csv).
+8. Sistem
+
+membaca,
+
+memvalidasi
+
+format
+
+kolom, dan menampilkan preview data.
+9. Menekan tombol "Mulai
+Evaluasi".
+
+50
+
+10. Sistem melakukan prediksi pada data uji,
+membandingkan dengan label asli, kemudian
+menampilkan
+
+laporan
+
+kinerja
+
+model
+
+(Akurasi, Presisi, Recall, F1-Score) serta
+memvisualisasikan Confusion Matrix.
+Kondisi Akhir
+
+Sistem telah menampilkan hasil evaluasi model
+secara lengkap, sehingga pengguna dapat
+menganalisis performa klasifikasi IndoBERT.
+Skenario Alternatif
+
+1. Pengguna
+
+mengunggah
+
+file dengan format yang
+salah (misalnya .docx atau
+.jpg).
+2. Sistem menolak file dan menampilkan pesan
+error "Format file tidak didukung. Harap
+unggah file .csv".
+Kondisi Akhir
+
+Sistem meminta pengguna mengunggah ulang
+file yang benar
+
+Tabel IV-14. Skenario Melakukan Fine-tuning
+Identifikasi
+Nomor
+
+003
+
+51
+
+Nama
+
+Melakukan
+
+Fine-tuning
+
+pre-trained
+
+model
+
+IndoBERT
+Tujuan
+
+Mendapatkan model IndoBERT yang telah
+dilatih secara spesifik untuk tugas analisis
+sentimen pada ulasan Gojek (3-Kelas dan 5Kelas)
+
+Deskripsi
+
+Proses pelatihan dilakukan dengan fine-tuning
+pre-trained model IndoBERT menggunakan
+dataset
+
+ulasan
+
+yang
+
+telah
+
+melalui
+
+pra-
+
+pemrosesan.
+Aktor
+
+User
+
+Kondisi Awal
+
+Sistem menampilkan lingkungan notebook
+pelatihan
+Skenario Utama
+
+Aksi Aktor
+
+Reaksi Sistem
+
+1. Menyiapkan dataset latih,
+validasi, dan uji.
+2. Mengatur
+
+parameter
+
+pelatihan
+
+(Epoch,
+
+Learning Rate).
+3. Menjalankan
+
+sel
+
+kode
+
+untuk memulai pelatihan.
+
+52
+
+4. Melakukan pra-pemrosesan dan tokenisasi
+data menggunakan IndoBERT Tokenizer.
+5. Membuat
+
+data
+
+loader
+
+untuk
+
+batch
+
+processing.
+6. Menginisialisasi
+IndoBERT
+
+pre-trained
+
+dengan
+
+model
+
+konfigurasi
+
+layer
+
+tambahan.
+7. Menjalankan proses training loop (forward
+& backward pass).
+8. Menampilkan
+
+grafik
+
+progres
+
+pelatihan
+
+berupa plot Loss dan Accuracy per epoch.
+9. Menyimpan model terbaik (.bin/.pt) ke
+dalam penyimpanan.
+10. Mengunduh file model.
+Kondisi Akhir
+
+Mendapatkan file model IndoBERT yang sudah
+di-fine-tune
+
+dan
+
+siap
+
+digunakan
+
+untuk
+
+pengujian.
+
+4.3
+
+Fase Elaborasi
+Tahapan selanjutnya dalam metode RUP adalah Fase Elaborasi. Fase ini
+
+bertujuan untuk mematangkan hasil analisis kebutuhan menjadi rancangan teknis
+yang lebih detail. Fokus utama pada tahap ini meliputi pemodelan bisnis,
+perancangan struktur data, serta perancangan antarmuka pengguna. Selain itu,
+
+53
+
+logika dan alur proses sistem akan digambarkan secara rinci melalui diagram
+aktivitas (activity diagram) dan diagram urutan (sequence diagram).
+4.3.1
+
+Pemodelan Bisnis
+Subbab ini menjabarkan rancangan bangun perangkat lunak yang
+
+dikembangkan, mulai dari spesifikasi data hingga desain visual antarmuka.
+Seluruh perancangan ini disusun berdasarkan hasil identifikasi masalah dan
+kebutuhan sistem yang telah didefinisikan sebelumnya pada fase insepsi.
+4.3.1.1 Perancangan Data
+Perangkat lunak ini dikembangkan untuk melakukan analisis sentimen
+menggunakan model IndoBERT terhadap ulasan pengguna aplikasi Gojek yang
+bersumber dari Google Play Store. Data masukan disimpan dalam format file .csv
+yang berisi teks ulasan beserta labelnya. Dataset ini dibagi ke dalam dua skema
+pelabelan, yaitu skema 3-kelas (negatif, netral, positif) dan skema 5-kelas (sangat
+negatif, negatif, netral, positif, sangat positif), yang digunakan sebagai basis data
+untuk proses pelatihan (training) dan pengujian (testing) model.
+4.3.1.2 Desain Antarmuka
+Desain antarmuka perangkat lunak ini dirancang dengan fokus pada
+kesederhanaan dan kemudahan akses bagi pengguna (user-friendly). Tujuannya
+adalah agar proses klasifikasi sentimen maupun evaluasi kinerja model dapat
+dilakukan secara intuitif tanpa memerlukan konfigurasi teknis yang rumit.
+Rancangan visual sistem dibagi menjadi dua halaman utama yang
+direpresentasikan pada Gambar IV-3 dan Gambar IV-4.
+
+54
+
+Gambar IV-3. Desain Antarmuka Halaman Menganalisis Sentimen
+Gambar IV-3 merepresentasikan halaman utama untuk analisis sentimen.
+Pada halaman ini, sistem memfasilitasi pengguna untuk memasukkan data
+ulasan, baik secara manual per satu kalimat maupun mengunggah file .csv untuk
+analisis massal. Pengguna juga dapat memilih varian model IndoBERT yang
+ingin digunakan, yaitu skema 3-Kelas atau 5-Kelas. Setelah proses analisis
+dijalankan, sistem akan menampilkan label sentimen hasil prediksi beserta
+tingkat probabilitas (confidence score) dari model tersebut.
+
+55
+
+Gambar IV-4. Desain Antarmuka Halaman Mengevaluasi Kinerja Model
+Gambar IV-4 menampilkan rancangan halaman Evaluasi Model.
+Halaman ini didedikasikan untuk menguji keandalan model menggunakan data
+uji yang memiliki label asli (ground truth). Pengguna cukup mengunggah dataset
+pengujian, dan sistem akan secara otomatis menghitung metrik evaluasi utama
+seperti Accuracy, Precision, Recall, dan F1-Score. Selain itu, halaman ini juga
+menampilkan visualisasi Confusion Matrix untuk membantu pengguna
+menganalisis pola kesalahan prediksi yang dilakukan oleh model pada setiap
+kelas sentimen.
+4.3.2
+
+Kebutuhan Sistem
+Rincian spesifikasi perangkat keras dan perangkat lunak yang digunakan
+
+dalam pengembangan dan pengujian sistem adalah sebagai berikut:
+1. Perangkat Keras (Hardware)
+Prosesor : AMD Ryzen 7 7435HS
+Kartu Grafis : NVIDIA GeForce RTX 2050
+
+56
+
+Memori (RAM) : 16 GB
+Penyimpanan : 512 GB (SSD)
+2. Perangkat Lunak (Software)
+Sistem Operasi : Windows 11
+Bahasa Pemrograman : Python 3.10
+Framework Web : Streamlit
+Library NLP/AI : PyTorch 2.0, HuggingFace Transformers
+Library Pendukung : Pandas, NumPy, Scikit-learn, Matplotlib, Seaborn
+4.3.3
+
+Analisis dan Perancangan
+Setelah menetapkan kebutuhan sistem, tahap selanjutnya berfokus pada
+
+pemetaan logika dan alur interaksi di dalam perangkat lunak. Subbab ini akan
+menguraikan bagaimana sistem bekerja secara dinamis melalui representasi
+diagram UML.
+4.3.3.1 Diagram Aktivitas
+Diagram aktivitas digunakan untuk memodelkan alur kerja prosedural
+dalam sistem, yang menggambarkan urutan aktivitas dari awal hingga akhir serta
+interaksi antara pengguna dan sistem. Berdasarkan skenario use case yang telah
+didefinisikan sebelumnya, perancangan ini dibagi menjadi tiga diagram utama.
+
+57
+
+Gambar IV-5. Diagram Aktivitas Menganalisis Sentimen
+Gambar
+
+IV-6 menggambarkan
+
+alur pengujian validitas
+
+model
+
+sebagaimana dijabarkan dalam Tabel IV-13. Aktivitas difokuskan pada interaksi
+pengguna dalam mengunggah dataset uji (test set) yang memiliki label asli.
+Sistem bertugas memvalidasi format file (harus .csv) sebelum menjalankan
+proses evaluasi massal. Output akhir dari aktivitas ini adalah laporan kinerja yang
+mencakup metrik Accuracy, Precision, Recall, F1-Score, serta visualisasi
+Confusion Matrix.
+
+58
+
+Gambar IV-6. Diagram Aktivitas Mengevaluasi Kinerja Model
+Gambar
+
+IV-6 menggambarkan
+
+alur pengujian validitas
+
+model
+
+sebagaimana dijabarkan dalam Tabel IV-13. Aktivitas difokuskan pada interaksi
+pengguna dalam mengunggah dataset uji (test set) yang memiliki label asli.
+Sistem bertugas memvalidasi format file (harus .csv) sebelum menjalankan
+proses evaluasi massal. Output akhir dari aktivitas ini adalah laporan kinerja yang
+mencakup metrik Accuracy, Precision, Recall, F1-Score, serta visualisasi
+Confusion Matrix.
+59
+
+Gambar IV-7. Diagram Aktivitas Melakukan Fine-tuning
+Berbeda dengan dua aktivitas sebelumnya yang berjalan di antarmuka
+web, Gambar IV-7 merepresentasikan proses teknis pelatihan model di
+lingkungan notebook (Tabel IV-14). Alur dimulai dari persiapan data,
+konfigurasi hyperparameter (seperti epoch dan learning rate), hingga eksekusi
+training loop. Sistem akan melakukan iterasi pelatihan untuk memperbarui bobot
+model IndoBERT dan diakhiri dengan penyimpanan model terbaik.
+
+60
+
+4.3.3.2 Sequence Diagram
+Sequence diagram digunakan untuk memvisualisasikan interaksi antar
+objek di dalam sistem berdasarkan urutan waktu. Diagram ini memperjelas
+bagaimana pesan (message) dikirimkan dari satu komponen ke komponen lain
+mulai dari antarmuka, logika sistem, hingga model untuk menyelesaikan satu
+skenario use case. Berdasarkan rancangan sistem, terdapat tiga diagram urutan
+utama yang dikembangkan.
+
+Gambar IV-8. Sequence diagram Menganalisis Sentimen
+Gambar IV-8 di atas memperlihatkan interaksi objek saat pengguna
+melakukan klasifikasi sentimen ulasan Gojek. Alur dimulai ketika pengguna
+memasukkan input teks atau file, yang kemudian divalidasi oleh sistem. Setelah
+valid, data diproses oleh tokenizer dan diteruskan ke model IndoBERT untuk
+
+61
+
+memprediksi probabilitas kelas sentimen (skema 3-kelas atau 5-kelas), sebelum
+akhirnya hasil prediksi ditampilkan pada antarmuka.
+
+Gambar IV-9. Sequence diagram Mengevaluasi Kinerja Model
+Gambar IV-9 mendetailkan urutan proses dalam pengujian model.
+Diagram ini menggambarkan bagaimana sistem merespons unggahan data uji
+dari
+
+pengguna,
+
+melakukan
+
+prediksi
+
+secara
+
+massal
+
+(batch),
+
+dan
+
+membandingkannya dengan label asli. Interaksi diakhiri dengan kalkulasi metrik
+statistik serta pembentukan Confusion Matrix sebagai laporan evaluasi.
+
+62
+
+Gambar IV-10. Sequence diagram Melakukan Fine-tuning
+Gambar IV-10 merepresentasikan alur teknis pelatihan model di
+lingkungan notebook. Proses ini menggambarkan interaksi antara pengguna
+(peneliti) dengan komponen data loader dan model IndoBERT. Alur utamanya
+mencakup inisialisasi parameter, eksekusi training loop (iterasi forward dan
+backward pass), hingga penyimpanan model terbaik ke dalam sistem
+penyimpanan lokal.
+4.4
+
+Fase Konstruksi
+Fase konstruksi merupakan tahapan realisasi dari seluruh rancangan yang
+
+telah disusun pada fase elaborasi. Fokus utama pada tahap ini adalah
+penerjemahan desain sistem menjadi kode program yang fungsional. Pada fase
+
+63
+
+ini, dilakukan pembangunan komponen utama sistem, mulai dari implementasi
+algoritma untuk fine-tuning model IndoBERT hingga pengembangan antarmuka
+aplikasi berbasis web untuk keperluan analisis sentimen ulasan Gojek.
+4.4.1
+
+Kebutuhan Sistem
+Dalam proses pengembangan perangkat lunak ini, penulisan kode
+
+program disusun dengan struktur yang terorganisir untuk memastikan efisiensi
+dan kemudahan pemeliharaan (maintainability). Diagram kelas (Class Diagram)
+digunakan sebagai representasi visual dari struktur kode, menggambarkan atribut
+dan metode yang dimiliki oleh setiap komponen serta hubungan antar komponen
+tersebut. Struktur kelas untuk proses pelatihan model (fine-tuning) ditampilkan
+pada Gambar IV-11, sedangkan struktur kelas untuk aplikasi pengujian berbasis
+Streamlit dapat dilihat pada Gambar IV-12.
+
+Gambar IV-11. Diagram Kelas Pengujian
+
+64
+
+Gambar IV-11 merepresentasikan struktur logika yang dibangun di
+lingkungan notebook untuk melatih model. Kelas utama IndoBERTTrainer
+bertugas mengelola seluruh siklus pelatihan. Kelas ini memiliki atribut vital
+seperti model (arsitektur IndoBERT), tokenizer (untuk pemrosesan teks), serta
+konfigurasi pelatihan seperti optimizer dan scheduler. Metode-metode kunci di
+dalamnya meliputi load_dataset() untuk membaca data ulasan Gojek,
+preprocess_data() untuk tokenisasi, train_loop() untuk eksekusi pelatihan per
+epoch, dan save_model() untuk menyimpan bobot model terbaik yang dihasilkan.
+
+Gambar IV-12. Diagram Kelas Pelatihan
+Sementara itu, Gambar IV-12 menggambarkan arsitektur kode pada aplikasi
+pengujian (Streamlit). Sistem ini terdiri dari tiga kelas yang saling berinteraksi:
+a. SentimentApp: Merupakan kelas utama yang mengatur antarmuka
+
+65
+
+pengguna (UI) di Streamlit. Kelas ini memanggil metode render_ui()
+untuk menampilkan input form dan tombol analisis.
+b. ModelHandler: Bertanggung jawab memuat model yang telah dilatih
+(load_model) dan menjalankan inferensi (predict_sentiment) untuk
+menghasilkan label kelas (3-kelas atau 5-kelas).
+c. TextCleaner: Kelas utilitas yang dipanggil sebelum prediksi dilakukan,
+berfungsi membersihkan input pengguna melalui metode clean_text() dan
+normalize_slang().
+4.4.2
+
+Kebutuhan Sistem
+Tahap implementasi merupakan proses realisasi teknis di mana rancangan
+
+sistem diterjemahkan menjadi kode program yang dapat dieksekusi. Pada
+penelitian ini, pembangunan perangkat lunak dilakukan menggunakan bahasa
+pemrograman Python sebagai basis utama. Untuk antarmuka sistem pengujian,
+digunakan kerangka kerja (framework) Streamlit yang memungkinkan interaksi
+pengguna secara real-time, sedangkan proses pelatihan model dilaksanakan di
+lingkungan komputasi berbasis notebook yang mendukung akselerasi GPU.
+4.4.2.1 Kebutuhan Sistem
+Implementasi kode disusun dalam struktur modular berbasis kelas (classbased) untuk menjaga keteraturan dan kemudahan pemeliharaan sistem. Setiap
+kelas memiliki tanggung jawab spesifik, mulai dari penanganan antarmuka, prapemrosesan teks, hingga manajemen inferensi model IndoBERT. Rincian
+implementasi kelas untuk sistem pengujian (aplikasi) dan sistem pelatihan
+dijabarkan pada Tabel IV-15 dan Tabel IV-16.
+
+66
+
+Tabel IV-15. Implementasi Kelas Sistem Pengujian
+No
+1
+
+Nama Kelas
+SentimentUI
+
+Nama File
+app.py
+
+Deskripsi
+Kelas utama yang
+mengatur tata
+letak dan logika
+antarmuka
+Streamlit. Kelas
+ini menangani
+interaksi
+pengguna, seperti
+pemilihan skema
+klasifikasi (3 atau
+5 kelas), unggah
+file CSV, serta
+visualisasi hasil
+prediksi ke layar.
+
+2
+
+ModelPredictor
+
+predictor.py
+
+Bertanggung
+jawab atas logika
+inferensi. Kelas
+ini memuat bobot
+model IndoBERT
+(.bin) yang telah
+dilatih, menerima
+
+67
+
+input token, dan
+menghasilkan
+output berupa
+label sentimen
+beserta skor
+probabilitasnya.
+3
+
+TextNormalizer
+
+preprocessing.py
+
+Menangani
+seluruh tahapan
+pembersihan data
+mentah. Fungsi
+utamanya
+meliputi
+penghapusan
+noise (emoji,
+simbol),
+normalisasi kata
+slang khas ulasan
+Gojek, dan
+konversi teks agar
+siap ditokenisasi.
+
+4
+
+PerformanceEvaluator
+
+evaluation.py
+
+Kelas khusus
+untuk halaman
+evaluasi yang
+
+68
+
+bertugas
+menghitung
+metrik statistik
+(Akurasi, Presisi,
+Recall, F1-Score)
+dan menyusun
+data untuk
+visualisasi
+Confusion Matrix
+berdasarkan data
+uji yang
+diunggah.
+
+Tabel IV-16. Implementasi Kelas Sistem Pelatihan
+No
+
+Nama Kelas
+
+Nama File
+
+Deskripsi
+
+1
+
+IndoBERTTrainer
+
+Training_Notebook.ipynb
+
+Modul pelatihan
+yang berjalan di
+lingkungan
+notebook. Kelas
+ini
+mengorkestrasi
+seluruh siklus
+fine-tuning,
+
+69
+
+mulai dari
+inisialisasi pretrained
+IndoBERT,
+pengaturan
+hyperparameter,
+eksekusi
+training loop,
+hingga
+penyimpanan
+model terbaik
+ke dalam format
+file.
+
+4.4.2.2 Implementasi Antarmuka
+Rancangan visual yang telah disusun pada tahap desain kini direalisasikan
+ke dalam bentuk perangkat lunak yang fungsional. Antarmuka sistem dibangun
+menggunakan kerangka kerja Streamlit yang memungkinkan interaksi responsif
+dan sederhana bagi pengguna.
+Sistem antarmuka ini terbagi menjadi dua bagian utama untuk
+mengakomodasi alur kerja pengguna, yaitu halaman untuk melakukan prediksi
+sentimen ulasan Gojek (baik input manual maupun batch) dan halaman khusus
+untuk mengevaluasi metrik kinerja model IndoBERT. Visualisasi hasil
+
+70
+
+implementasi antarmuka tersebut dapat dilihat pada Gambar IV-13 dan Gambar
+IV-14.
+
+Gambar IV-13. Halaman Menganalisis Sentimen
+
+Gambar IV-14. Halaman Mengevaluasi Kinerja Model
+4.5
+
+Fase Transisi
+Fase Transisi merupakan tahapan puncak dalam siklus pengembangan
+
+sistem ini. Fokus utama pada fase ini adalah melakukan validasi dan verifikasi
+menyeluruh terhadap perangkat lunak analisis sentimen yang telah dikonstruksi.
+Tujuannya adalah untuk memastikan bahwa seluruh fitur berjalan stabil, bebas
+
+71
+
+dari kesalahan fatal, dan mampu memenuhi kebutuhan analisis sentimen ulasan
+Gojek sebelum sistem dinyatakan siap digunakan sepenuhnya.
+4.5.1
+
+Pemodelan Bisnis
+Strategi pengujian perangkat lunak dijalankan menggunakan metode
+
+Black Box Testing. Pendekatan ini dipilih untuk memvalidasi fungsionalitas
+sistem semata-mata berdasarkan perspektif pengguna eksternal, tanpa perlu
+membedah logika kode internalnya. Rencana pengujian disusun secara sistematis
+mengacu pada dokumen skenario Use Case yang telah dirancang sebelumnya,
+guna menjamin bahwa setiap masukan memberikan keluaran yang akurat sesuai
+spesifikasi.
+4.5.2
+
+Rencana Pengujian
+Perencanaan pengujian ini dirancang secara sistematis guna
+
+memverifikasi bahwa setiap fitur dalam perangkat lunak analisis sentimen
+berfungsi sesuai dengan spesifikasi kebutuhan. Rencana ini mengacu pada
+dokumen use case yang telah didefinisikan sebelumnya, mencakup pengujian
+pada sisi aplikasi web (Streamlit) maupun proses pelatihan model (Notebook).
+Rencana pengujian dibagi menjadi dua kategori utama, yaitu pengujian
+fungsionalitas aplikasi analisis sentimen yang dirincikan pada Tabel IV-17, dan
+pengujian prosedur pelatihan model pada Tabel IV-18.
+Tabel IV-17. Rencana Pengujian Aplikasi Analisis Sentimen
+No
+
+Identifikasi
+
+Deskripsi Pengujian
+
+Tingkat
+Pengujian
+
+1
+
+U-01
+
+Menguji fitur analisis sentimen
+
+72
+
+Pengujian
+
+melalui input teks manual dengan
+
+Unit
+
+pemilihan skema (3-kelas atau 5kelas).
+2
+
+U-02
+
+Menguji fitur analisis sentimen
+
+Pengujian
+
+berbasis file dengan mengunggah
+
+Unit
+
+dataset berformat CSV.
+3
+
+U-03
+
+Menguji fitur evaluasi kinerja
+
+Pengujian
+
+model untuk menampilkan metrik
+
+Unit
+
+akurasi, F1-score, dan confusion
+matrix.
+
+Tabel IV-18. Rencana Pengujian Proses Pelatihan (Fine-Tuning)
+No
+
+Identifikasi
+
+Deskripsi Pengujian
+
+Tingkat
+Pengujian
+
+1
+
+U-04
+
+Menguji eksekusi kode fine-
+
+Pengujian Unit
+
+tuning model IndoBERT mulai
+dari loading data hingga
+penyimpanan model.
+
+4.5.3
+
+Rencana Pengujian
+Setelah rencana pengujian ditetapkan, langkah selanjutnya adalah
+
+mengeksekusi skenario uji tersebut untuk memvalidasi kinerja sistem. Tabel
+berikut merangkum hasil pelaksanaan pengujian Black Box, membandingkan
+
+73
+
+antara keluaran yang diharapkan dengan hasil aktual yang diperoleh sistem.
+Tabel IV-19. Implementasi Pengujian Aplikasi Analisis Sentimen
+ID
+
+Skenario
+
+Masukan
+
+Uji
+U-01
+
+Analisis
+
+Memasukkan
+
+Sentimen
+Manual
+
+Keluaran yang
+
+Hasil yang
+
+Diharapkan
+
+Didapat
+
+Sistem
+
+Sistem
+
+teks:
+
+"Driver menampilkan
+
+berhasil
+
+sangat
+
+ramah label sentimen menampilkan
+
+Valid
+
+dan cepat" lalu "Positif"
+
+label
+
+memilih Skema beserta
+
+skor "Positif"
+
+3-Kelas.
+
+Status
+
+probabilitasnya. dengan
+confidence
+score 98%.
+
+U-02
+
+Analisis
+
+Mengunggah
+
+Sistem
+
+Tabel
+
+Sentimen
+
+file
+
+memproses
+
+prediksi
+
+Batch
+
+data_ulasan.csv seluruh
+
+baris muncul
+
+(CSV)
+
+dan
+
+dan sesuai jumlah
+
+menekan data
+
+tombol proses.
+
+menampilkan
+tabel
+
+data
+
+hasil Valid
+
+dalam
+
+hasil file CSV.
+
+prediksi.
+U-03
+
+Evaluasi
+
+Mengunggah
+
+Sistem
+
+Laporan
+
+Kinerja
+
+data_test.csv
+
+menampilkan
+
+kinerja
+
+Model
+
+yang memiliki nilai
+
+dan
+
+Akurasi, plot
+
+F1-Score,
+
+74
+
+Valid
+
+dan Confusion
+
+label asli pada visualisasi
+
+Matrix
+
+menu Evaluasi.
+
+Confusion
+
+berhasil
+
+Matrix.
+
+digenerate
+dan
+ditampilkan.
+
+Tabel IV-20. Implementasi Pengujian Proses Pelatihan
+ID
+
+Skenario
+
+Masukan
+
+Keluaran
+
+Hasil yang
+
+yang
+
+Didapat
+
+Uji
+
+Status
+
+Diharapkan
+U-04
+
+Eksekusi
+
+Menjalankan
+
+Proses
+
+Pelatihan
+
+Fine-
+
+seluruh
+
+sel pelatihan
+
+selesai
+
+Tuning
+
+kode (Run All) berjalan tanpa (epoch 1-5)
+
+IndoBERT
+
+pada
+
+error
+
+Notebook
+
+menghasilkan
+
+pelatihan
+
+file
+
+dengan
+
+(model.bin) di di
+
+parameter
+
+direktori
+
+yang
+
+output.
+
+ditentukan.
+
+75
+
+dan dan
+
+file
+
+model
+
+model tersimpan
+folder
+
+tujuan.
+
+Valid
+
+4.6
+
+Kesimpulan
+Bab ini telah menguraikan seluruh tahapan pengembangan perangkat
+
+lunak yang dilaksanakan menggunakan pendekatan Rational Unified Process
+(RUP). Melalui pelaksanaan fase insepsi, elaborasi, konstruksi, dan transisi yang
+sistematis, penelitian ini berhasil menghasilkan aplikasi analisis sentimen
+berbasis web yang mengintegrasikan model IndoBERT. Berdasarkan hasil
+pengujian black box, perangkat lunak terbukti mampu menjalankan fungsi
+klasifikasi pada skema 3-kelas dan 5-kelas dengan baik, sehingga siap digunakan
+sebagai instrumen utama untuk memproses ulasan pengguna Gojek dalam
+penelitian ini.
+
+76
+
+BAB V
+HASIL DAN ANALISIS
+5.1
+
+Pendahuluan
+
+77
+
+DAFTAR PUSTAKA
+
+78
+
+

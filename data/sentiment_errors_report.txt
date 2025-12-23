@@ -1,0 +1,502 @@
+Potential Errors Found: 1294
+==================================================
+Index: 105
+Label: negative
+Reason: Negative label but contains positive words: sangat membantu
+Text: aplikasi yang sangat membantu buat saya yang tidak bisa bawa kendaraan sendiri lebih2 banyak promosi yang bisa di pakai
+--------------------------------------------------
+Index: 355
+Label: negative
+Reason: Negative label but contains positive words: sangat membantu
+Text: aplikasi sangat membantu tapi lebih membantu jika pengemudi yang lebih dekat dengan kita di mapnya sbl dipesan banyak yang dekat setelah di pesan jauh banget yang ambil pesanan terus kita harus nunggu pengemudi minimal 15 menit terus paling lambat pesanan sampai sekitar 1 jam karena dari diver yang nerima pesanan jauh banget sampai harus ngabisin waktu 15 sd 20 menit sering saya batal karena divernya jauh banget tidak bisa banget di pakai buat buru2 kita sebagai customers harus nunggu lama semoga ada perbaikn
+--------------------------------------------------
+Index: 568
+Label: negative
+Reason: Negative label but contains positive words: top
+Text: setelah pembaruan bukannya makin bagus malah makin error saya topup saldo tidak masuk masuk kacau
+--------------------------------------------------
+Index: 700
+Label: negative
+Reason: Negative label but contains positive words: top
+Text: gopay ku baru topup 45 00 dan saldo awalku 29 00 tapi saldo baru ku yang nilainya 45 00 hilang yah tolong lah itu saldo dari hasil jual kuota dan data baru juga balik modal saya
+--------------------------------------------------
+Index: 702
+Label: negative
+Reason: Negative label but contains positive words: top
+Text: saya kan laper terus topup gopay dengan sisa tabungan sudah beres itu terus pas lagi cari makanan eh muncul voucher cassback 15rb dengan 29rb bayar tak sengaja di klik ilang itu saldo gopay mana tidak bisa return tidak bisa di pakai mau ngadu siapa ribet laper banget asli sumpah maaf aplikasinya saya hapus muak saya ngelihatnya toloong balikin saldo saya saya lapar
+--------------------------------------------------
+Index: 706
+Label: negative
+Reason: Negative label but contains positive words: memuaskan
+Text: saya rasa pada aplikasi masih bykbyg harus diperbaiki aplgi di bagian go food pas cari pengemudi nya di aplikasi belum dapat ternyata tiba pas masih proses pencarian ditelfon sama pengemudi terus karena sudah dapat pengemudi saya bingung ap di aplikasi yang masih mencari pengemudi ini di batal atau ap nnti kalau saya batal dengan alasan sudah mendapt pengemudi lain malah nnti di pengemudi yang sudah saya dapat itu tercancel ap tidak kalau seperti gitu terus kasian pengemudi lainnya dapat double terus harus di batal slh stu untuk fitur lain sudah cukup memuaskanlh
+--------------------------------------------------
+Index: 735
+Label: negative
+Reason: Negative label but contains positive words: memuaskan
+Text: kurang memuaskan terutama untuk layanan n tanggapan yang d beri mengenai perubahan nomor kontak darurat baru yang d berikan karena niat saya adalah untuk memperbarui info tentang saya
+--------------------------------------------------
+Index: 773
+Label: negative
+Reason: Negative label but contains positive words: top
+Text: saya pengguna aplikasi ini sudah hampir 2tahun setiap hari gofood goride untuk kerja beli uc di game pubg lewat gopay hampir semua saya lakukan via gopay saya kecewa baru hari ini karena saya topup gopay tapi saldo gopay tidak masuk tapi dana di mbanking sudah terpotong telp customer service di oper sana sini
+--------------------------------------------------
+Index: 925
+Label: negative
+Reason: Negative label but contains positive words: sangat membantu
+Text: sangat membantu sekali saat tidak bisa keluar bisa psn makanan dan selama saya pesan sesuai semua
+--------------------------------------------------
+Index: 1267
+Label: negative
+Reason: Negative label but contains positive words: keren
+Text: keren sudah bertahun2 pakai aplikasi ini mau beralih tapi tidak bisa sudah enak disini apalagi sering dapat voucherdiskon versi sebelumnya sempat kecewa karena susah dapat pengemudi dan ngelacaknya tapi yang versi sekarang sudah bagus banget pertahankan ya gojek
+--------------------------------------------------
+Index: 1567
+Label: negative
+Reason: Negative label but contains positive words: top
+Text: gopay gojek tidak jelas penipu topup tidak masuk reffund qris pun tidak di acc aplikasi ewallet maling saldo pengguna
+--------------------------------------------------
+Index: 1608
+Label: negative
+Reason: Negative label but contains positive words: top
+Text: saya puas memakai gopay setelah 2 minggi saya merasa kecewa karena topuap dari indomaret uang tidak tau ke mna mask nya kata nya ada di tabungan jago setelah saya cek tidak ada saya email chat complin tidak ada tanggapan
+--------------------------------------------------
+Index: 1647
+Label: negative
+Reason: Negative label but contains positive words: top
+Text: saya dapat sms dari go jek dapat undian 2 jt d suruh topup gopay sudah d isi ulang cuman saldo gopay saya masihh nol itu penipuan kah
+--------------------------------------------------
+Index: 1802
+Label: negative
+Reason: Negative label but contains positive words: top
+Text: bisa tidak aplikasi section gofood nya ada tanda kalau restoran ini online dan buka sudah bbrp kali dapat restoran tidak ada atau susah ditemukan lokasinya atau restoran nya bisa di hubungi oleh pengemudi untuk ditanyakan lokasi nya masa restopkl bisa acc pesan hanya karena 20 30 detik pesan masuk sih tidak adil wehh
+--------------------------------------------------
+Index: 1805
+Label: negative
+Reason: Negative label but contains positive words: mantap
+Text: mantapp ojek online favorite cmn kalau pas hujan susah gojek buat anter anak ngaji smga pahala nya juga mengalir ke setiap pengemudi nya
+--------------------------------------------------
+Index: 1841
+Label: negative
+Reason: Negative label but contains positive words: top
+Text: dari dulu verifikasi akun susah sekali ini uangnya saya mau pakai buat beli kouta saja sulit menyesal topup di gopay karena masih bobrok
+--------------------------------------------------
+Index: 2059
+Label: negative
+Reason: Negative label but contains positive words: sangat membantu
+Text: sangat sangat sangat tidak memuaskan awalnya sangat membantu tapi sekarang sangat tidak membantu saya sampai uninstal dan download lagi karena saya pikir eror tapi ternyata memang aplikasi ini di handphone saya tidak bisa di pakai karena setiap kali saya mencoba untuk memilih tujuan pasti muncul tulisan tidak tertera pada peta untuk pesan makanan pun tidak bisa terus bagaimana coba tolong perbaiki aplikasi ini seperti semula
+--------------------------------------------------
+Index: 2253
+Label: negative
+Reason: Negative label but contains positive words: terbaik
+Text: bagus aplikasi anak bangsa terbaik deh tapi saya sulit sekali ya dapat kode otp kan sayang jadi tidak bisa di pakai gopay saya dikasih bintang 2 lagi kalau bisa lebih lancar
+--------------------------------------------------
+Index: 2478
+Label: negative
+Reason: Negative label but contains positive words: sangat membantu
+Text: pelayanan gojek sangat membantu buat saya tapi yang saya ngk suka go food makanan yang tidak layak di makan itu yang di jual makanan tidak seauai yang di pemasaran sangat kecewa dengan go food kedepannya tolong di perbaiki ya supaya kita sama puas terimakasi tolong dong min saya mau beli go food kenapa ngk tidak bisa kelihatan foto makanan padahal kuota saya masih banyak
+--------------------------------------------------
+Index: 2920
+Label: negative
+Reason: Negative label but contains positive words: top
+Text: aplikasi stiap di buka minta di update tapi pas di update tidak bisa terus sekarang juga tidak bisa di buka sama sekali saya baru top up di uninstall terus saya download ulang malah tidak bisa gimanaa konsumen bisa puas kalau aplikasi saja sering ngadat apa harus pindah ke apikasi sebelah bagaimana
+--------------------------------------------------
+Index: 3242
+Label: negative
+Reason: Negative label but contains positive words: memuaskan
+Text: akhir2 ini aplikasi gojek kurang memuaskan sering eror banyak voucher tapi harus pkai gopay baru bisa d gunakan pakai voucher n tidak pakai voucher malah sama saja kdg lebih mahal kadang pengemudi sama yang di aplikasi ngk sama kedepan nya perbaiki lagi agar bisa lancar seperti dulu
+--------------------------------------------------
+Index: 3485
+Label: negative
+Reason: Negative label but contains positive words: sangat membantu
+Text: aplikasinya sangat membantu saya tapi sayangnya ketika saya ke cibiru pingin naik goojek ke arah bojongsoang tidak bisa semua pengemudi minta di batal katanya kejauhan
+--------------------------------------------------
+Index: 3594
+Label: negative
+Reason: Negative label but contains positive words: keren
+Text: untuk ojek online dan go food keren tapi aplikasi paylater nya sangat ribet limit sudah dapat sudah bisa digunakan tapi tiba2 limit ditahan dan tidak bisa digunakan lagi padahal sebelum jatuh tempo sudah dibayar tidak ada transasksi yang menyalahi
+--------------------------------------------------
+Index: 3771
+Label: negative
+Reason: Negative label but contains positive words: mantap
+Text: suspensi motornya masih mantap jalannya santai n tidak ngebut sip pokoknya
+--------------------------------------------------
+Index: 3827
+Label: negative
+Reason: Negative label but contains positive words: top
+Text: saya melakukan topup game 2x dari pembayaran dana saldo saya satu berhasil tapi tidak item yang masuk ke game satu tidak ada konfirmasi berhasil tapi saldo saya di tarik juga dari 2x topup dana saldo saya terbuang sia2 dan item tidak ada yang masuk ke game pihak dana bagaimana ini saldo saya bisa bertangung jawab dan dari pihak developer game juga membisu
+--------------------------------------------------
+Index: 3982
+Label: negative
+Reason: Negative label but contains positive words: top
+Text: semakin maraknya penggelapan barang yang tidak sampai ke tangan konsumen kalau menurut saya jangan pakai verifikasi wajah bisa di palsukan menggunakan topeng harusnya pakai sidik jari yang tidak bisa di palsukan saya sebagai seller jadi waswas jika tingkat keamanan gojek seperti ini
+--------------------------------------------------
+Index: 4130
+Label: negative
+Reason: Negative label but contains positive words: memuaskan
+Text: cukuplah memuaskan cuma kdg2 alamat ada yang tidak bisa kebaca atau tidak ada di map ya antahlah yuang
+--------------------------------------------------
+Index: 4320
+Label: negative
+Reason: Negative label but contains positive words: top
+Text: buruk ini gojek saya melakukan topup pengemudi dan customer ke nomor yang terdaftar di aplikasi eh gagal terus alasannya nomor handphone tidak terdaftar bagaimana sih sistemnya
+--------------------------------------------------
+Index: 4601
+Label: negative
+Reason: Negative label but contains positive words: terbaik
+Text: saya kecewa pihak gojek tidak bisa memberi solusi yang terbaik bagi pelanggan saya beli token listrik biaya terpotong tapi kode kosong ini nama nya penipuan dan merugikan pelanggan orang lain
+--------------------------------------------------
+Index: 4609
+Label: negative
+Reason: Negative label but contains positive words: memuaskan
+Text: proses tf nya kurang memuaskan
+--------------------------------------------------
+Index: 4614
+Label: negative
+Reason: Negative label but contains positive words: sangat membantu
+Text: sangat membantu buat saya yang tidak bisa motoran karena ada bocil dan mager kalau suruh beli makan keluar
+--------------------------------------------------
+Index: 5147
+Label: negative
+Reason: Negative label but contains positive words: top
+Text: saya topup ada kendala karena satu dan lain hal buat laporan hari sabtu di rsponnya hari senin sudah lanjut lapor suruh nunggu lagi 2x24jam tbtb gopay trblokhir buat laporan baru lagi nunggu lagi 3x24jam malah dsruh logout saja terus login lagi manaa sampai sekarang gopay saya belum masuk aduh capek deh sistemnya ribet
+--------------------------------------------------
+Index: 5212
+Label: negative
+Reason: Negative label but contains positive words: top
+Text: saldo saya tidak bisa balik lagi padahal nomor yang di topup tidak terdaftar anehnya ko bisa berhasil terus uangnya kemana ya haram banget
+--------------------------------------------------
+Index: 5316
+Label: negative
+Reason: Negative label but contains positive words: top
+Text: tadi belanja ke store yongki komaladi ada tulisan promosi bayar pakai gopay cashback 30 sudah tanya ke karyawan nya buat mastiin beneran bisa atau tidak dan kata karyawannya bisa langsung saya topup saldo gopay mau bayar terus kata karyawannya pembayaran pakai gopay bermasalah sinyal down kalau memang niat buat promosi semacam cashback tolong dong perbaiki sinyalsistem nya sering ada promosi cashback tapi giliran sudah mau bayar sering bermasalah dengan sinyal promosi abal abal
+--------------------------------------------------
+Index: 5820
+Label: negative
+Reason: Negative label but contains positive words: memuaskan
+Text: lebih banyak memuaskan meski terkadang pengemudi main batal pesanan belum lagi yang susah dihubungi saya tidak keberatan kalau kena charge apabila batal pengemudi lebih dari 1x apabila pengemudi tidak bisa dihubungi tapi tlg juga pengemudi jangan asal batal
+--------------------------------------------------
+Index: 5830
+Label: negative
+Reason: Negative label but contains positive words: top
+Text: benar kecewa kemarin salah satu angka nomor jadi salah topup dan pihak gojek tidak ada solusi sama sekali seenggaknya kasih solusi jika harus buka akun pakai nomor yang salah topup itu kode otp dikasih ke kita jangan dikirim ke nomor tersebut begitu setidaknya solusinya tidak ada orang yang sempurna setiap orang psti pernah melalukan kesalahan
+--------------------------------------------------
+Index: 5841
+Label: negative
+Reason: Negative label but contains positive words: sangat membantu
+Text: aplikasi error tidak bisa login muncul tulisan failed to get your session tolong dibantu selesaikan masalah ini aplikasi ini sangat membantu untuk kegiatan sehari hari saya jadi saya sangat mengharapkan untuk segera diselesaikan masalah ini terimakasih
+--------------------------------------------------
+Index: 6023
+Label: negative
+Reason: Negative label but contains positive words: top
+Text: males bet kalau transaksi qris sering error jadi susah mau belitop up game apalagi kalau tf lewat nomor harus berktp
+--------------------------------------------------
+Index: 6092
+Label: negative
+Reason: Negative label but contains positive words: sangat membantu
+Text: sangat membantu saat tidak bisa keluar rumah tingkatkan lagi y banyakin promosi trimakasih
+--------------------------------------------------
+Index: 6310
+Label: negative
+Reason: Negative label but contains positive words: memuaskan
+Text: saya kurang suka pengemudi songong sekrg2 masa pesen goofood garagara restaurant terdekatnya tutup terus kita pesen restauran sedikit jauh saja komplainnya minta ampunn padahal kita juga punya otak pasti di kasih tip lebih kecewa banget pelayanan kurang memuaskan padahal saya sering banget laper setiap mlm biasanya solusinya gofood tapi sekarang merasa di kecewakan pengemudi pada galak mlm ini jam ini detik ini saya di tolak 5 pengemudi sekali gus tidak profesional mana laperr
+--------------------------------------------------
+Index: 6542
+Label: negative
+Reason: Negative label but contains positive words: memuaskan
+Text: saya dapat layanan kurang memuaskan atas goclean selanjutnya kalau saya pesan goride handphone saya selalu terganggu tidak seperti sebelum saya pesan goclean tsb di atas mrngapa bisa terjadi dan kalau bisa lancarkanlah komunikasi saya dengan gojek ino seperti sebelum saya pesan goclean tsb solusinya saya jx pakai grab salam
+--------------------------------------------------
+Index: 6811
+Label: negative
+Reason: Negative label but contains positive words: sangat membantu
+Text: sangat sangat membantu sekali ketika laper tapi tidak bisa keluar untuk cari makan
+--------------------------------------------------
+Index: 6942
+Label: negative
+Reason: Negative label but contains positive words: top
+Text: ada apa dengan gojek topup nya sekarang susah kebetulan pengalaman saya topup via atm bni gagal terus sebulan lalu gagal tapi akhirnya saldo masuk dan baru kemarin beneram gagal kenapa ada apa apa mungkin biar kami yang belum menggunakan aplikasi gopay pada akhirnya diwajibkan menggunakan gopay sedangkan banyak pengguna gopay yang masih banyak keluhan tolong segera perbaiki dulu aplikasi nya baik gojek maupun gopay biar tidak ditinggal para pengguna setia terima kasih
+--------------------------------------------------
+Index: 7032
+Label: negative
+Reason: Negative label but contains positive words: memuaskan
+Text: gojek sudah tidak ada voucher lagi di kasih voucher cuma 3 kali oderan saja biasa nya di kasih 10 voucher sekarng boro boro memang kerja cukup buat 1 minggu perjalanan pulang pergi contoh seperti tetangga sebelah grab selalu ada promosi yang sanggat memuaskan dan tidak merasa dirugikan ke coustamer pokok nya gojek sudah tidak bermanfaat lagi mending saya pesan grab
+--------------------------------------------------
+Index: 7061
+Label: negative
+Reason: Negative label but contains positive words: top
+Text: aplikasi apalah ini 2 kali saldo hilang gila2 penipuan ini namanya masa ya gopay tabungan sudah di topup tapi tidak tertera saldo nya sudah kelewatan kalau begini aplikasi paling susah untuk laporan masalah slow respon pula dan tidak ada penjelasan lebih lanjut soal masalah kehilangan saldo ampun dahh
+--------------------------------------------------
+Index: 7266
+Label: negative
+Reason: Negative label but contains positive words: top
+Text: kenapa sekarang susah banget masuk ny pdhal login sudah benar tidak msuk2 sudah topup sia2
+--------------------------------------------------
+Index: 7348
+Label: negative
+Reason: Negative label but contains positive words: memuaskan
+Text: maps nya kurang akurat driver2 gojek akhir2 ini banyak yang kurang memuaskan sering minta batal lebih banyak mengecewakan nya pokok nya
+--------------------------------------------------
+Index: 7386
+Label: negative
+Reason: Negative label but contains positive words: mantap
+Text: mantap tapi kenapa ada yang eror pengemudi nya pas waktu itu saya pesan makanan dan sudah 1jam30menit belum datang datang tolong di perbaiki lagi dan tidak bisa di telfon dan tidak ada konfirmasi tolong diperbaiki lagi sikap pengemudi ya yang suka tekan tombol ya yang tidak suka tekan tombol tidak terimakasih atas kerja samanya thank you good bay by by s s ss nsjsnsn ssddjddeed
+--------------------------------------------------
+Index: 7679
+Label: negative
+Reason: Negative label but contains positive words: top
+Text: kasih bintang 3 soalnya mau dipakai topup dm mobile legend tidak bisa bulan2 lau bisa
+--------------------------------------------------
+Index: 7827
+Label: negative
+Reason: Negative label but contains positive words: top
+Text: kurang pantas rasanya ketika menaikkan harga makanan ongkos kirim dengan tiba tiba awalnya harga 40 00 ketika ingin topup seketika berubah jadi 48 00 sangat tidak nyaman
+--------------------------------------------------
+Index: 7901
+Label: negative
+Reason: Negative label but contains positive words: top
+Text: lama2 tidak bisa diandalkan saat lagi butuh cepat gara-gara topup saldo belum masuk2 harus nunggu 2 hari sering banget kendala seperti ini kenapa ya sistemnya lambat penanganannya kenapa keseringan topup saldo belum berubah
+--------------------------------------------------
+Index: 8028
+Label: negative
+Reason: Negative label but contains positive words: sangat membantu
+Text: awal memang sangat membantu tapi semakin kesini semakin tidak jelas fungsi dari aplikasi ini untuk membeli pulsa ataupun token sangat susah bahkan nomor pin saya tidak dikenali belum lagi kalau kita akan mengganti nomor telepon terkesan dipersulit apakah ini hanyalah akalan dari pihak gojek untuk menahan konsumen tidak bisa menggunakan saldo yang masih tersisa tidak sesuai dengan promosi yang di sampaikan di televisi atau di media online lainnya tolong dibenahi agar gojek bisa bersaing dengan grab
+--------------------------------------------------
+Index: 8060
+Label: negative
+Reason: Negative label but contains positive words: sangat membantu
+Text: sangat membantu saya ketika bepergian dengan harga terjangkau untuk smua kalangan cuma di bali ada daerah yang ojek online tidak bisa ambil penumpang kasian para pengemudi
+--------------------------------------------------
+Index: 8125
+Label: negative
+Reason: Negative label but contains positive words: suka banget
+Text: baru coba mengaktifkan paylater sudah di blocked sdangkan teman saya baru mengaktifkan langsung bisa padahal transaksi lebih banyakan saya pingin tanya langsung lewat chat dengan admin gojek tapi tidak ada menu chat dengan admin gojek jadi kecewa ini padahal awalnya saya suka banget dengan aplikasi ini
+--------------------------------------------------
+Index: 8192
+Label: negative
+Reason: Negative label but contains positive words: top
+Text: untung saja saya baru coba topup sama nominal kecil sudah 2 hari belum masuk juga saldoy bagimana kalau nominal besar urgent gopay belum bisa di andalkan untuk pembayaran wallet respon terlalu lambat
+--------------------------------------------------
+Index: 8251
+Label: negative
+Reason: Negative label but contains positive words: terbaik
+Text: dulu gojek andalanku banget soal makanan the terbaik pokoknya tapi kenapa sekarang gofoodnya tidak bisa masukin 2 voucher promosi ya padahal dulu bisa jadi jatuhnya makanannya mahal banget untung sekarang toko oren ada pilihan foodnya vouchernya juga mantap2 maaf ya gojek saya beralih sebentar sampai kamu bisa sesuai kantong anak kos lagi
+--------------------------------------------------
+Index: 8396
+Label: negative
+Reason: Negative label but contains positive words: top
+Text: kesal banget padahal saya sudah topup ngisiin sampai 80 rb taunya pas mau saya pakai buat pesen mobil 20 menit tidak ada satupun mobil yang nyangkut sudah saya refresh karena takutnya internet jaringan saya yang bermasalah tetep tidak ada yang nyangkut satupun pas saya coba download grab ahirnya bisa tidak pakai nunggu lambat ada yang nyangkut walaupun dari segi harga lebih mahal tapi jadinya kesel karena buang2 waktu terima kasih
+--------------------------------------------------
+Index: 8425
+Label: negative
+Reason: Negative label but contains positive words: keren
+Text: saya pengguna go jek plus sangat kecewa kerena belakang ini promosi di go food kebanyakan penggunaan bank tertentu seharusnya promosi berlaku juga untuk payment via go pay
+--------------------------------------------------
+Index: 8467
+Label: negative
+Reason: Negative label but contains positive words: top
+Text: tidak bisa isi sendiri nominal topup kalau bayar lewat indomaretalpamart
+--------------------------------------------------
+Index: 8688
+Label: negative
+Reason: Negative label but contains positive words: mantap
+Text: aplikasinya mantap sudah 1 tahun pakai saya sarankan untuk aplikasi gofood tolong perluas kendaraan pengantar makanan ke kendaran roda empat disertai dengan pendeteksian cuaca di lokasi konsumen berada
+--------------------------------------------------
+Index: 8796
+Label: negative
+Reason: Negative label but contains positive words: memuaskan
+Text: kurang memuaskan aplikasi gojek sekarang kenapa sekarang harus ada biaya jasa aplikasi dan biaya pemesanan
+--------------------------------------------------
+Index: 8821
+Label: negative
+Reason: Negative label but contains positive words: terbaik
+Text: saya konfirmasi disini ada juga go food waktu jam bukanya tidak sesuai seperti di aplikasi go food tmptnya menunjukan sudah buka n pas waktu dikirim kita cek kembali tmptnya msh tutup ya ada juga seperti nama tmptnya sebuah rm restoran harganya ada yang tidak sesuai tidak pass dengan daftar harga di go food ya hrp tlng diperbaiki dulu biar infonya agar detail lebih jelas semua selebihnya aplikasi gojek msh terbaik tksh
+--------------------------------------------------
+Index: 9051
+Label: negative
+Reason: Negative label but contains positive words: top
+Text: kecewa banget karena pernah salah tftop up ke nomor yang salah saat buat laporan harus ada persetujuan dari nomor tujuan agar dapat pengembalian dana padahal setelah di cek nomor yang dituju ternyata tidak aktifno tidak digunakan karena dicoba telp biasa tidak bisa di cek nomor nya tidak ada di get kontak lalu kmn dana tersebut larinya kalau salah topup ke nomor yang aktif dan pengguna apl gojek berarti saldo tsb masuk ke gopay akun lain tetapi ini nomor tidak aktif sudah pasti tidak ada akun gojeknya pertanyaan belum selesai tapi laporan ditutup
+--------------------------------------------------
+Index: 9133
+Label: negative
+Reason: Negative label but contains positive words: top
+Text: tolong dong minta kontak customer service uang saya tidak bisa di transferin ini gagal terus ada kontak customer service tapi tidak aktif bagaimana sih bikin jengkel respon nya lambat banget mana topup nya banyak pula ngeri jadinya ini lihat komenan yang lain jangan jadi maling dong gimna sih awalnya saja lumayan kenapa kesini2 nya jadi buruk aplikasi tak bermutu kalau seperti gini caranya mh pasti ada maling di dalam nya untuk verifikasi saja lambat banget prosesnya
+--------------------------------------------------
+Index: 9219
+Label: negative
+Reason: Negative label but contains positive words: top
+Text: hah ngasih promosi geh setengah setengah saya tidak pernah kebagian contoh untuk topup game yang kata nya diskon 75 setiap saya coba tidak pernah kebagian sampai saya coba bangun jam 0230 untuk topup dan itu pun masih tidak kebagian 10rb transaksi jam segitu sudah habis astaghfirullah dan sampai promosi itu berakhir saya pun tidak bisa menikmati nya sungguh buruk
+--------------------------------------------------
+Index: 9527
+Label: negative
+Reason: Negative label but contains positive words: terbaik
+Text: saya berusaha untuk upgrate gopay plus tapi tidak bisa terus solusi cuma berputar2 ini sudah new normal harusnya pelayanan sudah lebih baik tapi apaan ini sebagai karya anak bangsa berikan pelayanan terbaik agar bisa berjaya di negeri sendiri entah penilaian ini di baca atau tidak
+--------------------------------------------------
+Index: 9613
+Label: negative
+Reason: Negative label but contains positive words: sangat membantu
+Text: sangat membantu bagi yang tidak memiliki kendaraan atau pun tempat yang tidak bisa dijangkau oleh angkotan umum apa lagi buat yang males keluar rumah tapi mau beli makanan tinggal gofood saja simpel
+--------------------------------------------------
+Index: 9710
+Label: negative
+Reason: Negative label but contains positive words: memuaskan
+Text: kurang memuaskan pengemudi susah nrima pesanan
+--------------------------------------------------
+Index: 9829
+Label: negative
+Reason: Negative label but contains positive words: mantap
+Text: dimantapkan lagi niat bekerja nya buat pengemudi kebiasaan ilang ilang pengemudi kalau perlu diperketat sihh kalau seandainya sudah dapat pesanan diusahain selesaikan kalau tidak bisa ya kan bisa itikad baik nge chat konsumen kalau ada kendala ini tidak ada angin tidak ada hujan tiba tiba hilang yang tadi laper keburu beli sendiri mana sekarang tidak bisa di batal mohon ditingkatkan lagi pelayanannya
+--------------------------------------------------
+Index: 9865
+Label: negative
+Reason: Negative label but contains positive words: top
+Text: lambat lambat kesal sama ini aplikasi ini kedua kalinya topup saldo sudah ke potong di m banking tapi nggaa masuk masuk ke aplikasi gojek nya kalau lagi butuh masa nunggu berjam jam baru masuk tolong diperbaiki menyusahkan konsumen saja
+--------------------------------------------------
+Index: 10109
+Label: negative
+Reason: Negative label but contains positive words: sangat membantu
+Text: mohon bantuannya kenapa saya tidak bisa mengupdate gojeg ke versi baru dan selalu ada kesalahan dan mengharuskan memasukkan kode saya sangat membutuhkan aplikasi gojeg ini karena sangat membantu perjalanan keseharian saya
+--------------------------------------------------
+Index: 10256
+Label: negative
+Reason: Negative label but contains positive words: top
+Text: akun gopay saya di bekukan secara sepihak padahal saya pengguna lambat sudah banding tapi tidak bisa di pulihkan dengan alasan ada aktivitas yang mencurigakan padahal topup gopay tidak pernah lebih dari 200 ribu heran ama ini aplikasi mending uninstal saja
+--------------------------------------------------
+Index: 10334
+Label: negative
+Reason: Negative label but contains positive words: top
+Text: saya pakai gopay untuk membayar novelme tapi ketika topup menu beli nya tak bisa lihat di google pun tak ada solusinya kecewa banget pakai gopay ini
+--------------------------------------------------
+Index: 10487
+Label: negative
+Reason: Negative label but contains positive words: top
+Text: buat kyc susah banget mana sudah topup banyak lagi
+--------------------------------------------------
+Index: 10498
+Label: negative
+Reason: Negative label but contains positive words: top
+Text: aplikasi tidak bisa di bukak baru topup
+--------------------------------------------------
+Index: 10524
+Label: negative
+Reason: Negative label but contains positive words: mantap
+Text: mantap cuma kadang kalau cari alamat detail suka susah
+--------------------------------------------------
+Index: 10562
+Label: negative
+Reason: Negative label but contains positive words: top
+Text: notifikasi buat bikin pin di halaman utama tidak mau hilang karena nomor yang lambat sudah mati jadi tidak bisa bikin pin nya tidak ada alternatif semisal lewat emailyg lainnya terpaksa stop pakai aplikasi ini karena kendala tersebut padahal sebenernya enak mudah pakai nya
+--------------------------------------------------
+Index: 10645
+Label: negative
+Reason: Negative label but contains positive words: terbaik
+Text: saya update malah tidak bisa bisa jangan suka menyarankan selalu update jadi bikin ribet saja kita bayar pakai kuota mlh sistem nya tidak bisa jalan jangan bilang pastikan signal dlm kondisi bagus semua tergantung sistem nya dari pihak gojek bagaimana bisa memberikan pelayanan terbaik terhadap customer nya
+--------------------------------------------------
+Index: 10700
+Label: negative
+Reason: Negative label but contains positive words: sangat membantu
+Text: sangat membantu di saat kita sedang tidak bisa keluar
+--------------------------------------------------
+Index: 10732
+Label: negative
+Reason: Negative label but contains positive words: sangat membantu
+Text: kenapa akhir2 ini aplikasi gojek bikin kecewa ya sudah hampir 5 hari berturut2 saya pesan go ride tidak bisa bisa pada hal aplikasi ini sangat membantu saya untuk berangkat dan pulang kerja hari hari tapi kali ini bikin kesal setiap malam setiap pesan go ride loading terus mau nunggu sampai 10 menit pencarian pengemudi tidak kelar kelar pada hal paket saya masih ada ini sudah berapa hari berturut2 seperti ini tolong dong pihak aplikasi ini di perbaiki lagi sistem nya
+--------------------------------------------------
+Index: 10781
+Label: negative
+Reason: Negative label but contains positive words: memuaskan
+Text: pelayanan gojek sekarang sangat kurang memuaskan contohnya kita pesan gofoot padalan di sini banyak pengemudi on mala susah kali mencari pengemudi itu poinnya lalu di menu cansel kalau suda tidak dapat pengemudi sampai 1 jam atau lebih tidak bisa di cansel tolong la pihak gojek di tindak lanjuti pada aplikasi ini supaya pelanggan dengan pengemudi atau yang bersangkutan tidak di rugikan lagi terimakasih dan semoga di baca keluhan saya dan pelanggan lain terimakasih
+--------------------------------------------------
+Index: 10893
+Label: negative
+Reason: Negative label but contains positive words: memuaskan
+Text: aplikasi ini kenapa kenapa tidak serius menanggapi keluhan konsumen saya bagus up gopay 300rb sudah 3hari ini dari tinggal 12 belum masuk ke saldo saya respon terlalu lambat nunggu 2 kenapa harus dua hari apa sistem server aplikasi kurang memuaskan tidak mendukung aplikasi nya tidak ada tanggapan yang baik mohon di bantu prosesnya
+--------------------------------------------------
+Index: 11065
+Label: negative
+Reason: Negative label but contains positive words: suka banget
+Text: saya suka banget sama aplikasi ini dripda yang lain tapi kenapa ya makin kesini kebanyakn saya ketemu pengemudi yang marah marah terus banyak yang tidak ramah padahal tidak minta ini itu nunggu tidak sampai 5 menit saja protes nya sudah seperti demo masa tidak sekali saya di marah marahi sampai aga trauma terus mau ganti saja ke aplikasi lain mungkin bisa lebih di edukasi lagi para pengemudi
+--------------------------------------------------
+Index: 11139
+Label: negative
+Reason: Negative label but contains positive words: memuaskan
+Text: aplikasi kurang memuaskan tiba tiba melog outkan saya dari aplikasi tanpa alasan yang jelas padahal ada uang di aplikasi tsb saat saya loginkan kembali tidak bisa karena nomornya sudah mati tetapi ada gmail yang tertaut malah dari aplikasinya menganggap gmailnya tidak tertaut aneh padahal di gmail saya ada bukti bukti kalau tertaut dengan gojek mengecewakan
+--------------------------------------------------
+Index: 11195
+Label: negative
+Reason: Negative label but contains positive words: memuaskan
+Text: bener2 memuaskan kalau buat gofood dan yang lainnya yang bikin agak kecewa sama playlater sudah lumayan lambat makainya tapi kenapa limitnya tidak naik2 segitu2 saja binggung saya
+--------------------------------------------------
+Index: 11382
+Label: negative
+Reason: Negative label but contains positive words: top
+Text: setiap pakai go transit ada saja masalahnya error jaringan terganggu dan lain-lain jadi susah masuk stasiun ke atm malah jauh isi saldo di kartu masalah kedua akun langganan apple musik tidak bisa di stop harus telp ke admin yang bukan bebas pulsa jadi tidak mau taruh uang di gojek pasti auto kedebet taruh di ovo
+--------------------------------------------------
+Index: 11604
+Label: negative
+Reason: Negative label but contains positive words: top
+Text: benar prah gopay mangkanya sekarang pengguna gojek gopay brkurang karena layananny begitu buruk banyak pelanggan yang pindah haluan dari gojekgopay pindah ke yang lain karena di aplikasi lain yang tidak perlu saya sebutkan nama aplikasiny mau transfer kemana pun dan jam berpa pun mau hari liburjam kerja cuma butuh bebrpa detik sja uangsaldotopup langsung masuk ke penerima lha ini saya sudah 2 hari boro masuk ke rek di proses juga belum kalau nanti uangny sudah masuk ke rek mau langsung saya hpus aplikasi nya
+--------------------------------------------------
+Index: 11656
+Label: negative
+Reason: Negative label but contains positive words: top
+Text: metode topup tidak lengkap tambah metode topup dengan brimo
+--------------------------------------------------
+Index: 11683
+Label: negative
+Reason: Negative label but contains positive words: top
+Text: sampai saat ini tidak ada kendala apapun mulai dari topup pesan gocargofood go pulsabills selalu lancar pengemudi ramah semua respon cepat selain itu saya sudah tidak menerima telp penipuan mengatasnamakan gojek lagi kalau dulu sering skali saya juga berkali kali dapat vouchercashback di beberapa layanan terima kasih gojek sekedar masukan saja untuk go bills ditambah lagi telp pembayaran e commerce dan sebagainya untuk wilayah jogja tolong ditambah lagi rekan usahamerchant nya seperti alfamartindomaret selain tempat makan fastfoodtokobukutoko sparepart kalau bisa tempat makan yang di list gofood juga bisa byar scan qr gopay jadi tidak hanya delivery saja kan gopay sudah terdaftar di bi jangan cuma jabodetabek saja yang banyak merchantrekan usaha
+--------------------------------------------------
+Index: 11818
+Label: negative
+Reason: Negative label but contains positive words: memuaskan
+Text: pemesanan go food kurang memuaskan sistem kupon terpakai secara otomatis menyulitkan saldo dan pesanan minimum sudah mencukupi namun kupon tidak dapat terpakai lokasi pengiriman makanan tidak sesuai gps ketika salah pilih tidak dapat di batal dikenakan charge tambahan sama pengemudi karena tujuan pengantaran berbeda kecewa dengan kebijakan sekarang
+--------------------------------------------------
+Index: 11987
+Label: negative
+Reason: Negative label but contains positive words: top
+Text: saya kecewa sama gojek saya pengguna activ sudah tahunan kemarin pas mau pesan gojek tiba2 saldo gopay saya di gembok mau di tarik ke rekening juga tidak bisa selama ini saya suka nyimpan saldo gopay di akun penumpang biar tidak setiap hari topup dengan kejadian ini saya bener2 trauma buat yang lain berhati hati dengan pt gojek sekarang jangan menyimpan saldo gopay di akun penumpang saya salah satu korban selama ini pengguna gojek active suka menyimpan saldo di akun sekarang tidak bisa di pakai di ambil pun tidak bisa
+--------------------------------------------------
+Index: 12218
+Label: negative
+Reason: Negative label but contains positive words: top
+Text: semenjak cara pembayaran gofood berubah harus memiliki dana lebihfull pembelian ongkos kirim sebelum di kasih promosi diskon atau tidak dapat menggunakan diskon tersebut gojek jadi tidak punya keunikan yang menarik sama saja dengan shoppe dan lain-lain setidaknya shopee berani diskon besar down grade sayang sekali dan pemilik akun lambat makin jarang dapat promosi makin miris karena makin sulit menyesuaikan budget autopindah ke aplikasi sebelah yang lebih terjangkau
+--------------------------------------------------
+Index: 12319
+Label: negative
+Reason: Negative label but contains positive words: luar biasa, keren
+Text: saya paling tidak suka kasih bintang sedikit tapi masalah canceled pesanan luar biasa jawaban nya sederhana tidak bisa canceled ada layanan pusat bantuan tetap saja tidak bisa kn apa lagi kalau sudah nemu pengemudi sudah tidak bisa karena aplikasi nya bug terpaksa dari ulang makan waktu masuk aplikasi nya tryta sudah proses tidak bisa canceled mendingan sekalian tidak ush ada layanan canceled bru kerenn saya terpaksa kasih bintang sdkit sudah sekian kali saya di rugikan
+--------------------------------------------------
+Index: 12390
+Label: negative
+Reason: Negative label but contains positive words: sangat membantu
+Text: alhamdulillah sangat membantu tapi min saya mau tanya kenapa saya tidak bisa upgrade ke premium ya setiap kali mau foto ktp langsung keluar begitu saja sudah coba ganti handphone uninstall aplikasi masih sama saja kenapa ya min
+--------------------------------------------------
+Index: 12466
+Label: negative
+Reason: Negative label but contains positive words: sangat membantu
+Text: sangat membantu dalam keadaan mendesak pengemudi ramah2 semua plus sering dapat promosi tapi ada satu kondisi saya hampir telat kerja alhamdulillah dengan go ride saya sampai tepat waktu tapi saya lupa kasih rate dan feedback lebih kurang satu jam saya cek gojek dan buka riwayat perjalanan tapi sudah tidak bisa dibuka rinciannya padahal saya mau kasih bintang 5 dan sedikit feedback kan kasian pengemudi apa memang ada batasan waktu buat kasih rating atau aplikasi saya eror
+--------------------------------------------------
+Index: 12468
+Label: negative
+Reason: Negative label but contains positive words: suka banget
+Text: kecewa saya dulu suka banget dan langganan sama gojek daripada grab tapi sejak pandemi kenapa gojek jadi banyak masalah ya termasuk komplain komplain yang tidak ditanggapi yang saya baca sejak pandemi beberapa masalah yang saya alami yaitu saya menggunakan wifi dan di aplikasi gojek nya malah tertulis internet mati tidak bisa cek pengemudi sampai mana terus sekarang drive mulai minta nomor pribadi karena tidak bisa telp lewat aplikasi batal sembarangan
+--------------------------------------------------
+Index: 12546
+Label: negative
+Reason: Negative label but contains positive words: top
+Text: aplikasi yang gopay topupnya ud berhasil tapi saldo tidak keiisi sudah berkali2 gini yang ada ngeribetin orang laparnya kapan tidak ada cash isi saldo ud kepotong buat laporan malah tidak ditanggapi email tidak ada didetail informasi hmm kacau
+--------------------------------------------------
+Index: 12899
+Label: negative
+Reason: Negative label but contains positive words: luar biasa
+Text: baru mau kasih reting bintang 5 karena merasa terbantu banget bln kemaren pakai gopaylater yang bisa dicicil ampe 6 kali wah sungguh luar biasa gojek ini meringankan beban buibu yang penting tidak telat byr tapi hari ini pas mau byr listrik saya sangat kecewa ternyata tidak bisa dipakai limit yang ada katanya sedang pengecekan rutin hingga bulan juli nanti sumpah buruk si kalau gini sudah tidak ngerti lagi sudah sangat sangat membagongkan
+--------------------------------------------------
+Index: 12979
+Label: negative
+Reason: Negative label but contains positive words: top
+Text: sudh topup gojek plus malah sama saja dengan yang biasa bahkan plus tambah mahal
+--------------------------------------------------
+Index: 13543
+Label: negative
+Reason: Negative label but contains positive words: memuaskan
+Text: tidak saya kasih bintang sebenarnya khusus untuk pelayanan pengaduan dikarenakan dibilang kurang memuaskan dan tidak bisa memecahkan masalah sama sekali memang ada keterangan dari tidak bisa bantu kalau tranfer gopay salah nomor cuma sudah saya jelaskan ke customer service dengan jujur dan apa adanya namun tetap saja gojek customer care meminta maaf tidak bisa bantu sama sekali dan beberapa hari kemudian saya log in dan tidak bisa info akun saya tidak terverifikasi dengan email manapun
+--------------------------------------------------

@@ -17,13 +17,7 @@ __pycache__/
 
 # Data Files - Exclude temporary/large CSV
 # Keep important small CSV files but ignore large ones
-data/gojek.csv
-data/*_kaggle_*.csv
-data/gojek_scraped_*.csv
-data/*_FINAL_READY.csv
-data/RAW_*.csv
-*.tmp.csv
-*_backup.csv
+
 
 # IDE
 .vscode/
@@ -95,7 +89,7 @@ saved_model_*/
 training_history*.png
 confusion_matrix*.png
 resource_usage*.png
-*_report.txt
+
 
 # Huggingface cache
 .cache/

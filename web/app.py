@@ -145,7 +145,7 @@ class SentimentUI:
             # Navigation
             page = st.radio(
                 "📍 Navigasi",
-                ["🔮 Analisis Sentimen", "📊 Evaluasi Model"],
+                ["🏠 Beranda", "🔮 Analisis Sentimen", "📊 Evaluasi Model"],
                 label_visibility="collapsed"
             )
             
@@ -266,13 +266,13 @@ class SentimentUI:
         col1, col2, col3, col4 = st.columns(4)
         
         with col1:
-            st.metric("Akurasi", "92%", "↑ 2%")
+            st.metric("Akurasi (3-Kelas)", "97.62%", "Skenario 2")
         with col2:
-            st.metric("Presisi", "91%", "↑ 1%")
+            st.metric("Akurasi (5-Kelas)", "98.69%", "Skenario 5")
         with col3:
-            st.metric("Recall", "90%", "→")
+            st.metric("Epoch Optimal", "8", "↑ Best")
         with col4:
-            st.metric("F1-Score", "91%", "↑ 1%")
+            st.metric("Learning Rate", "2e-5", "→")
         
         st.markdown("---")
         

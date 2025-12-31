@@ -54,10 +54,11 @@ class ModelPredictor:
         if model_path is None:
             base_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
             if model_type == "3class":
-                # Menggunakan model baru yang sudah direlabel
-                model_path = os.path.join(base_path, "saved_model_indobert_3class_relabeled")
+                # Menggunakan model Skenario 2 (8 epoch, LR 2e-5) - Akurasi 97.62%
+                model_path = os.path.join(base_path, "saved_model_indobert_3class_scenario2")
             else:
-                model_path = os.path.join(base_path, "saved_model_indobert_5class")
+                # Menggunakan model Skenario 5 (8 epoch, LR 2e-5) - Akurasi 98.69%
+                model_path = os.path.join(base_path, "saved_model_indobert_5class_scenario5")
         
         self.model_path = model_path
         self.tokenizer = None

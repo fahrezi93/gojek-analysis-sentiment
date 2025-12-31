@@ -15,8 +15,15 @@ __pycache__/
 *.so
 .Python
 
-# Data Files - Exclude temporary/large CSV
-# Keep important small CSV files but ignore large ones
+# Data Files - Exclude large CSV files
+# Uncomment lines below if you want to keep balanced datasets
+data/
+# !data/gojek_3class_BALANCED.csv
+# !data/gojek_5class_BALANCED_FIXED.csv
+
+# Specific large data files
+*.csv
+!requirements*.txt
 
 
 # IDE
@@ -70,11 +77,13 @@ coverage.xml
 *.bak
 *.swp
 
-# Model files (terlalu besar untuk GitHub)
+# Model files (terlalu besar untuk GitHub - max 100MB)
 *.pt
 *.pth
 *.bin
 *.onnx
+*.safetensors
+*.h5
 models/
 best_indobert_sentiment_model.pt
 
@@ -86,8 +95,9 @@ best_indobert_sentiment_model.pt
 results_*/
 logs/
 saved_model_*/
-training_history*.png
-confusion_matrix*.png
+# Keep images for documentation
+# training_history*.png
+# confusion_matrix*.png
 resource_usage*.png
 
 

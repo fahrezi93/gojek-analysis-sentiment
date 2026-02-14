@@ -61,10 +61,10 @@ class PerformanceEvaluator:
         # Calculate metrics
         accuracy = accuracy_score(self.y_true, self.y_pred)
         
-        # For multi-class, use weighted average
-        precision = precision_score(self.y_true, self.y_pred, average='weighted', zero_division=0)
-        recall = recall_score(self.y_true, self.y_pred, average='weighted', zero_division=0)
-        f1 = f1_score(self.y_true, self.y_pred, average='weighted', zero_division=0)
+        # For multi-class, use macro average (konsisten dengan training notebook)
+        precision = precision_score(self.y_true, self.y_pred, average='macro', zero_division=0)
+        recall = recall_score(self.y_true, self.y_pred, average='macro', zero_division=0)
+        f1 = f1_score(self.y_true, self.y_pred, average='macro', zero_division=0)
         
         # Per-class metrics
         precision_per_class = precision_score(self.y_true, self.y_pred, average=None, zero_division=0)

@@ -12,18 +12,20 @@ import os
 # Add parent directory to path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-from preprocessing import TextNormalizer
-from predictor import ModelPredictor
+from preprocessing import TextCleaner
+from predictor import ModelHandler
 from evaluation import PerformanceEvaluator
 
 
-class SentimentUI:
+class SentimentApp:
     """
     Kelas utama untuk mengatur antarmuka Streamlit dan logika aplikasi
     """
     
     def __init__(self):
-        """Inisialisasi SentimentUI"""
+        """Inisialisasi SentimentApp"""
+        self.app_title = "Analisis Sentimen Ulasan Gojek (IndoBERT)"
+        self.handler = None
         self.setup_page_config()
         self.initialize_session_state()
         
@@ -115,10 +117,10 @@ class SentimentUI:
     
     def initialize_session_state(self):
         """Inisialisasi session state"""
-        if 'predictor' not in st.session_state:
-            st.session_state.predictor = None
-        if 'normalizer' not in st.session_state:
-            st.session_state.normalizer = TextNormalizer()
+        if 'handler' not in st.session_state:
+            st.session_state.handler = None
+        if 'cleaner' not in st.session_state:
+            st.session_state.cleaner = TextCleaner()
         if 'model_loaded' not in st.session_state:
             st.session_state.model_loaded = False
         if 'model_type' not in st.session_state:
@@ -128,7 +130,7 @@ class SentimentUI:
         if 'evaluation_results' not in st.session_state:
             st.session_state.evaluation_results = None
     
-    def render_sidebar(self):
+    def render_header(self):
         """Render sidebar dengan logo dan navigasi"""
         with st.sidebar:
             # Logo and Title
@@ -151,27 +153,9 @@ class SentimentUI:
             
             st.markdown("---")
             
-            # Model Selection
-            st.markdown("### ⚙️ Pengaturan Model")
-            model_type = st.selectbox(
-                "Pilih Skema Model",
-                ["Skema 3-Kelas (Positif, Netral, Negatif)", 
-                 "Skema 5-Kelas (Rating 1-5)"],
-                key="model_selector"
-            )
-            
-            # Convert selection to model type
-            new_model_type = "3class" if "3-Kelas" in model_type else "5class"
-            
-            # Load model button
-            if st.button("🔄 Load Model", key="load_model_btn"):
-                self.load_model(new_model_type)
-            
             # Model status
             if st.session_state.model_loaded:
                 st.success(f"✅ Model {st.session_state.model_type} siap")
-            else:
-                st.warning("⚠️ Model belum dimuat")
             
             st.markdown("---")
             
@@ -189,14 +173,15 @@ class SentimentUI:
         """Load model berdasarkan tipe yang dipilih"""
         with st.spinner(f"⏳ Memuat model {model_type}..."):
             try:
-                # Initialize predictor
-                predictor = ModelPredictor(model_type=model_type)
+                # Initialize handler
+                handler = ModelHandler(model_type=model_type)
                 
                 # Load model
-                success = predictor.load_model()
+                success = handler.load_model()
                 
                 if success:
-                    st.session_state.predictor = predictor
+                    st.session_state.handler = handler
+                    self.handler = handler
                     st.session_state.model_type = model_type
                     st.session_state.model_loaded = True
                     st.success(f"✅ Model {model_type} berhasil dimuat!")
@@ -283,23 +268,24 @@ class SentimentUI:
             <div class='info-box'>
                 <h4>Langkah-langkah:</h4>
                 <ol>
-                    <li>Pilih <b>Skema Model</b> di sidebar (3-Kelas atau 5-Kelas)</li>
-                    <li>Klik tombol <b>🔄 Load Model</b> untuk memuat model</li>
                     <li>Navigasi ke halaman <b>🔮 Analisis Sentimen</b> untuk prediksi</li>
+                    <li>Pilih metode input (<b>Teks Manual</b> atau <b>Upload CSV</b>)</li>
+                    <li>Pilih <b>Skema Model</b> (3-Kelas atau 5-Kelas)</li>
+                    <li>Klik tombol <b>🔍 Analisis Sentimen</b> untuk memulai</li>
                     <li>Atau ke halaman <b>📊 Evaluasi Model</b> untuk testing</li>
                 </ol>
             </div>
         """, unsafe_allow_html=True)
     
-    def render_analysis_page(self):
+    def _ensure_model_loaded(self, model_type: str):
+        """Pastikan model sudah dimuat sesuai tipe yang dipilih"""
+        if not st.session_state.model_loaded or st.session_state.model_type != model_type:
+            self.load_model(model_type)
+    
+    def render_input_form(self):
         """Render halaman analisis sentimen"""
-        st.markdown('<p class="main-header">🔮 Analisis Sentimen Ulasan Gojek</p>', 
+        st.markdown('<p class="main-header">🔮 Analisis Sentimen Ulasan Gojek (IndoBERT)</p>', 
                    unsafe_allow_html=True)
-        
-        # Check if model is loaded
-        if not st.session_state.model_loaded:
-            st.warning("⚠️ Silakan load model terlebih dahulu dari sidebar!")
-            return
         
         # Input method selection
         st.markdown("### 📝 Pilih Metode Input")
@@ -330,13 +316,28 @@ class SentimentUI:
             key="manual_text_input"
         )
         
+        # Model schema selection
+        st.markdown("### ⚙️ Pilih Skema Model")
+        schema_choice = st.radio(
+            "Skema Model:",
+            ["Skema 3-Kelas (Positif, Netral, Negatif)",
+             "Skema 5-Kelas (Rating 1-5)"],
+            key="analysis_manual_schema",
+            label_visibility="collapsed"
+        )
+        selected_model = "3class" if "3-Kelas" in schema_choice else "5class"
+        
         # Analyze button
         col1, col2, col3 = st.columns([1, 1, 1])
         with col2:
             analyze_btn = st.button("🔍 ANALISIS SENTIMEN", key="analyze_manual_btn", use_container_width=True)
         
         if analyze_btn and user_text.strip():
-            self.analyze_single_text(user_text)
+            self._ensure_model_loaded(selected_model)
+            if st.session_state.model_loaded:
+                self.analyze_single_text(user_text)
+            else:
+                st.error("❌ Gagal memuat model. Periksa path model.")
         elif analyze_btn:
             st.warning("⚠️ Mohon masukkan teks terlebih dahulu!")
     
@@ -345,10 +346,10 @@ class SentimentUI:
         with st.spinner("🔄 Menganalisis sentimen..."):
             try:
                 # Preprocess text
-                cleaned_text = st.session_state.normalizer.clean_text(text)
+                cleaned_text = st.session_state.cleaner.clean_text(text)
                 
                 # Predict
-                result = st.session_state.predictor.predict_single(cleaned_text)
+                result = st.session_state.handler.predict_sentiment(cleaned_text)
                 
                 # Display results
                 st.markdown("---")
@@ -357,7 +358,7 @@ class SentimentUI:
                 # Main result card
                 sentiment = result['simplified_label']
                 confidence = result['confidence_percentage']
-                emoji = st.session_state.predictor.get_sentiment_emoji(sentiment)
+                emoji = st.session_state.handler.get_sentiment_emoji(sentiment)
                 
                 # Determine sentiment class for styling
                 if "Positif" in sentiment or "Rating 5" in sentiment or "Rating 4" in sentiment:
@@ -435,13 +436,28 @@ class SentimentUI:
                 
                 st.success(f"✅ Kolom teks ditemukan: `{text_col}`")
                 
+                # Model schema selection
+                st.markdown("### ⚙️ Pilih Skema Model")
+                schema_choice = st.radio(
+                    "Skema Model:",
+                    ["Skema 3-Kelas (Positif, Netral, Negatif)",
+                     "Skema 5-Kelas (Rating 1-5)"],
+                    key="analysis_csv_schema",
+                    label_visibility="collapsed"
+                )
+                selected_model = "3class" if "3-Kelas" in schema_choice else "5class"
+                
                 # Analyze button
                 col1, col2, col3 = st.columns([1, 1, 1])
                 with col2:
                     analyze_btn = st.button("🔍 ANALISIS SEMUA DATA", key="analyze_csv_btn", use_container_width=True)
                 
                 if analyze_btn:
-                    self.analyze_batch_data(df, text_col)
+                    self._ensure_model_loaded(selected_model)
+                    if st.session_state.model_loaded:
+                        self.analyze_batch_data(df, text_col)
+                    else:
+                        st.error("❌ Gagal memuat model. Periksa path model.")
                     
             except Exception as e:
                 st.error(f"❌ Error membaca file: {str(e)}")
@@ -452,10 +468,10 @@ class SentimentUI:
             try:
                 # Preprocess texts
                 texts = df[text_col].fillna("").astype(str).tolist()
-                cleaned_texts = st.session_state.normalizer.preprocess_batch(texts)
+                cleaned_texts = st.session_state.cleaner.preprocess_batch(texts)
                 
                 # Predict
-                results = st.session_state.predictor.predict_batch(cleaned_texts)
+                results = st.session_state.handler.predict_batch(cleaned_texts)
                 
                 # Create results DataFrame
                 results_df = pd.DataFrame([
@@ -486,7 +502,7 @@ class SentimentUI:
                 for idx, (sentiment, count) in enumerate(sentiment_counts.items()):
                     with cols[idx]:
                         percentage = (count / len(results_df)) * 100
-                        emoji = st.session_state.predictor.get_sentiment_emoji(sentiment)
+                        emoji = st.session_state.handler.get_sentiment_emoji(sentiment)
                         st.metric(
                             f"{emoji} {sentiment}",
                             f"{count} data",
@@ -515,12 +531,18 @@ class SentimentUI:
         st.markdown('<p class="main-header">📊 Evaluasi Kinerja Model IndoBERT</p>', 
                    unsafe_allow_html=True)
         
-        # Check if model is loaded
-        if not st.session_state.model_loaded:
-            st.warning("⚠️ Silakan load model terlebih dahulu dari sidebar!")
-            return
+        # Model selection on the evaluation page itself
+        st.markdown("### 1️⃣ Pilih Model untuk Dievaluasi")
+        schema_choice = st.radio(
+            "Skema Model:",
+            ["Model IndoBERT Skema 3-Kelas",
+             "Model IndoBERT Skema 5-Kelas"],
+            key="eval_schema",
+            label_visibility="collapsed"
+        )
+        selected_model = "3class" if "3-Kelas" in schema_choice else "5class"
         
-        st.markdown("### 📤 Unggah Data Uji (Test Set)")
+        st.markdown("### 2️⃣ Unggah Data Uji (Test Set)")
         
         st.markdown("""
             <div class='info-box'>
@@ -561,11 +583,14 @@ class SentimentUI:
                     st.error("❌ Tidak ditemukan kolom teks!")
                     return
                 
-                if 'label' not in df.columns:
-                    st.error("❌ Tidak ditemukan kolom 'label'!")
+                # Support both 'label' and 'sentiment' column names
+                if 'label' not in df.columns and 'sentiment' not in df.columns:
+                    st.error("❌ Tidak ditemukan kolom 'label' atau 'sentiment'!")
                     return
                 
-                st.success(f"✅ Kolom teks: `{text_col}`, Kolom label: `label`")
+                label_col = 'label' if 'label' in df.columns else 'sentiment'
+                
+                st.success(f"✅ Kolom teks: `{text_col}`, Kolom label: `{label_col}`")
                 
                 # Evaluate button
                 col1, col2, col3 = st.columns([1, 1, 1])
@@ -573,7 +598,11 @@ class SentimentUI:
                     eval_btn = st.button("🎯 MULAI EVALUASI", key="eval_btn", use_container_width=True)
                 
                 if eval_btn:
-                    self.evaluate_model(df, text_col)
+                    self._ensure_model_loaded(selected_model)
+                    if st.session_state.model_loaded:
+                        self.evaluate_model(df, text_col)
+                    else:
+                        st.error("❌ Gagal memuat model. Periksa path model.")
                     
             except Exception as e:
                 st.error(f"❌ Error membaca file: {str(e)}")
@@ -584,13 +613,36 @@ class SentimentUI:
             try:
                 # Preprocess texts
                 texts = df[text_col].fillna("").astype(str).tolist()
-                cleaned_texts = st.session_state.normalizer.preprocess_batch(texts)
+                cleaned_texts = st.session_state.cleaner.preprocess_batch(texts)
                 
                 # Get ground truth labels
-                y_true = df['label'].tolist()
+                label_col = 'label' if 'label' in df.columns else 'sentiment'
+                y_true = df[label_col].tolist()
+                
+                # Convert string labels to numeric if needed
+                label_to_int_3class = {
+                    'negative': 0, 'negatif': 0,
+                    'neutral': 1, 'netral': 1,
+                    'positive': 2, 'positif': 2
+                }
+                label_to_int_5class = {
+                    'rating 1': 0, 'rating 1 (sangat negatif)': 0,
+                    'rating 2': 1, 'rating 2 (negatif)': 1,
+                    'rating 3': 2, 'rating 3 (netral)': 2,
+                    'rating 4': 3, 'rating 4 (positif)': 3,
+                    'rating 5': 4, 'rating 5 (sangat positif)': 4
+                }
+                
+                if y_true and isinstance(y_true[0], str):
+                    label_map = (label_to_int_3class if st.session_state.model_type == '3class' 
+                                 else label_to_int_5class)
+                    y_true = [label_map.get(str(label).strip().lower(), label) for label in y_true]
+                
+                # Ensure all labels are integers
+                y_true = [int(label) for label in y_true]
                 
                 # Predict
-                results = st.session_state.predictor.predict_batch(cleaned_texts)
+                results = st.session_state.handler.predict_batch(cleaned_texts)
                 y_pred = [r['predicted_class'] for r in results]
                 
                 # Calculate metrics
@@ -787,13 +839,13 @@ class SentimentUI:
     def run(self):
         """Menjalankan aplikasi"""
         # Render sidebar dan get selected page
-        page = self.render_sidebar()
+        page = self.render_header()
         
         # Render page based on selection
         if page == "🏠 Beranda":
             self.render_home_page()
         elif page == "🔮 Analisis Sentimen":
-            self.render_analysis_page()
+            self.render_input_form()
         elif page == "📊 Evaluasi Model":
             self.render_evaluation_page()
         elif page == "ℹ️ Tentang":
@@ -802,7 +854,7 @@ class SentimentUI:
 
 def main():
     """Main function"""
-    app = SentimentUI()
+    app = SentimentApp()
     app.run()
 
 

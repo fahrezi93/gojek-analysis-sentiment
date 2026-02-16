@@ -1,5 +1,5 @@
 """
-ModelPredictor - Modul untuk melakukan inferensi dengan model IndoBERT
+ModelHandler - Modul untuk melakukan inferensi dengan model IndoBERT
 """
 
 import torch
@@ -8,8 +8,11 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from typing import List, Dict, Tuple, Union
 import os
 
+# Import TextCleaner for preprocessing
+from preprocessing import TextCleaner
 
-class ModelPredictor:
+
+class ModelHandler:
     """
     Kelas untuk melakukan prediksi sentimen menggunakan model IndoBERT.
     Mendukung skema 3-kelas (Positif, Netral, Negatif) dan 5-kelas (Rating 1-5).
@@ -17,7 +20,7 @@ class ModelPredictor:
     
     def __init__(self, model_path: str = None, model_type: str = "3class"):
         """
-        Inisialisasi ModelPredictor
+        Inisialisasi ModelHandler
         
         Args:
             model_path: Path ke direktori model yang sudah dilatih
@@ -63,6 +66,7 @@ class ModelPredictor:
         self.model_path = model_path
         self.tokenizer = None
         self.model = None
+        self.cleaner = TextCleaner()
         
     def load_model(self):
         """
@@ -95,6 +99,18 @@ class ModelPredictor:
         except Exception as e:
             print(f"✗ Error loading model: {str(e)}")
             return False
+    
+    def predict_sentiment(self, text: str) -> Dict:
+        """
+        Melakukan prediksi sentimen untuk satu teks (alias untuk predict_single)
+        
+        Args:
+            text: Teks ulasan yang akan diprediksi
+            
+        Returns:
+            Dictionary berisi label, confidence score, dan probabilitas semua kelas
+        """
+        return self.predict_single(text)
     
     def predict_single(self, text: str) -> Dict:
         """
@@ -265,16 +281,16 @@ class ModelPredictor:
 
 
 if __name__ == "__main__":
-    # Test ModelPredictor
+    # Test ModelHandler
     print("=" * 60)
-    print("Testing ModelPredictor")
+    print("Testing ModelHandler")
     print("=" * 60)
     
     # Test 3-class model
     print("\n[3-Class Model]")
-    predictor_3class = ModelPredictor(model_type="3class")
+    handler_3class = ModelHandler(model_type="3class")
     
-    if predictor_3class.load_model():
+    if handler_3class.load_model():
         test_texts = [
             "Pelayanan sangat memuaskan, driver ramah dan cepat!",
             "Biasa saja, tidak ada yang spesial",
@@ -282,7 +298,7 @@ if __name__ == "__main__":
         ]
         
         for text in test_texts:
-            result = predictor_3class.predict_single(text)
+            result = handler_3class.predict_sentiment(text)
             print(f"\nTeks: {text}")
             print(f"Prediksi: {result['simplified_label']} ({result['confidence_percentage']:.1f}%)")
             print(f"Probabilitas semua kelas: {result['all_probabilities']}")

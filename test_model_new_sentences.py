@@ -8,8 +8,8 @@ import os
 # Add web directory to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'web'))
 
-from predictor import ModelPredictor
-from preprocessing import TextNormalizer
+from predictor import ModelHandler
+from preprocessing import TextCleaner
 
 # Test cases: (kalimat, expected_sentiment)
 TEST_CASES = [
@@ -52,10 +52,10 @@ def main():
     
     # Initialize
     print("\n⏳ Loading model...")
-    predictor = ModelPredictor(model_type="3class")
-    normalizer = TextNormalizer()
+    handler = ModelHandler(model_type="3class")
+    cleaner = TextCleaner()
     
-    if not predictor.load_model():
+    if not handler.load_model():
         print("❌ Gagal load model!")
         return
     
@@ -72,10 +72,10 @@ def main():
     
     for i, (text, expected) in enumerate(TEST_CASES, 1):
         # Preprocess
-        cleaned = normalizer.clean_text(text)
+        cleaned = cleaner.clean_text(text)
         
         # Predict
-        result = predictor.predict_single(cleaned)
+        result = handler.predict_sentiment(cleaned)
         predicted = result['simplified_label']
         confidence = result['confidence_percentage']
         

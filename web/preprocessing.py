@@ -1,5 +1,5 @@
 """
-TextNormalizer - Modul untuk membersihkan dan normalisasi teks ulasan Gojek
+TextCleaner - Modul untuk membersihkan dan normalisasi teks ulasan Gojek
 """
 
 import re
@@ -7,14 +7,14 @@ import string
 from typing import List, Union
 
 
-class TextNormalizer:
+class TextCleaner:
     """
     Kelas untuk menangani pembersihan dan normalisasi teks ulasan.
     Termasuk penghapusan noise, normalisasi slang, dan persiapan tokenisasi.
     """
     
     def __init__(self):
-        """Inisialisasi TextNormalizer dengan dictionary slang dan pattern cleaning"""
+        """Inisialisasi TextCleaner dengan dictionary slang dan pattern cleaning"""
         self.slang_dict = {
             # Slang positif
             'mantap': 'mantap',
@@ -162,7 +162,7 @@ class TextNormalizer:
         text = self.hashtag_pattern.sub('', text)
         
         # Remove emojis
-        text = self.emoji_pattern.sub('', text)
+        text = self.remove_emoji(text)
         
         # Remove numbers (optional, tergantung kebutuhan)
         # text = self.number_pattern.sub('', text)
@@ -174,6 +174,20 @@ class TextNormalizer:
         text = self.whitespace_pattern.sub(' ', text)
         
         return text.strip()
+    
+    def remove_emoji(self, text: str) -> str:
+        """
+        Menghapus emoji dari teks
+        
+        Args:
+            text: Teks input
+            
+        Returns:
+            Teks tanpa emoji
+        """
+        if not isinstance(text, str):
+            return ""
+        return self.emoji_pattern.sub('', text)
     
     def normalize_slang(self, text: str) -> str:
         """
@@ -248,8 +262,8 @@ class TextNormalizer:
 
 
 if __name__ == "__main__":
-    # Test TextNormalizer
-    normalizer = TextNormalizer()
+    # Test TextCleaner
+    cleaner = TextCleaner()
     
     test_texts = [
         "Mantul bgt drivernya ramah 😊👍 #gojek",
@@ -260,10 +274,10 @@ if __name__ == "__main__":
     ]
     
     print("=" * 60)
-    print("Testing TextNormalizer")
+    print("Testing TextCleaner")
     print("=" * 60)
     
     for i, text in enumerate(test_texts, 1):
-        cleaned = normalizer.clean_text(text)
+        cleaned = cleaner.clean_text(text)
         print(f"\n{i}. Original: {text}")
         print(f"   Cleaned:  {cleaned}")

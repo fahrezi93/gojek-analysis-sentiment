@@ -10,9 +10,9 @@ Aplikasi ini terdiri dari 4 modul utama sesuai dengan arsitektur OOP yang terstr
 
 | Nama Kelas | File | Deskripsi |
 |------------|------|-----------|
-| **SentimentUI** | `app.py` | Kelas utama yang mengatur tata letak dan logika antarmuka Streamlit. Menangani interaksi pengguna, pemilihan skema klasifikasi (3 atau 5 kelas), unggah file CSV, dan visualisasi hasil prediksi. |
-| **ModelPredictor** | `predictor.py` | Bertanggung jawab atas logika inferensi. Memuat bobot model IndoBERT yang telah dilatih, menerima input token, dan menghasilkan output berupa label sentimen beserta skor probabilitasnya. |
-| **TextNormalizer** | `preprocessing.py` | Menangani seluruh tahapan pembersihan data mentah. Fungsi utama meliputi penghapusan noise (emoji, simbol), normalisasi kata slang khas ulasan Gojek, dan konversi teks agar siap ditokenisasi. |
+| **SentimentApp** | `app.py` | Kelas utama yang mengatur tata letak dan logika antarmuka Streamlit. Menangani interaksi pengguna, pemilihan skema klasifikasi (3 atau 5 kelas), unggah file CSV, dan visualisasi hasil prediksi. |
+| **ModelHandler** | `predictor.py` | Bertanggung jawab atas logika inferensi. Memuat bobot model IndoBERT yang telah dilatih, menerima input token, dan menghasilkan output berupa label sentimen beserta skor probabilitasnya. |
+| **TextCleaner** | `preprocessing.py` | Menangani seluruh tahapan pembersihan data mentah. Fungsi utama meliputi penghapusan noise (emoji, simbol), normalisasi kata slang khas ulasan Gojek, dan konversi teks agar siap ditokenisasi. |
 | **PerformanceEvaluator** | `evaluation.py` | Kelas khusus untuk halaman evaluasi yang bertugas menghitung metrik statistik (Akurasi, Presisi, Recall, F1-Score) dan menyusun data untuk visualisasi Confusion Matrix berdasarkan data uji yang diunggah. |
 
 ## ✨ Fitur Utama
@@ -59,7 +59,7 @@ Aplikasi ini terdiri dari 4 modul utama sesuai dengan arsitektur OOP yang terstr
 - **Data Processing**: Pandas, NumPy
 
 ### Text Processing
-- Custom TextNormalizer dengan dictionary slang Indonesia
+- Custom TextCleaner dengan dictionary slang Indonesia
 - Regex-based cleaning
 - Tokenisasi dengan IndoBERT tokenizer
 

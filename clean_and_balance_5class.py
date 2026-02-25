@@ -69,6 +69,73 @@ critical_patterns = [
 negation_words = ['tidak', 'gak', 'ga', 'bukan', 'jangan', 'enggak', 'tak', 'bkn', 'kurang']
 
 # ==========================================
+# 1b. SLANG NORMALIZATION DICTIONARY
+# ==========================================
+slang_dict = {
+    # Negasi
+    'gak': 'tidak', 'ga': 'tidak', 'ngga': 'tidak', 'nggak': 'tidak',
+    'gk': 'tidak', 'tdk': 'tidak', 'gx': 'tidak', 'ndak': 'tidak',
+    
+    # Kata umum
+    'yg': 'yang', 'dgn': 'dengan', 'dg': 'dengan', 'utk': 'untuk',
+    'sm': 'sama', 'sma': 'sama', 'dr': 'dari', 'ke': 'ke',
+    'tp': 'tapi', 'sdh': 'sudah', 'udh': 'sudah', 'udah': 'sudah',
+    'dh': 'sudah', 'blm': 'belum', 'blom': 'belum',
+    'lg': 'lagi', 'lgi': 'lagi', 'lgu': 'lagi',
+    'jd': 'jadi', 'jdi': 'jadi',
+    'krn': 'karena', 'krna': 'karena', 'karna': 'karena',
+    'mgkn': 'mungkin', 'mungkn': 'mungkin',
+    'hrs': 'harus', 'pdhl': 'padahal', 'pdahal': 'padahal',
+    'bgt': 'banget', 'bngtt': 'banget', 'bgtt': 'banget', 'bngt': 'banget',
+    'aja': 'saja', 'aj': 'saja', 'doang': 'saja',
+    'bkn': 'bukan', 'emg': 'memang', 'emang': 'memang',
+    'jg': 'juga', 'jga': 'juga',
+    'bs': 'bisa', 'dpt': 'dapat',
+    'skrg': 'sekarang', 'skrng': 'sekarang', 'skg': 'sekarang',
+    'kmrn': 'kemarin', 'kmren': 'kemarin',
+    'bsk': 'besok', 'td': 'tadi', 'tdi': 'tadi',
+    'brp': 'berapa', 'brapa': 'berapa',
+    'knp': 'kenapa', 'knapa': 'kenapa',
+    'gmn': 'bagaimana', 'gimana': 'bagaimana', 'gmana': 'bagaimana', 'bgmn': 'bagaimana',
+    'klo': 'kalau', 'kalo': 'kalau',
+    'nih': 'ini', 'tuh': 'itu',
+    'bener': 'benar', 'bner': 'benar', 'bnr': 'benar',
+    'org': 'orang', 'jgn': 'jangan', 'jng': 'jangan',
+    'msh': 'masih', 'masi': 'masih',
+    'pesen': 'pesan', 'nyampe': 'sampai', 'nyampai': 'sampai',
+    'telat': 'terlambat', 'males': 'malas',
+    
+    # Kata terkait Gojek
+    'apps': 'aplikasi', 'app': 'aplikasi',
+    
+    # Slang positif
+    'mantul': 'mantap', 'mantab': 'mantap',
+    'okee': 'oke', 'okeee': 'oke', 'okeh': 'oke',
+    'makasi': 'terima kasih', 'makasih': 'terima kasih',
+    'thx': 'terima kasih', 'thanks': 'terima kasih', 'tengkyu': 'terima kasih',
+    'rekomend': 'rekomendasi', 'rekomen': 'rekomendasi',
+    
+    # Slang negatif
+    'lelet': 'lambat', 'lemot': 'lambat',
+    'zonk': 'buruk',
+    
+    # Pronoun
+    'sy': 'saya', 'sya': 'saya', 'aq': 'saya', 'ak': 'saya',
+    'gw': 'saya', 'gue': 'saya', 'ane': 'saya',
+    'lu': 'kamu', 'lo': 'kamu',
+}
+
+def normalize_text(text):
+    """Normalisasi slang/singkatan ke bentuk baku menggunakan regex word boundary"""
+    if pd.isna(text):
+        return text
+    text = str(text).lower()
+    for slang, baku in slang_dict.items():
+        text = re.sub(r'\b' + re.escape(slang) + r'\b', baku, text)
+    text = re.sub(r'\s+', ' ', text).strip()
+    return text
+
+# ==========================================
 # 2. FUNCTIONS
 # ==========================================
 
@@ -182,7 +249,13 @@ df = df.dropna(subset=['text'])
 df['text'] = df['text'].astype(str)
 df = df[~df['text'].apply(is_spam)]
 df = df.drop_duplicates(subset=['text'])
-print(f"Sisa data setalah cleaning: {len(df)}")
+print(f"Sisa data setelah cleaning: {len(df)}")
+
+# Normalize slang
+print("Normalizing slang/singkatan...")
+df['text'] = df['text'].apply(normalize_text)
+df = df.drop_duplicates(subset=['text'])
+print(f"Sisa data setelah normalisasi: {len(df)}")
 
 # Apply Logic-based Sentiment
 print("Recalculating 5-Class Sentiment Labels...")

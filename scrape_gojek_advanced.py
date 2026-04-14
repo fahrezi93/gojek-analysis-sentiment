@@ -1,11 +1,3 @@
-"""
-ADVANCED GOJEK SCRAPER - INDOBERT READY
-Scraping dengan cleaning otomatis, labeling cerdas, dan quality control
-Target: Sebanyak mungkin data berkualitas tinggi untuk 3 & 5 kelas
-
-Cara pakai: python scrape_gojek_advanced.py
-"""
-
 import pandas as pd
 import numpy as np
 from google_play_scraper import reviews, Sort
@@ -23,12 +15,10 @@ from text_cleaner_indobert import (
     calculate_sentiment_score
 )
 
-# ============================================
 # CONFIGURATION
-# ============================================
 APP_ID = 'com.gojek.app'
-TARGET_TOTAL = 100000       # Target sebanyak mungkin
-MIN_QUALITY_SCORE = 40      # Quality threshold (lebih rendah = lebih banyak data)
+TARGET_TOTAL = 100000       
+MIN_QUALITY_SCORE = 40
 
 BATCH_SIZE = 200
 MAX_RETRIES = 5
@@ -36,9 +26,8 @@ SLEEP_BETWEEN_BATCHES = 0.3
 OUTPUT_DIR = 'data'
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-# ============================================
+
 # QUALITY CHECKER
-# ============================================
 def calculate_review_quality(text: str, rating: int) -> float:
     """
     Calculate overall quality score for a review
@@ -85,9 +74,7 @@ def calculate_review_quality(text: str, rating: int) -> float:
     
     return max(0, min(100, score))
 
-# ============================================
 # MULTI-STRATEGY SCRAPING
-# ============================================
 def scrape_with_strategy(app_id, strategy='newest', target=10000, focus_rating=None):
     """
     Scrape dengan berbagai strategi
@@ -226,9 +213,7 @@ def scrape_comprehensive_max(app_id, total_target=100000):
     
     return list(all_reviews_dict.values())
 
-# ============================================
 # MAIN FUNCTION
-# ============================================
 def main():
     print("\n" + "=" * 80)
     print("🚀 GOJEK ADVANCED SCRAPER - INDOBERT READY")

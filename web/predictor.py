@@ -151,25 +151,42 @@ class ModelHandler:
         # Get all probabilities
         all_probs = probabilities[0].cpu().numpy()
         
-        # Get label mapping
-        label_map = (self.label_mapping_3class if self.model_type == "3class" 
-                     else self.label_mapping_5class)
-        simplified_map = (self.label_mapping_3class if self.model_type == "3class"
-                         else self.simplified_labels_5class)
+        # Mapping sentimen memakai method GetLabelSentimen untuk sesuai dgn Sequence Diagram
+        label_info = self.get_label_sentimen(predicted_class)
         
         return {
             "text": text,
             "predicted_class": predicted_class,
-            "predicted_label": label_map[predicted_class],
-            "simplified_label": simplified_map[predicted_class],
+            "predicted_label": label_info["predicted_label"],
+            "simplified_label": label_info["simplified_label"],
             "confidence": confidence,
             "confidence_percentage": confidence * 100,
             "all_probabilities": {
-                simplified_map[i]: float(prob) * 100 
+                self.get_label_sentimen(i)["simplified_label"]: float(prob) * 100 
                 for i, prob in enumerate(all_probs)
             }
         }
     
+    def get_label_sentimen(self, predicted_class: int) -> Dict:
+        """
+        Mendapatkan label sentimen dari hasil prediksi (Sesuai dengan GetLabelSentimen() di Diagram)
+        
+        Args:
+            predicted_class: Index kelas prediksi
+            
+        Returns:
+            Dictionary berisi label original dan format simplifikasi
+        """
+        label_map = (self.label_mapping_3class if self.model_type == "3class" 
+                    else self.label_mapping_5class)
+        simplified_map = (self.label_mapping_3class if self.model_type == "3class"
+                         else self.simplified_labels_5class)
+                         
+        return {
+            "predicted_label": label_map.get(predicted_class, "Unknown"),
+            "simplified_label": simplified_map.get(predicted_class, "Unknown")
+        }
+
     def predict_batch(self, texts: List[str], batch_size: int = 16) -> List[Dict]:
         """
         Melakukan prediksi untuk batch teks
@@ -211,27 +228,23 @@ class ModelHandler:
             # Process results
             confidences, predicted_classes = torch.max(probabilities, dim=-1)
             
-            # Get label mapping
-            label_map = (self.label_mapping_3class if self.model_type == "3class" 
-                        else self.label_mapping_5class)
-            simplified_map = (self.label_mapping_3class if self.model_type == "3class"
-                             else self.simplified_labels_5class)
-            
             # Create results for each item in batch
             for j, text in enumerate(batch_texts):
                 predicted_class = predicted_classes[j].item()
                 confidence = confidences[j].item()
                 all_probs = probabilities[j].cpu().numpy()
                 
+                label_info = self.get_label_sentimen(predicted_class)
+                
                 results.append({
                     "text": text,
                     "predicted_class": predicted_class,
-                    "predicted_label": label_map[predicted_class],
-                    "simplified_label": simplified_map[predicted_class],
+                    "predicted_label": label_info["predicted_label"],
+                    "simplified_label": label_info["simplified_label"],
                     "confidence": confidence,
                     "confidence_percentage": confidence * 100,
                     "all_probabilities": {
-                        simplified_map[i]: float(prob) * 100 
+                        self.get_label_sentimen(i)["simplified_label"]: float(prob) * 100 
                         for i, prob in enumerate(all_probs)
                     }
                 })

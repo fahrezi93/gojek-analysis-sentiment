@@ -304,6 +304,10 @@ class SentimentApp:
         else:
             self.render_csv_input()
     
+    def validasi_input(self, text: str) -> bool:
+        """Validasi input teks (Sesuai dengan ValidasiInput() di Diagram Analisis)"""
+        return bool(text and text.strip())
+
     def render_manual_input(self):
         """Render input manual untuk analisis"""
         st.markdown("### 💬 Masukkan Teks Ulasan")
@@ -332,14 +336,17 @@ class SentimentApp:
         with col2:
             analyze_btn = st.button("🔍 ANALISIS SENTIMEN", key="analyze_manual_btn", use_container_width=True)
         
-        if analyze_btn and user_text.strip():
-            self._ensure_model_loaded(selected_model)
-            if st.session_state.model_loaded:
-                self.analyze_single_text(user_text)
+        if analyze_btn:
+            is_valid = self.validasi_input(user_text)
+            if is_valid:
+                self._ensure_model_loaded(selected_model)
+                if st.session_state.model_loaded:
+                    self.analyze_single_text(user_text)
+                else:
+                    st.error("❌ Gagal memuat model. Periksa path model.")
             else:
-                st.error("❌ Gagal memuat model. Periksa path model.")
-        elif analyze_btn:
-            st.warning("⚠️ Mohon masukkan teks terlebih dahulu!")
+                # Tampilkan Peringatan
+                st.warning("⚠️ Mohon masukkan teks terlebih dahulu! (Input tidak valid)")
     
     def analyze_single_text(self, text: str):
         """Analisis sentimen untuk single text"""
@@ -526,6 +533,34 @@ class SentimentApp:
             except Exception as e:
                 st.error(f"❌ Error saat analisis: {str(e)}")
     
+    def validasi_file_csv(self, df: pd.DataFrame) -> Tuple[bool, str, str, str]:
+        """
+        Validasi Format File CSV (Sesuai dengan ValidasiFile(CSV) di Diagram Evaluasi)
+        
+        Args:
+            df: DataFrame yang diupload
+            
+        Returns:
+            Tuple (is_valid, error_msg, text_col, label_col)
+        """
+        # Identify text column
+        text_col = None
+        for col in ['text', 'review', 'ulasan', 'komentar']:
+            if col in df.columns:
+                text_col = col
+                break
+                
+        if text_col is None:
+            return False, "❌ Tidak ditemukan kolom teks! Pastikan ada kolom 'text' atau 'review'.", None, None
+            
+        # Support both 'label' and 'sentiment' column names
+        if 'label' not in df.columns and 'sentiment' not in df.columns:
+            return False, "❌ Tidak ditemukan kolom 'label' atau 'sentiment'!", None, None
+            
+        label_col = 'label' if 'label' in df.columns else 'sentiment'
+        
+        return True, "", text_col, label_col
+
     def render_evaluation_page(self):
         """Render halaman evaluasi model"""
         st.markdown('<p class="main-header">📊 Evaluasi Kinerja Model IndoBERT</p>', 
@@ -572,23 +607,12 @@ class SentimentApp:
                 
                 st.info(f"📊 Total data: {len(df)} baris")
                 
-                # Identify columns
-                text_col = None
-                for col in ['text', 'review', 'ulasan', 'komentar']:
-                    if col in df.columns:
-                        text_col = col
-                        break
+                # ValidasiFile(CSV) memanggil fungsi validasi
+                is_valid, error_msg, text_col, label_col = self.validasi_file_csv(df)
                 
-                if text_col is None:
-                    st.error("❌ Tidak ditemukan kolom teks!")
+                if not is_valid:
+                    st.error(error_msg)
                     return
-                
-                # Support both 'label' and 'sentiment' column names
-                if 'label' not in df.columns and 'sentiment' not in df.columns:
-                    st.error("❌ Tidak ditemukan kolom 'label' atau 'sentiment'!")
-                    return
-                
-                label_col = 'label' if 'label' in df.columns else 'sentiment'
                 
                 st.success(f"✅ Kolom teks: `{text_col}`, Kolom label: `{label_col}`")
                 
@@ -634,12 +658,16 @@ class SentimentApp:
                 }
                 
                 if y_true and isinstance(y_true[0], str):
-                    label_map = (label_to_int_3class if st.session_state.model_type == '3class' 
+                    label_map = (label_to_int_3class if st.session_state.model_type == '3class'
                                  else label_to_int_5class)
                     y_true = [label_map.get(str(label).strip().lower(), label) for label in y_true]
                 
-                # Ensure all labels are integers
-                y_true = [int(label) for label in y_true]
+                # Ensure all labels are integers with exception handling
+                try:
+                    y_true = [int(label) for label in y_true]
+                except ValueError:
+                    st.error("❌ Terdapat format / tipe data label yang tidak valid dalam file Anda. Pastikan label berupa angka atau teks yang sesuai dengan skema.")
+                    return
                 
                 # Predict
                 results = st.session_state.handler.predict_batch(cleaned_texts)
